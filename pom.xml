@@ -78,7 +78,13 @@
 		    <artifactId>mybatis-spring-boot-starter</artifactId>
 		    <version>2.0.0</version>
 		</dependency>
+		<!-- //mybatis -->
 		
+		<!-- 새로고침 관리 툴 -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-devtools</artifactId>
+		</dependency>
 	</dependencies>
 
 	<build>
