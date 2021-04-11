@@ -22,7 +22,7 @@ $(function(){
 <div class="login-form" style="width: 380px;">
     <form action="/member/loginProc" method="post">
 		<div class="avatar">
-			<img alt="HTML" src="/static/assets/ico/user.png">
+			<img alt="HTML" src="/static/assets/ico/join.png">
 		</div>
         <h2 class="text-center">회원가입</h2>   
         <div  class="form-inline " role="group">
