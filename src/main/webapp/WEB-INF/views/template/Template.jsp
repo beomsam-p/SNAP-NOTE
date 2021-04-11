@@ -12,14 +12,17 @@
 <%-- 제이쿼리 --%>
 <script  src="https://code.jquery.com/jquery-3.6.0.min.js"  integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="  crossorigin="anonymous"></script>
 
+<%--부트스트랩자바스크립트 --%>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+
 <%-- 부트스트랩 CSS --%>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
 
 <%-- 부가적인 테마 --%>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
 
-<%--부트스트랩자바스크립트 --%>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+<%-- style --%>
+<link rel="stylesheet" type="text/css" href="/static/assets/css/style.css">
 
 </head>
 <body>

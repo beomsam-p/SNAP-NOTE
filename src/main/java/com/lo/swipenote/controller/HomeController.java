@@ -13,7 +13,7 @@ public class HomeController extends MasterController{
 	@RequestMapping("/")
 	public ModelAndView homeController() {
 		HashMap<String, Object> param = new HashMap<String, Object>();
-		param.put("content", "Login.jsp");
+		param.put("content", "Main.jsp");
 		return this.redirect("template/Template", param);
 	}
 }
