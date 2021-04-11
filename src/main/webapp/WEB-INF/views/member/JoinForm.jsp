@@ -5,6 +5,8 @@
 
 <script>
 $(function(){
+	var emailEnd="";
+	
 	$.backstretch([
 		"/static/assets/img/backgrounds/2.jpg"
 		, "/static/assets/img/backgrounds/3.jpg"
@@ -12,10 +14,30 @@ $(function(){
 	], {duration: 5000, fade: 750});
 
 	$("#selectEamil").change(function(){
-		$(this).val();
+		emailEnd = $(this).val();
 	});
   
-}) ;
+	$("#btnEmainSend").on("click",function(){
+		
+		var nick = $("#nick").val();
+		
+		var email = $("#email").val()+emailEnd;
+		
+		
+		$.ajax({
+			url : "/email/sendJoinMail",     
+			data : {"nick" : nick, "email" : email},    
+			method : "POST",        
+			dataType : "json",
+			success : function(data){
+				console.log(data);
+			},
+			error : function(jqXHR,status,error){
+			    // 실패 콜백 함수 
+			}
+		});
+	});
+});
 </script>
 
 
@@ -38,6 +60,7 @@ $(function(){
         		<option id="hanmail" value="@hanmail.net">hanmail.net</option>
         		<option id="self" value="직접입력">직접입력</option>
         	</select>
+        	  <a id='btnEmainSend' href="javascript:void(0);" class="btn btn-join btn-lg btn-block">메일발송</a>
         </div>
         
 		<div class="form-group mt10">

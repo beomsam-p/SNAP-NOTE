@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.lo.swipenote.controller.MasterController;
-import com.lo.swipenote.dto.MemberDto;
 import com.lo.swipenote.service.MemberService;
 
 @RequestMapping(value = "/member")
