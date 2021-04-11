@@ -73,7 +73,7 @@ $(function(){
         </div>    
         <div class="form-group">
 			<label for="nick">닉네임</label>
-            <input type="password" id="nick" class="form-control" name="nick" placeholder="닉네임을 입력하세요" required="required">
+            <input type="text" id="nick" class="form-control" name="nick" placeholder="닉네임을 입력하세요" required="required">
         </div>        
         <div class="form-group">
            <button type="submit" class="btn btn-login btn-lg btn-block">가입하기</button>

@@ -2,21 +2,16 @@ package com.lo.swipenote.controller.member;
 
 import java.util.HashMap;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.lo.swipenote.controller.MasterController;
-import com.lo.swipenote.service.MemberService;
 
 @RequestMapping(value = "/member")
 @Controller
 public class LoginController extends MasterController{
 
-	@Autowired
-	private MemberService memverService;
-	
 	@RequestMapping(value = "/loginForm")
 	public ModelAndView loginForm() {
 		HashMap<String, Object> param = new HashMap<String, Object>();

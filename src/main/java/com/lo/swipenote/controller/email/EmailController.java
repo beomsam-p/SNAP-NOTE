@@ -52,14 +52,14 @@ public class EmailController {
     				"		아래 <b style=\"color: #02b875\">'인증 번호'</b> 를 입력하여 회원가입을 완료해 주세요.<br />"																														+ 
     				"		감사합니다."																																															+ 
     				"	</p>"																																																	+ 
-    				"	<a style=\"color: #FFF; text-decoration: none; text-align: center;\""																																	+
+    				"	<sapn style=\"color: #FFF; text-decoration: none; text-align: center;\""																																	+
     				"	href=\"javascript:void(0);\">"																																											+ 
     				"		<p"																																																	+
     				"			style=\"display: inline-block; width: 210px; height: 45px; margin: 30px 5px 40px; background: #02b875; line-height: 45px; vertical-align: middle; font-size: 16px;\">"							+ 
     				"			"																																																+
     				certificationNumber 																																														+
     				"		</p>"																																																+ 
-    				"	</a>"																																																	+
+    				"	</span>"																																																	+
     				"	<div style=\"border-top: 1px solid #DDD; padding: 5px;\"></div>"																																		+
     				" </div>"
     		);
