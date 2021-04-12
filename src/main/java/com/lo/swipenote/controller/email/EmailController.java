@@ -3,6 +3,7 @@ package com.lo.swipenote.controller.email;
 import java.util.HashMap;
 
 import javax.mail.MessagingException;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,16 +22,17 @@ public class EmailController {
 	
 	
 	@Autowired
-	CommonUtil util;
+	CommonUtil commonUtil;
 	
 	@RequestMapping(value = "/sendJoinMail")
 	@ResponseBody
-	public HashMap<String, String> sendmail(String nick, String email) throws MessagingException {
+	public HashMap<String, String> sendmail(String nick, String email, HttpSession session) throws MessagingException {
 		
 		
 		HashMap<String, String> model = new HashMap<String, String>();
 		
-		String certificationNumber = util.randomChar10();
+		String certificationNumber = commonUtil.randomChar10();
+		
         try {
         	StringBuffer emailcontent = new StringBuffer();
     		emailcontent.append("<!DOCTYPE html>");
@@ -67,6 +69,8 @@ public class EmailController {
     		emailcontent.append("</html>");
     		emailService.sendMail(email, "[회원가입 이메일 인증]", emailcontent.toString());
     		
+    		session.setAttribute("certificationNumber", certificationNumber);
+    		
     		model.put("result", "00");
 		} catch (Exception e) {
 			
@@ -77,5 +81,31 @@ public class EmailController {
 		
 		return model;
 	}
+	
+	
+	@RequestMapping(value = "/chkCertificationNumber", method = RequestMethod.POST)
+	@ResponseBody
+	public HashMap<String, String> chkCertificationNumber(String certificationNumber, HttpSession session) 
+	{
+		HashMap<String, String> model = new HashMap<String, String>();
+		
+		try {
+			String sessionCertification = session.getAttribute("certificationNumber").toString();
+			if(sessionCertification.equals(certificationNumber)) {
+				session.removeAttribute("certificationNumber");
+				model.put("result", "00");
+			}else {
+				session.removeAttribute("certificationNumber");
+				model.put("result", "99");
+			}
+		} catch (Exception e) {
+			session.removeAttribute("certificationNumber");
+			model.put("result", "99");
+		}
+		
+		
+		return model;
+	}
+	
 	
 }

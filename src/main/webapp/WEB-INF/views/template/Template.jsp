@@ -24,11 +24,14 @@
 <%-- style --%>
 <link rel="stylesheet" type="text/css" href="/static/assets/css/style.css">
 
+<%-- 공용스크립트 --%>
+<script src="/static/assets/js/common.js?ver=1.0.0"></script>
 </head>
 <body>
 
 <%-- 내용 --%>
 <jsp:include page="/WEB-INF/views/${content}"/>
 
+<div class="loding"></div>
 </body>
 </html>

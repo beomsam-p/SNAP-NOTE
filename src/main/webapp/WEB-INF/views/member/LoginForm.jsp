@@ -15,13 +15,10 @@ $(function(){
 		, "/static/assets/img/backgrounds/1.jpg"
 	], {duration: 5000, fade: 750});
 
-
-	
 	
 	$('#btnLogin').on('click', function(e) {
 		location.href="/member/join";
 	});
-  
 }) ;
 </script>
 

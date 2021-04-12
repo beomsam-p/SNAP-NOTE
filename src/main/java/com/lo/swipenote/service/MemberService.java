@@ -19,6 +19,10 @@ public class MemberService {
 		mapper.insertMember(memberDto);
 	}
 	
+	public void updateMember(MemberDto memberDto) {
+		mapper.updateMember(memberDto);
+	}
+	
 	public void deleteMember(MemberDto memberDto) {
 		mapper.deleteMember(memberDto);
 	}

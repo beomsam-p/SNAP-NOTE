@@ -17,6 +17,8 @@ public interface MemberMapper {
 	
 	public void insertMember(MemberDto memberDto);
 	
+	public void updateMember(MemberDto memberDto);
+	
 	public void deleteMember(MemberDto memberDto);
 }
 

@@ -12,6 +12,10 @@
 		margin-top: 10px;
 	}
 	
+	.mt100{
+		margin-top: 100px;
+	}
+	
 	
 	.form-control {
         min-height: 41px;
@@ -109,3 +113,15 @@
 	.login-form .findPwd:hover {
 		text-decoration: underline;
 	}
+	
+	.loding{
+	  position:fixed;
+	  top:0;
+	  left:0;
+	  width:100%;
+	  height:100%;
+	  background:rgba(0, 0, 0, 0.5);
+	  z-index:0;
+	  display: none;
+	}   
+	

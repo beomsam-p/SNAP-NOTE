@@ -6,6 +6,23 @@
     <select id="getMember" resultType="com.lo.swipenote.dto.MemberDto">
         SELECT *
         FROM MEMBER
-        where MEMB_NO =#{membNo}
+        where MEMB_NO = #{membNo}
     </select>
+    
+    <insert id="insertMember" parameterType="com.lo.swipenote.dto.MemberDto">
+    	INSERT INTO MEMBER	(ID
+    						, PWD
+    						, NICKNAME
+    						, EMAIL
+    						, PROFILE_URL
+    						) 
+    				VALUES	
+    						(#{id}
+    						, #{pwd}
+    						, #{nickname}
+    						, #{email}
+    						, '/'
+    						)
+    	
+    </insert>
 </mapper>

@@ -5,32 +5,156 @@
 
 <script>
 $(function(){
-	var emailEnd="";
-	
 	$.backstretch([
 		"/static/assets/img/backgrounds/2.jpg"
 		, "/static/assets/img/backgrounds/3.jpg"
 		, "/static/assets/img/backgrounds/1.jpg"
 	], {duration: 5000, fade: 750});
 
-	$("#selectEamil").change(function(){
-		emailEnd = $(this).val();
-	});
-  
+	var t;
+	var total=180;
+	var _timer = $("#timer");
+	var interval;
+	timer = function (){
+		interval = setInterval(function(){ 
+				t = Math.floor( total / 60 );
+				s = total - ( t * 60 );
+				total = total - 1;
+				var strTime = "";
+				if(s<10){
+					strTime = "0"+t+":0"+s;
+				}else{
+					strTime = "0"+t+":"+s;
+				}
+				_timer.text(strTime);
+				if(total==0){
+					location.reload();
+				}
+			}, 1000);
+	}
+	
+	var emailRule = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+	
 	$("#btnEmainSend").on("click",function(){
+		var nick = $("#nick");
 		
-		var nick = $("#nick").val();
+		var email = $("#email");
+		if(email.val().trim() == ""){
+			common.showModal("SNAP NOTE 회원가입","이메일을 입력해주세요.");
+			email.focus();
+			return
+		}
 		
-		var email = $("#email").val()+emailEnd;
-		
+		if(!emailRule.test(email.val().trim())){
+			common.showModal("SNAP NOTE 회원가입","이메일 형식에 맞게 입력해주세요.");
+			email.focus();
+			return
+		}
 		
 		$.ajax({
 			url : "/email/sendJoinMail",     
-			data : {"nick" : nick, "email" : email},    
+			data : {"nick" : nick.val(), "email" : email.val()},    
 			method : "POST",        
 			dataType : "json",
+			beforeSend : function() {
+				common.loding(true);
+		    },
 			success : function(data){
-				console.log(data);
+				common.loding(false);
+				
+				if(data != null && data.result == "00"){
+					common.showModal("SNAP NOTE 회원가입","인증메일이 발송되었습니다.<br> 인증번호를 입력해주세요.")
+					$("#btnEmainSend").hide();
+					$("#btnCertificationNumber").show();
+					$("#certificationNumber").show();
+					timer();
+				}
+			},
+			
+			error : function(jqXHR,status,error){
+			}
+		});
+	});
+	
+	
+	$("#btnCertificationNumber").on("click",function(){
+		var certificationNumber = $("#certificationNumber").val();
+		
+		$.ajax({
+			url : "/email/chkCertificationNumber",     
+			data : {"certificationNumber" : certificationNumber},    
+			method : "POST",        
+			dataType : "json",
+			beforeSend : function() {
+				common.loding(true);
+		    },
+			success : function(data){
+				common.loding(false);
+				if(data != null && data.result == "00"){
+					common.showModal("SNAP NOTE 회원가입","이메일 인증에 성공하였습니다.")
+					$("#btnCertificationNumber").hide();
+					$("#certificationNumber").attr("readonly",true);
+					$("#email").attr("readonly",true);
+					clearInterval(interval)
+					_timer.hide();
+				}else{
+					common.showModal("SNAP NOTE 회원가입","인증번호가 틀렸습니다.<br> 다시 입력해주세요.")
+				}
+			},
+			error : function(jqXHR,status,error){
+			}
+		});
+	});
+	
+	
+	
+	
+	$("#btnJoin").on("click",function(){
+		var email = $("#email");
+		var pwd =  $("#pwd");
+		var pwdConfirm =  $("#pwdConfirm");
+		var nick = $("#nick");
+		
+		if(pwd.val().trim() == ""){
+			common.showModal("SNAP NOTE 회원가입","비밀번호를 입력해주세요.");
+			pwd.focus();
+			return
+		}
+		
+		if(pwdConfirm.val().trim() == ""){
+			common.showModal("SNAP NOTE 회원가입","비밀번호 확인을 입력해주세요.");
+			pwdConfirm.focus();
+			return
+		}
+		
+		if(nick.val().trim() == ""){
+			common.showModal("SNAP NOTE 회원가입","닉네임을 입력해주세요.");
+			nick.focus();
+			return
+		}
+		
+		
+		
+		$.ajax({
+			url : "/member/joinProc",     
+			data : {  "email" : email.val()
+					, "nick" : nick.val()
+					, "pwd" : pwd.val() },    
+			method : "POST",        
+			dataType : "json",
+			beforeSend : function() {
+				common.loding(true);
+		    },
+			success : function(data){
+				common.loding(false);
+				
+				if(data != null && data.result == "00"){
+					common.showModal('SNAP NOTE 회원가입','회원가입이 완료되었습니다.<br> 지금바로 SNAP NOTE를 통해 영어문장을 학습해보세요!<a href="/" class="btn btn-join btn-lg btn-block mt10">로그인하러 가기</a>');
+					$(".modal-footer").hide();
+				}
+				else{
+					location.href = "/";
+				}
 			},
 			error : function(jqXHR,status,error){
 			    // 실패 콜백 함수 
@@ -50,37 +174,35 @@ $(function(){
         <div  class="form-inline " role="group">
 			<label for="email">아이디(이메일)</label>
 			<br>
-        	<input type="email" id="email" class="form-control" name="email" placeholder="아이디를 입력하세요." required="required">
-        	@
-        	<select name="emailEnd" class="form-control" id="selectEamil">
-        		<option id="init" value="">선택하기</option>
-        		<option id="naver" value="@naver.com">naver.com</option>
-        		<option id="gmail" value="@gmail.com">gmail.com</option>
-        		<option id="nate" value="@nate.com" >nate.com</option>
-        		<option id="hanmail" value="@hanmail.net">hanmail.net</option>
-        		<option id="self" value="직접입력">직접입력</option>
-        	</select>
-        	  <a id='btnEmainSend' href="javascript:void(0);" class="btn btn-join btn-lg btn-block">메일발송</a>
+        	<input type="email" id="email" class="form-control" name="email" placeholder="아이디를 입력하세요." >
+        	
+        	<input type="text" id="certificationNumber" class="form-control" name="certificationNumber" style="display: none;" placeholder="인증번호를 입력하세요." >
+        	<span id="timer"></span>	
+        
+       	 	<a id='btnEmainSend' href="javascript:void(0);" class="btn btn-join btn-lg btn-block mt10">메일발송</a>
+       	 	<a id='btnCertificationNumber' style="display: none;" href="javascript:void(0);" class="btn btn-join btn-lg btn-block mt10">인증번호 확인</a>
         </div>
         
 		<div class="form-group mt10">
 			<label for="pwd">비밀번호</label>
-            <input type="password" id="pwd" class="form-control" name="pwd" placeholder="비밀번호를 입력하세요." required="required">
+            <input type="password" id="pwd" class="form-control" name="pwd" placeholder="비밀번호를 입력하세요.">
         </div>    
         <div class="form-group">
        		<label for="pwdConfirm">비밀번호 확인</label>
-            <input type="password" id="pwdConfirm" class="form-control" name="pwdConfirm" placeholder="비밀번호확인을 입력하세요." required="required">
+            <input type="password" id="pwdConfirm" class="form-control" name="pwdConfirm" placeholder="비밀번호확인을 입력하세요.">
         </div>    
         <div class="form-group">
 			<label for="nick">닉네임</label>
-            <input type="text" id="nick" class="form-control" name="nick" placeholder="닉네임을 입력하세요" required="required">
+            <input type="text" id="nick" class="form-control" name="nick" placeholder="닉네임을 입력하세요">
         </div>        
         <div class="form-group">
-           <button type="submit" class="btn btn-login btn-lg btn-block">가입하기</button>
+           <a id="btnJoin" class="btn btn-login btn-lg btn-block">가입하기</a>
         </div>
     </form>
-   
+	<c:import url="/WEB-INF/views/member/Modal.jsp"></c:import>	
 </div>
+
+
 
 <script src="/static/assets/js/jquery.backstretch.min.js"></script>
 <div>Icons made by <a href="https://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
