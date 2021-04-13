@@ -39,6 +39,8 @@ $(function(){
 		var nick = $("#nick");
 		
 		var email = $("#email");
+		
+		
 		if(email.val().trim() == ""){
 			common.showModal("SNAP NOTE 회원가입","이메일을 입력해주세요.");
 			email.focus();
@@ -107,7 +109,48 @@ $(function(){
 	});
 	
 	
-	
+	$("#btnDuplication").on("click",function(){
+		var email = $("#email");
+		
+		if(email.val().trim() == ""){
+			common.showModal("SNAP NOTE 회원가입","이메일을 입력해주세요.");
+			email.focus();
+			return
+		}
+		
+		if(!emailRule.test(email.val().trim())){
+			common.showModal("SNAP NOTE 회원가입","이메일 형식에 맞게 입력해주세요.");
+			email.focus();
+			return
+		}
+		
+		
+		$.ajax({
+			url : "/member/chkDuplicate",     
+			data : {  "email" : email.val()},    
+			method : "POST",        
+			dataType : "json",
+			beforeSend : function() {
+				common.loding(true);
+		    },
+			success : function(data){
+				console.log(data);
+				common.loding(false);
+				
+				if(data != null && data.result == 0){
+					common.showModal('SNAP NOTE 회원가입','중복확인이 완료되었습니다.<br> 이메일 인증을 진행해주세요');
+					$("#btnDuplication").hide();
+					$("#btnEmainSend").show();
+				}
+				else{
+					common.showModal('SNAP NOTE 회원가입','이미 가입한 이메일 입니다.<br> 이메일을 확인해주세요.');
+				}
+			},
+			error : function(jqXHR,status,error){
+			    // 실패 콜백 함수 
+			}
+		});
+	});
 	
 	$("#btnJoin").on("click",function(){
 		var email = $("#email");
@@ -132,8 +175,6 @@ $(function(){
 			nick.focus();
 			return
 		}
-		
-		
 		
 		$.ajax({
 			url : "/member/joinProc",     
@@ -171,15 +212,15 @@ $(function(){
 			<img alt="HTML" src="/static/assets/ico/join.png">
 		</div>
         <h2 class="text-center">회원가입</h2>   
-        <div  class="form-inline " role="group">
+        <div  class="form-group">
 			<label for="email">아이디(이메일)</label>
 			<br>
         	<input type="email" id="email" class="form-control" name="email" placeholder="아이디를 입력하세요." >
         	
         	<input type="text" id="certificationNumber" class="form-control" name="certificationNumber" style="display: none;" placeholder="인증번호를 입력하세요." >
         	<span id="timer"></span>	
-        
-       	 	<a id='btnEmainSend' href="javascript:void(0);" class="btn btn-join btn-lg btn-block mt10">메일발송</a>
+       		<a id='btnDuplication'  href="javascript:void(0);" class="btn btn-join btn-lg btn-block mt10">아이디 중복확인</a>
+       	 	<a id='btnEmainSend'  style="display: none;" href="javascript:void(0);" class="btn btn-join btn-lg btn-block mt10">메일발송</a>
        	 	<a id='btnCertificationNumber' style="display: none;" href="javascript:void(0);" class="btn btn-join btn-lg btn-block mt10">인증번호 확인</a>
         </div>
         

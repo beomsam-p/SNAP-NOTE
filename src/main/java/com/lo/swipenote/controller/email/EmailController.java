@@ -50,8 +50,8 @@ public class EmailController {
     				"	<p style=\"font-size: 16px; line-height: 26px; margin-top: 50px; padding: 0 5px;\">"																													+ 
     				nick																																																		+
     				"		님 안녕하세요.<br />"																																													+ 
-    				"		Snap Note에 가입해 주셔서 진심으로 감사드립니다.<br />"																																							+ 
-    				"		아래 <b style=\"color: #02b875\">'인증 번호'</b> 를 입력하여 회원가입을 완료해 주세요.<br />"																														+ 
+    				"		Snap Note 이메일 인증 서비스입니다.<br />"																																							+ 
+    				"		아래 <b style=\"color: #02b875\">'인증 번호'</b> 를 입력하여 회원가입을 계속 진행해 주세요.<br />"																														+ 
     				"		감사합니다."																																															+ 
     				"	</p>"																																																	+ 
     				"	<sapn style=\"color: #FFF; text-decoration: none; text-align: center;\""																																	+
@@ -92,14 +92,11 @@ public class EmailController {
 		try {
 			String sessionCertification = session.getAttribute("certificationNumber").toString();
 			if(sessionCertification.equals(certificationNumber)) {
-				session.removeAttribute("certificationNumber");
 				model.put("result", "00");
 			}else {
-				session.removeAttribute("certificationNumber");
 				model.put("result", "99");
 			}
 		} catch (Exception e) {
-			session.removeAttribute("certificationNumber");
 			model.put("result", "99");
 		}
 		

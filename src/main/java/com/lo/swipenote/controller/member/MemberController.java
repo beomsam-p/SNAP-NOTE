@@ -1,9 +1,5 @@
 package com.lo.swipenote.controller.member;
 
-import java.io.UnsupportedEncodingException;
-import java.security.InvalidAlgorithmParameterException;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 
 
@@ -15,16 +11,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.lo.swipenote.controller.MasterController;
-import com.lo.swipenote.dto.MemberDto;
 import com.lo.swipenote.service.MemberService;
 import com.lo.swipenote.util.SHA256Util;
 
 @RequestMapping(value = "/member")
 @Controller
 public class MemberController extends MasterController{
-	
-	@Autowired
-	SHA256Util  sha256Util;
 	
 	@Autowired
 	MemberService memberService;
@@ -36,6 +28,29 @@ public class MemberController extends MasterController{
 		param.put("content", "member/LoginForm.jsp");
 		return this.redirect("template/Template", param);
 	}
+	
+	@RequestMapping(value = "/loginProc", method = RequestMethod.POST)
+	@ResponseBody
+	public HashMap<String, Object> loginProc(String email, String pwd) 
+	{
+		HashMap<String, Object> model = new HashMap<String, Object>();
+		try {
+		
+			
+			//인설트
+			memberService.login(email, pwd);
+			
+			//성공코드
+			model.put("result", "00");
+		} catch (Exception e) {
+			//실패코드
+			model.put("result", "99");
+		}
+		
+		
+		return model;
+	}
+	
 	
 	@RequestMapping(value = "/joinForm")
 	public ModelAndView joinForm() {
@@ -51,19 +66,8 @@ public class MemberController extends MasterController{
 	{
 		HashMap<String, Object> model = new HashMap<String, Object>();
 		try {
-			//단방향 암호화
-			String encPwd = sha256Util.encodeSHA256(pwd);
 			
-			//데이터 세팅
-			MemberDto memberDto = new MemberDto();
-			memberDto.setId(email);
-			memberDto.setEmail(email);
-			memberDto.setPwd(encPwd);
-			memberDto.setNickname(nick);
-			
-			//인설트
-			memberService.insertMember(memberDto);
-			
+			memberService.insertMember(email, pwd, nick);
 			//성공코드
 			model.put("result", "00");
 		} catch (Exception e) {
@@ -71,6 +75,26 @@ public class MemberController extends MasterController{
 			model.put("result", "99");
 		}
 		
+		
+		return model;
+		
+	}
+	
+	@RequestMapping(value = "/chkDuplicate", method = RequestMethod.POST)
+	@ResponseBody
+	public HashMap<String, Object> chkDuplicate(String email) 
+	{
+		
+		HashMap<String, Object> model = new HashMap<String, Object>();
+		
+		try {
+			//결과 얻기
+			model.put("result",memberService.chkIdDuplication(email));
+		} catch (Exception e) {
+			//예외발생
+			model.put("result","99");
+			model.put("errorMsg",e.getMessage());
+		}
 		
 		return model;
 		

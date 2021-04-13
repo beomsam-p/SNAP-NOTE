@@ -6,7 +6,13 @@
     <select id="getMember" resultType="com.lo.swipenote.dto.MemberDto">
         SELECT *
         FROM MEMBER
-        where MEMB_NO = #{membNo}
+        WHERE MEMB_NO = #{membNo}
+    </select>
+    
+     <select id="chkIdDuplication" parameterType="String" resultType="int">
+        SELECT COUNT(1)
+        FROM MEMBER
+        WHERE EMAIL = #{id}
     </select>
     
     <insert id="insertMember" parameterType="com.lo.swipenote.dto.MemberDto">

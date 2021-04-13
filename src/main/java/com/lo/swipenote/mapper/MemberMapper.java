@@ -13,13 +13,15 @@ public interface MemberMapper {
 	
 	public List getMemberList();
 	
-	public MemberDto getMember(MemberDto memberDto);
+	public MemberDto getMemberById(String id);
 	
 	public void insertMember(MemberDto memberDto);
 	
 	public void updateMember(MemberDto memberDto);
 	
 	public void deleteMember(MemberDto memberDto);
+	
+	public int chkIdDuplication(String id);
 }
 
 
