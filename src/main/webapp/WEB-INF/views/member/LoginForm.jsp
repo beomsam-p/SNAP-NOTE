@@ -81,10 +81,10 @@ $(function(){
 		<form>
 			<h2 class="text-center">SNAP NOTE LOGIN</h2>   
 			<div class="form-group">
-				<input type="text" class="form-control" id="id" name="id" placeholder="아이디" required="required">
+				<input type="text" class="form-control" id="id" name="id" placeholder="아이디" >
 			</div>
 			<div class="form-group">
-				<input type="password" class="form-control" id="pwd" name="pwd" placeholder="비밀번호" required="required">
+				<input type="password" class="form-control" id="pwd" name="pwd" placeholder="비밀번호" >
 			</div>        
 			<div class="form-group">
 				<a id="btnLogin" class="btn btn-login btn-lg btn-block">로그인</a>

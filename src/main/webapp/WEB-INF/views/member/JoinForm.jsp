@@ -4,18 +4,44 @@
 
 
 <script>
+//유효성 자원
+var emailRule=/([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
+var pwdRule = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/;
+var nickRule = /[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/gi;
+
+//체크 자원
+var chkDupId = false;
+var chkEmailAuth = false;
+
+
+//특수문자 제거 함수
+function removeSpecialChar(nick){
+	
+	if(nickRule.test(nick.value)){
+		nick.value = nick.value.replace(nickRule,"");
+	}
+}
+
 $(function(){
+	
+	//타이머 자원
+	var t;
+	var total=180;
+	var _timer = $("#timer");
+	var interval;
+	
+	
+	
+	//백그라운드 이미지 변경
 	$.backstretch([
 		"/static/assets/img/backgrounds/2.jpg"
 		, "/static/assets/img/backgrounds/3.jpg"
 		, "/static/assets/img/backgrounds/1.jpg"
 	], {duration: 5000, fade: 750});
-
-	var t;
-	var total=180;
-	var _timer = $("#timer");
-	var interval;
-	timer = function (){
+	
+	
+	//타이머함수
+	function timer (){
 		interval = setInterval(function(){ 
 				t = Math.floor( total / 60 );
 				s = total - ( t * 60 );
@@ -33,8 +59,8 @@ $(function(){
 			}, 1000);
 	}
 	
-	var emailRule = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
 	
+	//메일 보내기 버튼 클릭
 	$("#btnEmainSend").on("click",function(){
 		var nick = $("#nick");
 		
@@ -78,7 +104,7 @@ $(function(){
 		});
 	});
 	
-	
+	//인증번호확인버튼 클릭
 	$("#btnCertificationNumber").on("click",function(){
 		var certificationNumber = $("#certificationNumber").val();
 		
@@ -96,9 +122,9 @@ $(function(){
 					common.showModal("SNAP NOTE 회원가입","이메일 인증에 성공하였습니다.")
 					$("#btnCertificationNumber").hide();
 					$("#certificationNumber").attr("readonly",true);
-					$("#email").attr("readonly",true);
 					clearInterval(interval)
 					_timer.hide();
+					chkEmailAuth=true;
 				}else{
 					common.showModal("SNAP NOTE 회원가입","인증번호가 틀렸습니다.<br> 다시 입력해주세요.")
 				}
@@ -108,7 +134,7 @@ $(function(){
 		});
 	});
 	
-	
+	//아이디 중복 확인 버튼 클릭
 	$("#btnDuplication").on("click",function(){
 		var email = $("#email");
 		
@@ -140,6 +166,8 @@ $(function(){
 					common.showModal('SNAP NOTE 회원가입','중복확인이 완료되었습니다.<br> 이메일 인증을 진행해주세요');
 					$("#btnDuplication").hide();
 					$("#btnEmainSend").show();
+					$("#email").attr("readonly",true);
+					chkDupId = true;
 				}
 				else{
 					common.showModal('SNAP NOTE 회원가입','이미 가입한 이메일 입니다.<br> 이메일을 확인해주세요.');
@@ -151,11 +179,34 @@ $(function(){
 		});
 	});
 	
+	// 가입하기 버튼 클릭
 	$("#btnJoin").on("click",function(){
+		if(!chkDupId){
+			common.showModal("SNAP NOTE 회원가입","아이디 중복확인을 해주세요.");
+			return;
+		}
+		
+		if(!chkEmailAuth){
+			common.showModal("SNAP NOTE 회원가입","이메일 인증을 해주세요.");
+			return;
+		}
+		 
 		var email = $("#email");
 		var pwd =  $("#pwd");
 		var pwdConfirm =  $("#pwdConfirm");
 		var nick = $("#nick");
+		
+		if(email.val().trim() == ""){
+			common.showModal("SNAP NOTE 회원가입","이메일을 입력해주세요.");
+			email.focus();
+			return
+		}
+		
+		if(!emailRule.test(email.val().trim())){
+			common.showModal("SNAP NOTE 회원가입","이메일 형식에 맞게 입력해주세요.");
+			email.focus();
+			return
+		}
 		
 		if(pwd.val().trim() == ""){
 			common.showModal("SNAP NOTE 회원가입","비밀번호를 입력해주세요.");
@@ -163,9 +214,29 @@ $(function(){
 			return
 		}
 		
+		if(pwd.val().trim().length < 8 ){
+			common.showModal("SNAP NOTE 회원가입","비밀번호룰 8자리 이상 입력해 주세요.");
+			pwd.focus();
+			return
+		}
+		
+
+		if(!pwdRule.test(pwd.val().trim())){
+			common.showModal("SNAP NOTE 회원가입","비밀번호는 8자 이상이어야 하며, 숫자/대문자/소문자/특수문자를 모두 포함해야 합니다.");
+			pwd.focus();
+			return
+		}
+		
+		
 		if(pwdConfirm.val().trim() == ""){
 			common.showModal("SNAP NOTE 회원가입","비밀번호 확인을 입력해주세요.");
 			pwdConfirm.focus();
+			return
+		}
+		
+		if(pwd.val().trim() != pwdConfirm.val().trim()){
+			common.showModal("SNAP NOTE 회원가입","비밀번호와 비밀번호확인이 일치하지 않습니다.");
+			pwd.focus();
 			return
 		}
 		
@@ -197,7 +268,7 @@ $(function(){
 				}
 			},
 			error : function(jqXHR,status,error){
-			    // 실패 콜백 함수 
+			    console.log(error);
 			}
 		});
 	});
@@ -214,7 +285,7 @@ $(function(){
 	        <div  class="form-group">
 				<label for="email">아이디(이메일)</label>
 				<br>
-	        	<input type="email" id="email" class="form-control" name="email" placeholder="아이디를 입력하세요." >
+	        	<input type="email" id="email" class="form-control" name="email" placeholder="아이디를 입력하세요." maxlength="100" >
 	        	
 	        	<input type="text" id="certificationNumber" class="form-control" name="certificationNumber" style="display: none;" placeholder="인증번호를 입력하세요." >
 	        	<span id="timer"></span>	
@@ -225,15 +296,15 @@ $(function(){
 	        
 			<div class="form-group mt10">
 				<label for="pwd">비밀번호</label>
-	            <input type="password" id="pwd" class="form-control" name="pwd" placeholder="비밀번호를 입력하세요.">
+	            <input type="password" id="pwd" class="form-control" name="pwd" placeholder="비밀번호를 입력하세요." maxlength="20">
 	        </div>    
 	        <div class="form-group">
 	       		<label for="pwdConfirm">비밀번호 확인</label>
-	            <input type="password" id="pwdConfirm" class="form-control" name="pwdConfirm" placeholder="비밀번호확인을 입력하세요.">
+	            <input type="password" id="pwdConfirm" class="form-control" name="pwdConfirm" placeholder="비밀번호확인을 입력하세요."  maxlength="20">
 	        </div>    
 	        <div class="form-group">
 				<label for="nick">닉네임</label>
-	            <input type="text" id="nick" class="form-control" name="nick" placeholder="닉네임을 입력하세요">
+	            <input type="text" id="nick" class="form-control" name="nick" placeholder="닉네임을 입력하세요" maxlength="10" onkeyup="removeSpecialChar(this);">
 	        </div>        
 	        <div class="form-group">
 	           <a id="btnJoin" class="btn btn-login btn-lg btn-block">가입하기</a>
