@@ -134,7 +134,6 @@ $(function(){
 				common.loding(true);
 		    },
 			success : function(data){
-				console.log(data);
 				common.loding(false);
 				
 				if(data != null && data.result == 0){
@@ -205,45 +204,47 @@ $(function(){
 });
 </script>
 
-
-<div class="login-form" style="width: 380px;">
-    <form action="/member/loginProc" method="post">
+<div class="wap"> 	
+	<div class="login-form" style="width: 380px;">
 		<div class="avatar">
-			<img alt="HTML" src="/static/assets/ico/join.png">
+				<img alt="HTML" src="/static/assets/ico/join.png">
 		</div>
-        <h2 class="text-center">회원가입</h2>   
-        <div  class="form-group">
-			<label for="email">아이디(이메일)</label>
-			<br>
-        	<input type="email" id="email" class="form-control" name="email" placeholder="아이디를 입력하세요." >
-        	
-        	<input type="text" id="certificationNumber" class="form-control" name="certificationNumber" style="display: none;" placeholder="인증번호를 입력하세요." >
-        	<span id="timer"></span>	
-       		<a id='btnDuplication'  href="javascript:void(0);" class="btn btn-join btn-lg btn-block mt10">아이디 중복확인</a>
-       	 	<a id='btnEmainSend'  style="display: none;" href="javascript:void(0);" class="btn btn-join btn-lg btn-block mt10">메일발송</a>
-       	 	<a id='btnCertificationNumber' style="display: none;" href="javascript:void(0);" class="btn btn-join btn-lg btn-block mt10">인증번호 확인</a>
-        </div>
-        
-		<div class="form-group mt10">
-			<label for="pwd">비밀번호</label>
-            <input type="password" id="pwd" class="form-control" name="pwd" placeholder="비밀번호를 입력하세요.">
-        </div>    
-        <div class="form-group">
-       		<label for="pwdConfirm">비밀번호 확인</label>
-            <input type="password" id="pwdConfirm" class="form-control" name="pwdConfirm" placeholder="비밀번호확인을 입력하세요.">
-        </div>    
-        <div class="form-group">
-			<label for="nick">닉네임</label>
-            <input type="text" id="nick" class="form-control" name="nick" placeholder="닉네임을 입력하세요">
-        </div>        
-        <div class="form-group">
-           <a id="btnJoin" class="btn btn-login btn-lg btn-block">가입하기</a>
-        </div>
-    </form>
-	<c:import url="/WEB-INF/views/member/Modal.jsp"></c:import>	
+	    <form action="/member/loginProc" method="post">
+	        <h2 class="text-center">회원가입</h2>   
+	        <div  class="form-group">
+				<label for="email">아이디(이메일)</label>
+				<br>
+	        	<input type="email" id="email" class="form-control" name="email" placeholder="아이디를 입력하세요." >
+	        	
+	        	<input type="text" id="certificationNumber" class="form-control" name="certificationNumber" style="display: none;" placeholder="인증번호를 입력하세요." >
+	        	<span id="timer"></span>	
+	       		<a id='btnDuplication'  href="javascript:void(0);" class="btn btn-join btn-lg btn-block mt10">아이디 중복확인</a>
+	       	 	<a id='btnEmainSend'  style="display: none;" href="javascript:void(0);" class="btn btn-join btn-lg btn-block mt10">메일발송</a>
+	       	 	<a id='btnCertificationNumber' style="display: none;" href="javascript:void(0);" class="btn btn-join btn-lg btn-block mt10">인증번호 확인</a>
+	        </div>
+	        
+			<div class="form-group mt10">
+				<label for="pwd">비밀번호</label>
+	            <input type="password" id="pwd" class="form-control" name="pwd" placeholder="비밀번호를 입력하세요.">
+	        </div>    
+	        <div class="form-group">
+	       		<label for="pwdConfirm">비밀번호 확인</label>
+	            <input type="password" id="pwdConfirm" class="form-control" name="pwdConfirm" placeholder="비밀번호확인을 입력하세요.">
+	        </div>    
+	        <div class="form-group">
+				<label for="nick">닉네임</label>
+	            <input type="text" id="nick" class="form-control" name="nick" placeholder="닉네임을 입력하세요">
+	        </div>        
+	        <div class="form-group">
+	           <a id="btnJoin" class="btn btn-login btn-lg btn-block">가입하기</a>
+	        </div>
+	    </form>
+	    <div class="form-group">
+			<div>Icons made by <a href="https://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
+		</div>
+		<c:import url="/WEB-INF/views/member/Modal.jsp"></c:import>	
+	</div>
 </div>
 
 
-
 <script src="/static/assets/js/jquery.backstretch.min.js"></script>
-<div>Icons made by <a href="https://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>

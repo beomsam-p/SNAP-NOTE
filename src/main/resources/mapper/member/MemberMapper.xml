@@ -3,10 +3,10 @@
 
 
 <mapper namespace="com.lo.swipenote.mapper.MemberMapper">
-    <select id="getMember" resultType="com.lo.swipenote.dto.MemberDto">
+    <select id="getMemberById" parameterType="String" resultType="com.lo.swipenote.dto.MemberDto">
         SELECT *
         FROM MEMBER
-        WHERE MEMB_NO = #{membNo}
+        WHERE EMAIL = #{id}
     </select>
     
      <select id="chkIdDuplication" parameterType="String" resultType="int">

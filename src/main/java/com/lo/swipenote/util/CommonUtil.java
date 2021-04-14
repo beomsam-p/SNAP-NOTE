@@ -1,6 +1,11 @@
 package com.lo.swipenote.util;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.stereotype.Component;
+
 
 @Component
 public class CommonUtil {
@@ -18,5 +23,34 @@ public class CommonUtil {
 		}
 		
 		return str;
+	}
+	
+	public void setCookie(String name, String value, HttpServletResponse response) {
+		Cookie setCookie = new Cookie(name, value); // 쿠키 이름을 name으로 생성
+		setCookie.setMaxAge(60*60*24*30);
+		setCookie.setPath("/");
+		response.addCookie(setCookie);
+	}
+	
+	public String getCookieValue(String name, HttpServletRequest request) {
+		String cookeVal = "";
+		 // 쿠키값 가져오기
+	    Cookie[] cookies = request.getCookies() ;
+	    if(cookies != null){
+	        for(Cookie c : cookies){
+	        	if(name.equals(c.getName())) {
+	        		 // 쿠키값을 가져온다
+		            cookeVal = c.getValue() ;
+	        	}
+	        }
+	    }
+		return cookeVal;
+	}
+	
+	public void deleteCookie(String name, HttpServletResponse response) {
+		Cookie setCookie = new Cookie(name, ""); // 쿠키 이름을 name으로 생성
+		setCookie.setPath("/");
+		setCookie.setMaxAge(0);
+		response.addCookie(setCookie);
 	}
 }

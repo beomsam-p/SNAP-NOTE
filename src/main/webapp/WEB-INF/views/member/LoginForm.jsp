@@ -5,10 +5,12 @@
 
 <script>
 $(function(){
-	var id = $('#id');
-	var pwd = $('#pwd');
-	var loginForm= $('#loginForm');
-
+	var saveIdVal = common.getCookie("saveId");
+	if(saveIdVal!=null){
+		$("#saveId").attr("checked",true);
+		$("#id").val(saveIdVal);
+	}
+	
 	$.backstretch([
 		"/static/assets/img/backgrounds/2.jpg"
 		, "/static/assets/img/backgrounds/3.jpg"
@@ -17,35 +19,87 @@ $(function(){
 
 	
 	$('#btnLogin').on('click', function(e) {
-		location.href="/member/join";
+		var id = $('#id');
+		var pwd = $('#pwd');
+		var saveId=$('[name="saveId"]:checked').val();
+
+		if(id.val().trim()==""){
+			common.showModal('SNAP NOTE 로그인',"아이디를 입력해주세요.");
+			id.focus();
+			return;
+		}
+		
+		if(pwd.val().trim()==""){
+			common.showModal('SNAP NOTE 로그인',"비밀번호를 입력해주세요.");
+			pwd.focus();
+			return;
+		}
+		
+		
+		$.ajax({
+			url : "/member/loginProc",     
+			data : {"id" : id.val(), "pwd" : pwd.val(),"saveId":saveId },    
+			method : "POST",        
+			dataType : "json",
+			beforeSend : function() {
+				common.loding(true);
+		    },
+			success : function(data){
+				console.log(data);
+				common.loding(false);
+				
+				if(data != null && data.result == "00"){
+					common.showModal('SNAP NOTE 로그인',"로그인 성공");
+				}
+				else{
+					common.showModal('SNAP NOTE 로그인',data.errorMsg);
+				}
+			},
+			error : function(jqXHR,status,error){
+				common.showModal('SNAP NOTE 로그인','에러발생 :<br>'+error);
+			}
+		});
+	});
+	
+	
+	$("#pwd").on("keyup",function(e){
+		if(e.keyCode == 13){
+			$('#btnLogin').click();	
+		}
+	})
+	
+	$('#btnJoin').on('click', function(e) {
+		location.href="/member/joinForm";
 	});
 }) ;
 </script>
-
-
-<div class="login-form">
-    <form id="loginForm" action="/member/loginProc" method="post">
+<div class="wap"> 
+	<div class="login-form">
 		<div class="avatar">
 			<img alt="HTML" src="/static/assets/ico/user.png">
 		</div>
-        <h2 class="text-center">SNAP NOTE LOGIN</h2>   
-        <div class="form-group">
-        	<input type="text" class="form-control" id="id" name="id" placeholder="아이디" required="required">
-        </div>
+		<form>
+			<h2 class="text-center">SNAP NOTE LOGIN</h2>   
+			<div class="form-group">
+				<input type="text" class="form-control" id="id" name="id" placeholder="아이디" required="required">
+			</div>
+			<div class="form-group">
+				<input type="password" class="form-control" id="pwd" name="pwd" placeholder="비밀번호" required="required">
+			</div>        
+			<div class="form-group">
+				<a id="btnLogin" class="btn btn-login btn-lg btn-block">로그인</a>
+				<a id="btnJoin" class="btn btn-join btn-lg btn-block">회원가입</a>
+			</div>
+			<div class="clearfix">
+				<label class="pull-left checkbox-inline"><input type="checkbox" id="saveId" name="saveId" value="saveId">아이디 저장</label>
+				<a href="javascript:void(0);" class="findPwd pull-right">비밀번호 찾기</a>
+			</div>
+		</form>
+		<c:import url="/WEB-INF/views/member/Modal.jsp"></c:import>	
 		<div class="form-group">
-            <input type="password" class="form-control" id="pwd" name="pwd" placeholder="비밀번호" required="required">
-        </div>        
-        <div class="form-group">
-            <button type="submit" class="btn btn-login btn-lg btn-block">로그인</button>
-            <a href="/member/joinForm" class="btn btn-join btn-lg btn-block">회원가입</a>
-        </div>
-		<div class="clearfix">
-            <label class="pull-left checkbox-inline"><input type="checkbox">아이디 저장</label>
-            <a href="javascript:void(0);" class="findPwd pull-right">비밀번호 찾기</a>
-        </div>
-    </form>
-   
+			<div>Icons made by <a href="https://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
+		</div>
+	</div>
 </div>
 
 <script src="/static/assets/js/jquery.backstretch.min.js"></script>
-<div>Icons made by <a href="https://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>

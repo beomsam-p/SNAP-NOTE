@@ -9,18 +9,21 @@ public class SHA256Util {
 	public static String encodeSHA256(String str) {
 		try{
 
-			MessageDigest digest = MessageDigest.getInstance("SHA-256");
-			byte[] hash = digest.digest(str.getBytes("UTF-8"));
-			StringBuffer hexString = new StringBuffer();
-
-			for (int i = 0; i < hash.length; i++) {
-				String hex = Integer.toHexString(0xff & hash[i]);
-				if(hex.length() == 1) hexString.append('0');
-				hexString.append(hex);
-			}
-
-			//출력
-			return hexString.toString();
+			  StringBuffer sbuf = new StringBuffer();
+			     
+			    MessageDigest mDigest = MessageDigest.getInstance("SHA-256");
+			    mDigest.update(str.getBytes());
+			     
+			    byte[] msgStr = mDigest.digest() ;
+			     
+			    for(int i=0; i < msgStr.length; i++){
+			        byte tmpStrByte = msgStr[i];
+			        String tmpEncTxt = Integer.toString((tmpStrByte & 0xff) + 0x100, 16).substring(1);
+			         
+			        sbuf.append(tmpEncTxt) ;
+			    }
+			     
+			    return sbuf.toString();
 			
 		} catch(Exception ex){
 			throw new RuntimeException(ex);

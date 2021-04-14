@@ -2,6 +2,9 @@ package com.lo.swipenote.controller.member;
 
 import java.util.HashMap;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,8 +14,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.lo.swipenote.controller.MasterController;
+import com.lo.swipenote.dto.MemberDto;
 import com.lo.swipenote.service.MemberService;
-import com.lo.swipenote.util.SHA256Util;
+import com.lo.swipenote.util.CommonUtil;
 
 @RequestMapping(value = "/member")
 @Controller
@@ -31,22 +35,27 @@ public class MemberController extends MasterController{
 	
 	@RequestMapping(value = "/loginProc", method = RequestMethod.POST)
 	@ResponseBody
-	public HashMap<String, Object> loginProc(String email, String pwd) 
+	public HashMap<String, Object> loginProc(String id, String pwd, String saveId ,HttpSession session, HttpServletRequest request, HttpServletResponse response) 
 	{
 		HashMap<String, Object> model = new HashMap<String, Object>();
 		try {
-		
+			//아이디로 맴버 정보 조회
+			MemberDto memberInfo = memberService.getMemberById(id);
 			
-			//인설트
-			memberService.login(email, pwd);
+			//로그인 프로세스 진행 후 결과를 모델에 담음
+			model = memberService.login(memberInfo,id, pwd, saveId, request, response);
+			 
+			//세션에 로그인 정보 담음
+			if(model != null && model.get("result")!= null &&"00".equals(model.get("result"))) {
+				session.setAttribute("userSession", memberInfo);
+			}
 			
-			//성공코드
-			model.put("result", "00");
+			
 		} catch (Exception e) {
 			//실패코드
-			model.put("result", "99");
+			model.put("result", "99");				//예외발생
+			model.put("errorMsg", e.getMessage());	//에러 메시지
 		}
-		
 		
 		return model;
 	}
