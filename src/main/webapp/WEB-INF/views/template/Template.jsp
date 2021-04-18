@@ -38,12 +38,13 @@ $(function(){
 });
 </script>
 	
-		
+<%-- 로그인 / 가입 페이지 경우 --%>		
 <c:if test="${LEFTMENU eq 'hide'}" var="result">
 	<%-- 내용 --%>
 	<jsp:include page="/WEB-INF/views/${content}"/>
 </c:if>
 
+<%--공부페이지--%>
 <c:if test="${!result}" var="result"> 
 	<div class="container-fluid height100">
 		<div class="row height100">

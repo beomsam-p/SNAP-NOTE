@@ -61,6 +61,7 @@ $(function(){
 				}
 			},
 			error : function(jqXHR,status,error){
+				common.loding(false);
 				common.showModal('SNAP NOTE 로그인','에러발생 :<br>'+error);
 			}
 		});

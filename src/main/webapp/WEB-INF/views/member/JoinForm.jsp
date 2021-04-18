@@ -100,6 +100,8 @@ $(function(){
 			},
 			
 			error : function(jqXHR,status,error){
+				common.loding(false);
+				common.showModal('SNAP NOTE 회원가입','에러발생 :<br>'+error);
 			}
 		});
 	});
@@ -130,6 +132,8 @@ $(function(){
 				}
 			},
 			error : function(jqXHR,status,error){
+				common.loding(false);
+				common.showModal('SNAP NOTE 회원가입','에러발생 :<br>'+error);
 			}
 		});
 	});
@@ -174,7 +178,8 @@ $(function(){
 				}
 			},
 			error : function(jqXHR,status,error){
-			    // 실패 콜백 함수 
+				common.loding(false);
+				common.showModal('SNAP NOTE 회원가입','에러발생 :<br>'+error);
 			}
 		});
 	});
@@ -268,7 +273,8 @@ $(function(){
 				}
 			},
 			error : function(jqXHR,status,error){
-			    console.log(error);
+				common.loding(false);
+				common.showModal('SNAP NOTE 회원가입','에러발생 :<br>'+error);
 			}
 		});
 	});

@@ -16,8 +16,13 @@ public class MasterController {
 	 * */
 	@ExceptionHandler(HttpStatusCodeException.class)
 	public ModelAndView loginCheckExceptionHanlder() {
+		//ModelAndView 
 		ModelAndView mv = new ModelAndView();
+		
+		//로그인으로 리다이렉트
 		mv.setViewName("redirect:/");
+		
+		//파라미터로 nologin 전달
 		mv.addObject("exception", "nologin");
 		return mv;
 	}
@@ -29,9 +34,15 @@ public class MasterController {
 	 * @return			경로와 파라미터를 담은 ModelAndView 객체
 	 */
 	public ModelAndView redirect(String viewName, HashMap<String, Object> param) {
+		//ModelAndView 
 		ModelAndView mv = new ModelAndView();
+		
+		//이동할 뷰네임
 		mv.setViewName(viewName);
+		
+		//이동시 들고갈 파라미터 
 		mv.addAllObjects(param);
+		
 		return mv;
 	}
 	
