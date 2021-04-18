@@ -80,12 +80,12 @@ $(function(){
 }) ;
 </script>
 <div class="wrap"> 
-	<div class="login-form">
+	<div class="login-form top-minus-10per">
 		<div class="avatar">
 			<img alt="HTML" src="/static/assets/ico/user.png">
 		</div>
 		<form>
-			<h2 class="text-center">SNAP NOTE LOGIN</h2>   
+			<h2 class="text-center"><b>SNAP NOTE LOGIN</b></h2>   
 			<div class="form-group">
 				<input type="text" class="form-control" id="id" name="id" placeholder="아이디" >
 			</div>

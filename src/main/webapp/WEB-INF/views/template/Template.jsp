@@ -28,24 +28,37 @@
 <script src="/static/assets/js/common.js?ver=1.0.0"></script>
 </head>
 <body>
-	<div class="container" style="height: 100%">
-		<c:if test="${LEFTMENU eq 'hide'}" var="result"> 
-		</c:if>
-		<c:if test="${!result}" var="result"> 
-			<div class="row">
-			<%-- 좌메뉴
-				<jsp:include page="/WEB-INF/views/template/leftMenu"/>
-			 --%>
+<script type="text/javascript">
+$(function(){
+	 var exception = new URLSearchParams(location.search).get("exception")
+	//비로그인 상태처리
+	if(exception=="nologin"){
+		common.showModal('SNAP NOTE ERROR',"로그인 후 사용 해주세요");
+	}
+});
+</script>
+	
+		
+<c:if test="${LEFTMENU eq 'hide'}" var="result">
+	<%-- 내용 --%>
+	<jsp:include page="/WEB-INF/views/${content}"/>
+</c:if>
+
+<c:if test="${!result}" var="result"> 
+	<div class="container-fluid height100">
+		<div class="row height100">
+			<div class="col-md-3 height100 ">
+				<%-- 좌메뉴
+					<jsp:include page="/WEB-INF/views/template/leftMenu"/>
+				 --%>
 			</div>
-		</c:if>
-		
-		
-		<div class="row" style="height: 100%">
-			<%-- 내용 --%>
-			<jsp:include page="/WEB-INF/views/${content}"/>
-		</div>
-		
+			<div class="col-md-9 height100">
+				<jsp:include page="/WEB-INF/views/${content}"/>
+			</div>
+		</div>	
 	</div>
+</c:if>
+		
 	
 
 

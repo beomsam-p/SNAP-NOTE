@@ -276,12 +276,12 @@ $(function(){
 </script>
 
 <div class="wrap"> 	
-	<div class="login-form" style="width: 380px;">
+	<div class="login-form mt50">
 		<div class="avatar">
 				<img alt="HTML" src="/static/assets/ico/join.png">
 		</div>
 	    <form action="/member/loginProc" method="post">
-	        <h2 class="text-center">회원가입</h2>   
+	        <h2 class="text-center"><b>회원가입</b></h2>   
 	        <div  class="form-group">
 				<label for="email">아이디(이메일)</label>
 				<br>

@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.lo.swipenote.aop.LoginCheck;
 import com.lo.swipenote.controller.MasterController;
 
 /** 공부페이지 컨트롤러
@@ -19,6 +20,7 @@ public class StudyController extends MasterController{
 	/** 공부 페이지으로 이동
 	 * @return	공부 페이지 경로
 	 * */
+	@LoginCheck
 	@RequestMapping(value = "/study",method = RequestMethod.GET)
 	public ModelAndView studyform() {
 		

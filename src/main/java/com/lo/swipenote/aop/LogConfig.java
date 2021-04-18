@@ -1,4 +1,4 @@
-package com.lo.swipenote.log;
+package com.lo.swipenote.aop;
 
 import java.util.Arrays;
 import java.util.Map;
