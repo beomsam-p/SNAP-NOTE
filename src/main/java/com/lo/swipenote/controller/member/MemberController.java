@@ -38,6 +38,9 @@ public class MemberController extends MasterController{
 		//리턴 파라미터 설정
 		HashMap<String, Object> param = new HashMap<String, Object>();
 		
+		//좌메뉴 감추기
+		param.put("LEFTMENU", "hide");
+		
 		//뷰경로 설정
 		param.put("content", "member/LoginForm.jsp");
 		

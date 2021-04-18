@@ -275,7 +275,7 @@ $(function(){
 });
 </script>
 
-<div class="wap"> 	
+<div class="wrap"> 	
 	<div class="login-form" style="width: 380px;">
 		<div class="avatar">
 				<img alt="HTML" src="/static/assets/ico/join.png">
@@ -307,7 +307,8 @@ $(function(){
 	            <input type="text" id="nick" class="form-control" name="nick" placeholder="닉네임을 입력하세요" maxlength="10" onkeyup="removeSpecialChar(this);">
 	        </div>        
 	        <div class="form-group">
-	           <a id="btnJoin" class="btn btn-login btn-lg btn-block">가입하기</a>
+				<a id="btnJoin" class="btn btn-login btn-lg btn-block">가입하기</a>
+            	<a onclick="location.href='/member/loginForm';" class="btn btn-join btn-lg btn-block mt10">취소</a>
 	        </div>
 	    </form>
 	    <div class="form-group">

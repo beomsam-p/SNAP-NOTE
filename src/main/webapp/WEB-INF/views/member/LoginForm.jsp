@@ -54,7 +54,7 @@ $(function(){
 				common.loding(false);
 				
 				if(data != null && data.result == "00"){
-					common.showModal('SNAP NOTE 로그인',"로그인 성공");
+					location.href="/study/study"
 				}
 				else{
 					common.showModal('SNAP NOTE 로그인',data.errorMsg);
@@ -79,7 +79,7 @@ $(function(){
 	});
 }) ;
 </script>
-<div class="wap"> 
+<div class="wrap"> 
 	<div class="login-form">
 		<div class="avatar">
 			<img alt="HTML" src="/static/assets/ico/user.png">

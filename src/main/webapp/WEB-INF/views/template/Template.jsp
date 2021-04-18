@@ -6,7 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <%-- 모바일우선 --%>
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <title>SnapShot Note</title>
 
 <%-- 제이쿼리 --%>
@@ -28,9 +28,36 @@
 <script src="/static/assets/js/common.js?ver=1.0.0"></script>
 </head>
 <body>
+	<div class="container" style="height: 100%">
+		<c:if test="${LEFTMENU eq 'hide'}" var="result"> 
+		</c:if>
+		<c:if test="${!result}" var="result"> 
+			<div class="row">
+			<%-- 좌메뉴
+				<jsp:include page="/WEB-INF/views/template/leftMenu"/>
+			 --%>
+			</div>
+		</c:if>
+		
+		
+		<div class="row" style="height: 100%">
+			<%-- 내용 --%>
+			<jsp:include page="/WEB-INF/views/${content}"/>
+		</div>
+		
+	</div>
+	
 
-<%-- 내용 --%>
-<jsp:include page="/WEB-INF/views/${content}"/>
+
+
+
+<%-- 모바일용 바텀 네비
+<jsp:include page="/WEB-INF/views/template/botNavi"/>
+ --%>
+ 
+<%-- 푸터
+<jsp:include page="/WEB-INF/views/template/footer"/>
+ --%>
 
 <div class="loding"></div>
 </body>
