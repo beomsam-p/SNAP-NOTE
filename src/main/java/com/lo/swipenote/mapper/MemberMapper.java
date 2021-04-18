@@ -15,7 +15,7 @@ import com.lo.swipenote.dto.MemberDto;
 public interface MemberMapper {
 	
 	//맴버 리스트
-	public List<MemberDto> getMemberList();
+	public List<MemberDto> searchMemberList();
 	
 	//아이디를 통한 맴버정보 단건 조회
 	public MemberDto getMemberById(String id);

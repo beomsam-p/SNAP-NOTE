@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lo.swipenote.mapper.MenuMapper">
+	<!-- 아이디로 유저정보 얻기 -->
+    <select id="searchMenuList" parameterType="String" resultType="com.lo.swipenote.dto.MenuDto">
+		WITH RECURSIVE HIERARCHY_MENU AS
+		(
+		    SELECT	MENU_NO
+					, TITLE
+		            , DESCRIPT
+					, FORDER_YN
+					, CONCAT(SORT,TITLE) AS path
+	                   , 0 AS LVL
+		    FROM MENU 
+			WHERE PARENT_NO=0
+		    UNION ALL
+		    SELECT	M.MENU_NO
+					, M.title
+		            , M.DESCRIPT
+		            , M.FORDER_YN
+		            , CONCAT(HM.PATH ,' > ',M.SORT,M.TITLE) AS PATH
+					, HM.LVL+1 AS LVL
+		    FROM HIERARCHY_MENU HM JOIN MENU M ON HM.MENU_NO = M.PARENT_NO
+		)
+		SELECT	MENU_NO
+				, TITLE
+		        , DESCRIPT
+		        , PATH
+	               , FORDER_YN
+	               , LVL
+		FROM HIERARCHY_MENU 
+		ORDER BY PATH
+	</select>
+</mapper>

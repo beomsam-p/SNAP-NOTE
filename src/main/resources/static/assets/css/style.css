@@ -10,14 +10,15 @@
 	font-family: 'NanumBarunGothic', 'serif';
 	height: 100%;
 	}
-	
+
 	.height100{
 		height: 100%;
-	}
+	}	
 	
 	.pt20{
 		padding-top: 20px;
 	}
+
 
 	.mt10{
 		margin-top: 10px;
@@ -25,6 +26,10 @@
 	
 	.mt50{
 		margin-top: 50px;
+	}
+	
+	.mr10{
+		margin-right: 10px;
 	}
 	
 	.top-minus-10per{
@@ -155,4 +160,132 @@
 	  z-index:0;
 	  display: none;
 	}   
+	
+	.gi-1_5x{
+		font-size: 1.5em;
+	}
+	.gi-2x{
+		font-size: 2em;
+	}
+	.gi-3x{
+		font-size: 3em;
+	}
+	.gi-4x{
+		font-size: 4em;
+	}
+	.gi-5x{
+		font-size: 5em;
+	}
+	
+	
+	.txt-title{
+		color: #18181B;
+	}
+	
+	.txt-content{
+		color: #323234;
+	}
+	
+	.txt-point{
+		color:#B6A89B;
+	}
+	
+		
+	.main-content{
+		height: 93%;
+		background-color: #f3f3f3;
+	}
+	
+	.bot-nav{
+		height: 7%;
+		background-color: #7650AC;
+	}
+	
+	
+	.menuBtn{
+		color: white;
+		position:relative;
+		display: flex;
+		justify-content: center;
+		align-items: center; 
+		height: 100%;
+	}
+	
+	
+	.menuList{
+		position : absolute;
+		top:0;
+		left : 0;
+		background-color: #634391;
+		width: 100%;
+		height: 100%;
+		display: none;
+	}
+	
+	.btn-close{
+		font-size: 1.5em;
+		color: white;
+		margin: 20px;
+		display: flex;
+        justify-content: flex-end;
+	}
+	
+	.menu-box{
+		background-color: white;
+		border-radius: 20px;
+		height: 90%;
+		margin: 20px;
+		overflow: auto ;
+	}
+	
+	.profile-box{
+		text-align: center;
+	}
+	
+	.profile-img{
+		background: #f3f3f3;
+		width: 130px;
+		height: 130px;
+		border-radius: 55px;
+		display: inline-block;
+		margin-top: 20px;
+		background-image: url("/static/assets/img/temp/dog.PNG");
+		background-repeat: no-repeat;
+		background-size: 100% 100%;
+		box-shadow: 1px 1px 3px #cacaca;
+	}
+	
+	.nick-box{
+		text-align: center;
+		line-height: 35px;
+	}
+	
+	.nick-txt{
+		background: #f3f3f3;
+		padding : 5px 15px 5px 15px ;
+		margin-top : 5px;
+		font-size: 1.2em;
+		border-radius: 10px;
+		display: inline-block;
+		font-weight: bold;
+		color: #262626;
+	}
+	
+	.cate-box{
+		margin: 20px;
+		padding-left: 30px;
+		padding-right: 30px;
+	}
+	
+	
+	.cate-tit{
+		font-size :1.2em;
+	}
+	
+	.cate-desc{
+		font-size :0.8em;
+		margin-left: 10px;
+	}
+	
+	
 	
