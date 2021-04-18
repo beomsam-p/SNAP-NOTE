@@ -84,7 +84,7 @@ public class StudyController extends MasterController {
 			if (memberInfo != null) {
 				id = memberInfo.getId();
 
-				List<MenuDto> menuList = menuService.searchMenuList(id);
+				List<HashMap<String, Object>>  menuList = menuService.searchMenuList(id);
 				
 				model.put("list", menuList);
 				model.put("result", "00");

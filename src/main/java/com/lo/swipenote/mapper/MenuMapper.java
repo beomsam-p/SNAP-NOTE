@@ -1,5 +1,6 @@
 package com.lo.swipenote.mapper;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
@@ -11,6 +12,6 @@ import com.lo.swipenote.dto.MenuDto;
 @Repository
 public interface MenuMapper {
 	
-	public List<MenuDto> searchMenuList(String id);
+	public List<HashMap<String, Object>>  searchMenuList(String id);
 	
 }

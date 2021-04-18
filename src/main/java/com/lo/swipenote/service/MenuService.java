@@ -1,5 +1,6 @@
 package com.lo.swipenote.service;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +15,7 @@ public class MenuService {
 	@Autowired
 	MenuMapper menuMapper;
 	
-	public List<MenuDto> searchMenuList (String id){
+	public List<HashMap<String, Object>> searchMenuList (String id){
 		return menuMapper.searchMenuList(id);	
 	}
 }

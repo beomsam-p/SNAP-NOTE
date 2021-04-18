@@ -19,10 +19,9 @@ $(function(){
 			success : function(data){
 				common.loding(false);
 				if(data != null ){
-					$("#divCateBox").append(data);
+					$("#divCateBox").html(data);
 				}
 				
-				if();
 			},
 			
 			error : function(jqXHR,status,error){
