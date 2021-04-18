@@ -16,21 +16,24 @@ import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+/** AES256 암호화 유틸(양방향)
+ * @author 편범삼
+ * */
 @Component
 public class AES256Util 
 {
-
+	//iv 바이트 배열
 	public byte[] ivBytes = { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
 	
+	//암호화 키 주입
 	@Value("${aes256key}")
 	private  String key;
 	
 	 /**
 	  * 일반 문자열을 지정된 키를 이용하여 AES256 으로 암호화
-	  * @param  String - 암호화 대상 문자열
-	  * @param  String - 문자열 암호화에 사용될 키
-	  * @return String - key 로 암호화된  문자열 
-	  * @exception 
+	  * @param   	암호화 대상 문자열
+	  * @param   	문자열 암호화에 사용될 키
+	  * @return 	key 로 암호화된  문자열 
 	  */
 	 public String strEncode(String str)	throws java.io.UnsupportedEncodingException
 												 , NoSuchAlgorithmException
@@ -53,10 +56,9 @@ public class AES256Util
  
 	 /**
 	  * 암호화된 문자열을 지정된 키를 이용하여 AES256 으로 복호화
-	  * @param  String - 복호화 대상 문자열
-	  * @param  String - 문자열 복호화에 사용될 키
-	  * @return String - key 로 복호화된  문자열 
-	  * @exception 
+	  * @param   복호화 대상 문자열
+	  * @param   문자열 복호화에 사용될 키
+	  * @return  key 로 복호화된  문자열 
 	  */ 
 	 public String strDecode(String str)	throws java.io.UnsupportedEncodingException
 												 , NoSuchAlgorithmException

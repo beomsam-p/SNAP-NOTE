@@ -18,10 +18,14 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import lombok.extern.slf4j.Slf4j;
 
+/**로깅 설정 클래스
+ * @author 편범삼
+ * */
 @Slf4j
 @Component
 @Aspect
 public class LogConfig {
+	
 	//로거
 	Logger log =  LoggerFactory.getLogger(this.getClass());
 

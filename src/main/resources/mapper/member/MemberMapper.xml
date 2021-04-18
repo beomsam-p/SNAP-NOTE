@@ -1,20 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-
-
 <mapper namespace="com.lo.swipenote.mapper.MemberMapper">
+	<!-- 아이디로 유저정보 얻기 -->
     <select id="getMemberById" parameterType="String" resultType="com.lo.swipenote.dto.MemberDto">
-        SELECT *
-        FROM MEMBER
-        WHERE EMAIL = #{id}
+        SELECT	MEMB_NO
+        		ID
+ 				PWD
+ 				NICKNAME
+ 				EMAIL
+ 				PROFILE_URL
+ 				USE_YN
+ 				INS_DATE
+ 				UPT_DATE
+        FROM	MEMBER
+        WHERE	EMAIL = #{id}
     </select>
     
+    <!-- 중복된 유저정보 갯수  -->
      <select id="chkIdDuplication" parameterType="String" resultType="int">
-        SELECT COUNT(1)
-        FROM MEMBER
-        WHERE EMAIL = #{id}
+        SELECT	COUNT(1)
+        FROM	MEMBER
+        WHERE	EMAIL = #{id}
     </select>
     
+    <!-- 유저 등록  -->
     <insert id="insertMember" parameterType="com.lo.swipenote.dto.MemberDto">
     	INSERT INTO MEMBER	(ID
     						, PWD
@@ -27,7 +36,7 @@
     						, #{pwd}
     						, #{nickname}
     						, #{email}
-    						, '/'
+    						, '/'<!-- 임시경로 s3 설정후 변경  -->
     						)
     	
     </insert>

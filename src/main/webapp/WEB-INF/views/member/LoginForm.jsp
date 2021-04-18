@@ -5,19 +5,24 @@
 
 <script>
 $(function(){
+	
+	//아이디 저장을 했을 경우 쿠키에서 얻어오기
 	var saveIdVal = common.getCookie("saveId");
+	
+	//저장된 아이디 쿠키가 있을 경우에 세팅
 	if(saveIdVal!=null){
 		$("#saveId").attr("checked",true);
 		$("#id").val(saveIdVal);
 	}
 	
+	//배경 화면 세팅
 	$.backstretch([
 		"/static/assets/img/backgrounds/2.jpg"
 		, "/static/assets/img/backgrounds/3.jpg"
 		, "/static/assets/img/backgrounds/1.jpg"
 	], {duration: 5000, fade: 750});
 
-	
+	//로그인 버튼 클릭
 	$('#btnLogin').on('click', function(e) {
 		var id = $('#id');
 		var pwd = $('#pwd');
@@ -61,13 +66,14 @@ $(function(){
 		});
 	});
 	
-	
+	//비밀번호 인풋에서 엔터 눌렀을 경우 이벤트 발생
 	$("#pwd").on("keyup",function(e){
 		if(e.keyCode == 13){
 			$('#btnLogin').click();	
 		}
 	})
 	
+	//회원가입 버튼 클릭 시 페이지 이동
 	$('#btnJoin').on('click', function(e) {
 		location.href="/member/joinForm";
 	});
