@@ -9,7 +9,10 @@
 	html,body {
 	font-family: 'NanumBarunGothic', 'serif';
 	height: 100%;
+	
 	}
+	
+
 
 	.height100{
 		height: 100%;
@@ -86,7 +89,7 @@
 		width: 80px;
 		height: 80px;
 		border-radius: 50%;
-		z-index: 9;
+		z-index: 1;
 		background: #70c5c0;
 		padding: 15px;
 		box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.1);
@@ -157,7 +160,7 @@
 	  width:100%;
 	  height:100%;
 	  background:rgba(0, 0, 0, 0.5);
-	  z-index:0;
+	  z-index:2;
 	  display: none;
 	}   
 	
@@ -179,11 +182,11 @@
 	
 	
 	.txt-title{
-		color: #18181B;
+		color: #231F00;
 	}
 	
 	.txt-content{
-		color: #323234;
+		color: #574D00;
 	}
 	
 	.txt-point{
@@ -196,14 +199,13 @@
 		background-color: #f3f3f3;
 	}
 	
-	.bot-nav{
-		height: 7%;
-		background-color: #7650AC;
+	
+	.main-area{
+		background-color: #CFAA9E;
 	}
 	
-	
 	.menuBtn{
-		color: white;
+		color: #534847;
 		position:relative;
 		display: flex;
 		justify-content: center;
@@ -211,32 +213,37 @@
 		height: 100%;
 	}
 	
+	.bot-nav{
+		height: 7%;
+		background-color: white;
+	}
 	
 	.menuList{
 		position : absolute;
 		top:0;
 		left : 0;
-		background-color: #634391;
+		background-color: #CFAA9E ;
 		width: 100%;
 		height: 100%;
 		display: none;
 	}
 	
-	.btn-close{
-		font-size: 1.5em;
-		color: white;
-		margin: 20px;
-		display: flex;
-        justify-content: flex-end;
-	}
-	
 	.menu-box{
-		background-color: white;
+		background-color:  #fffff5 ;
 		border-radius: 20px;
-		height: 90%;
-		margin: 20px;
+		height: 88%;
+		margin: 5px 20px 20px 20px;
 		overflow: auto ;
 	}
+	
+	.btn-back{
+		font-size: 1.5em;
+		color: white;
+		margin : 15px 20px 10px 20px;
+        height: 3%;
+        padding: 0;
+	}
+	
 	
 	.profile-box{
 		text-align: center;
@@ -258,21 +265,22 @@
 	.nick-box{
 		text-align: center;
 		line-height: 35px;
+	
 	}
 	
 	.nick-txt{
-		background: #f3f3f3;
+		background-color: #534847; 
 		padding : 5px 15px 5px 15px ;
 		margin-top : 5px;
 		font-size: 1.2em;
 		border-radius: 10px;
 		display: inline-block;
 		font-weight: bold;
-		color: #262626;
+		color: white;
 	}
 	
 	.cate-box{
-		margin: 20px;
+		margin: 10px;
 		padding-left: 30px;
 		padding-right: 30px;
 	}
@@ -280,12 +288,26 @@
 	
 	.cate-tit{
 		font-size :1.2em;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
 	}
 	
 	.cate-desc{
 		font-size :0.8em;
-		margin-left: 10px;
+		margin-left: 10px;		
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
 	}
 	
+	.hr2px{ 
+		border-top:2px solid #CFAA9E 
+	} 
 	
+	.top-txt{
+		font-weight: bold;
+		font-size: 1.5em;
+		color: white;
+	}
 	

@@ -46,6 +46,20 @@ public class MasterController {
 		return mv;
 	}
 	
-	
+	/** 다이랙트 메소드
+	 * @param viewName	이동할 뷰 경로
+	 * @param param		jsp로 전달할 파라미터
+	 * @return			경로와 파라미터를 담은 ModelAndView 객체
+	 */
+	public ModelAndView direct(String viewName) {
+		//ModelAndView 
+		ModelAndView mv = new ModelAndView();
+		
+		//이동할 뷰네임
+		mv.setViewName("redirect:"+viewName);
+		
+		
+		return mv;
+	}
 	
 }
