@@ -11,13 +11,16 @@
 	height: 100%;
 	
 	}
-	
+		
 
 
 	.height100{
 		height: 100%;
 	}	
 	
+	.height90{
+		height: 90%;
+	}	
 	.pt20{
 		padding-top: 20px;
 	}
@@ -193,57 +196,90 @@
 		color:#B6A89B;
 	}
 	
+	.main-wrap{
+		height: 100%;
+		padding-bottom: 50px;
+		padding-top: 0;
+		padding-left: 0;
+		padding-right: 0;
+	}
 		
 	.main-content{
-		height: 93%;
+		height: 100%;
 		background-color: #f3f3f3;
+		margin: 0;
+		padding: 0;
 	}
 	
 	
 	.main-area{
-		background-color: #CFAA9E;
+		height: 100%;
 	}
 	
 	.menuBtn{
-		color: #534847;
+		color: white;
 		position:relative;
 		display: flex;
 		justify-content: center;
 		align-items: center; 
-		height: 100%;
+		height: 68%;
+		text-align: center;
 	}
 	
 	.bot-nav{
-		height: 7%;
-		background-color: white;
+		height: 50px;
+		background-color: #807097;
+		position: absolute;
+		bottom: 0;
+		width: 100%;
+		margin: 0;
+		padding: 0;
+	}
+	
+	.nav-txt{
+		font-weight: bold;
+		font-size: .8em;
+		color:  white;
+		display: block;
+		text-align: center;
+		
 	}
 	
 	.menuList{
 		position : absolute;
 		top:0;
 		left : 0;
-		background-color: #CFAA9E ;
+		background-color : white ;
 		width: 100%;
 		height: 100%;
-		display: none;
+		overflow: auto;
 	}
 	
-	.menu-box{
-		background-color:  #fffff5 ;
-		border-radius: 20px;
-		height: 88%;
-		margin: 5px 20px 20px 20px;
-		overflow: auto ;
+	
+	.back-head{
+		height: 50px;
+		display: inline-block;
 	}
 	
+	.hack-head-wrap{
+		border-bottom:1px solid #807097;
+	}
 	.btn-back{
-		font-size: 1.5em;
-		color: white;
-		margin : 15px 20px 10px 20px;
+		font-size: 1.7em;
+		color:  #807097;
+		margin : 10px 5px 20px 20px;
         height: 3%;
         padding: 0;
+        position:relative;
+        top :5px; 
+        
 	}
 	
+	.top-txt{
+		font-weight: bold;
+		font-size: 1.2em;
+		color: #807097;
+	}
 	
 	.profile-box{
 		text-align: center;
@@ -251,9 +287,9 @@
 	
 	.profile-img{
 		background: #f3f3f3;
-		width: 130px;
-		height: 130px;
-		border-radius: 55px;
+		width: 75px;
+		height: 75px;
+		border-radius: 35px;
 		display: inline-block;
 		margin-top: 20px;
 		background-image: url("/static/assets/img/temp/dog.PNG");
@@ -265,32 +301,33 @@
 	.nick-box{
 		text-align: center;
 		line-height: 35px;
+		margin-bottom: 20px;
 	
 	}
-	
 	.nick-txt{
 		background-color: #534847; 
-		padding : 5px 15px 5px 15px ;
+		padding : 1px 10px 1px 10px ;
 		margin-top : 5px;
-		font-size: 1.2em;
 		border-radius: 10px;
 		display: inline-block;
 		font-weight: bold;
 		color: white;
 	}
 	
-	.cate-box{
-		margin: 10px;
-		padding-left: 30px;
-		padding-right: 30px;
+	.cate-menu{
+		margin-bottom: 2px;		
+		padding : 5px 15px 5px 15px ;
+		font-weight: bold;	
+		/* border-bottom:2px solid #f3f3f3; */
+		background: white;
 	}
-	
 	
 	.cate-tit{
 		font-size :1.2em;
 		white-space: nowrap;
 		overflow: hidden;
 		text-overflow: ellipsis;
+		color: #333030;	
 	}
 	
 	.cate-desc{
@@ -299,15 +336,22 @@
 		white-space: nowrap;
 		overflow: hidden;
 		text-overflow: ellipsis;
+		color: #a3a1a1;
+	}
+	.cate-inner-box{
+		display: none;
+	}
+	.cate-icon{
+		font-size :0.6em;
+		position:relative;
+		top:-2px;
+		color:  #807097;
 	}
 	
-	.hr2px{ 
-		border-top:2px solid #CFAA9E 
-	} 
-	
-	.top-txt{
+	.cate-tab {
+		margin:5px;
+	}
+	.cate-tab a{
+		color: #534847;
 		font-weight: bold;
-		font-size: 1.5em;
-		color: white;
 	}
-	

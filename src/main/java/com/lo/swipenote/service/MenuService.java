@@ -15,7 +15,13 @@ public class MenuService {
 	@Autowired
 	MenuMapper menuMapper;
 	
-	public List<HashMap<String, Object>> searchMenuList (String id){
-		return menuMapper.searchMenuList(id);	
+	public List<HashMap<String, Object>> searchMenuList (String id, String tabType){
+		if(tabType.equals("Sentence")){
+			return menuMapper.searchMenuListBySentence(id);	
+		}else {
+			return menuMapper.searchMenuListByWord(id);	
+		}
+		
+		
 	}
 }

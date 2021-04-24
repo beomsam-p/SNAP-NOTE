@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -37,57 +38,33 @@ public class StudyController extends MasterController {
 	 * @return 공부 페이지 경로
 	 */
 	@LoginCheck
-	@RequestMapping(value = "/study", method = RequestMethod.GET)
-	public ModelAndView studyform(HttpSession session) {
+	@RequestMapping(value = "/category", method = RequestMethod.GET)
+	public ModelAndView studyform(HttpSession session, @RequestParam( defaultValue = "Sentence") String tabType) {
 
 		// 리턴 파라미터 선언
 		HashMap<String, Object> model = new HashMap<String, Object>();
 
-		// 뷰 경로
-		model.put("content", "study/Study.jsp");
+	
 		
 		// 세션에서 유저정보 얻기
 		MemberDto memberInfo = (MemberDto) session.getAttribute("userSession");
 	
 		// 유저 아이디 초기화
 		String nick ="";
-		if (memberInfo != null) {
-			nick = memberInfo.getNickname();
-		}
-		
-		model.put("nick",nick);
-	
-		// 경로 반환
-		return this.redirect("template/Template", model);
-	}
-
-	/**
-	 * 공부 페이지으로 이동
-	 * 
-	 * @return 공부 페이지 경로
-	 */
-	@LoginCheck
-	@RequestMapping(value = "/searchMenuList")
-	public ModelAndView searchMenuList(HttpSession session) {
-
-		// 리턴 파라미터 선언
-		HashMap<String, Object> model = new HashMap<String, Object>();
-	
-		// 세션에서 유저정보 얻기
-		MemberDto memberInfo = (MemberDto) session.getAttribute("userSession");
-
 		// 유저 아이디 초기화
 		String id = "";
 
 		try {
 			// 유저 정보가 있을 경우 아이디 얻기
 			if (memberInfo != null) {
+				nick = memberInfo.getNickname();
 				id = memberInfo.getId();
 
-				List<HashMap<String, Object>>  menuList = menuService.searchMenuList(id);
+				List<HashMap<String, Object>>  menuList = menuService.searchMenuList(id, tabType);
 				
 				model.put("list", menuList);
 				model.put("result", "00");
+				
 			} else {
 				model.put("result", "99");
 				model.put("msg", "noUserInfo");
@@ -97,8 +74,27 @@ public class StudyController extends MasterController {
 			model.put("msg", e.getMessage());
 		}
 
+		// 뷰 경로
+		model.put("content", "study/Cetegory.jsp");
+		model.put("nick",nick);
+		model.put("tabType",tabType);
 		// 경로 반환
-		return this.redirect("/study/MenuList", model);
+		return this.redirect("template/Template", model);
+	}
+
+	/** 공부 페이지으로 이동
+	 * @return 공부 페이지 경로
+	 */
+	@LoginCheck
+	@RequestMapping(value = "/study")
+	public ModelAndView searchMenuList(HttpSession session) {
+
+		// 리턴 파라미터 선언
+		HashMap<String, Object> model = new HashMap<String, Object>();
+	
+		model.put("content", "/study/Study.jsp");
+		// 경로 반환
+		return this.redirect("template/Template", model);
 	}
 
 }

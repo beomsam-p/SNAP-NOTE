@@ -1,27 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.lo.swipenote.mapper.MenuMapper">
-	<!-- 아이디로 유저정보 얻기 -->
-    <select id="searchMenuList" parameterType="String" resultType="map">
+    <select id="searchMenuListBySentence" parameterType="String" resultType="map">
 		WITH RECURSIVE HIERARCHY_MENU AS
 		(
 		    SELECT	MENU_NO
 					, TITLE
 		            , DESCRIPT
 					, FORDER_YN
-					, CONCAT(SORT) AS path
+					, CONCAT(MENU_NO) AS path
 	                , 0 AS LVL
                     , PARENT_NO
 		    FROM	MENU 
 			WHERE	PARENT_NO=0 
-				AND ID='indongcha@naver.com'
+				AND ID=#{id}
             
 		    UNION ALL
 		    SELECT	M.MENU_NO
-					, M.title
+					, M.TITLE
 		            , M.DESCRIPT
 		            , M.FORDER_YN
-		            , CONCAT(HM.PATH ,"-",M.SORT) AS PATH
+		            , CONCAT(HM.PATH ,"-",M.MENU_NO) AS PATH
 					, HM.LVL+1 AS LVL
                     , M.PARENT_NO
 		    FROM HIERARCHY_MENU HM JOIN MENU M ON HM.MENU_NO = M.PARENT_NO
@@ -29,11 +28,45 @@
 		SELECT	MENU_NO
 				, TITLE
 		        , DESCRIPT
-		        , PATH
 	            , FORDER_YN
 	            , LVL
                 , PARENT_NO
+                , (SELECT 'CHILDREN_EXIST' FROM HIERARCHY_MENU group by PARENT_NO HAVING  PARENT_NO= MENU_NO  ) AS CHILDREN
 		FROM HIERARCHY_MENU 
+		ORDER BY PATH
+	</select>
+	<select id="searchMenuListByWord" parameterType="String" resultType="map">
+		WITH RECURSIVE HIERARCHY_WORD AS
+		(
+			SELECT	WORD_NO
+					, TITLE
+					, DESCRIPT
+					, FORDER_YN
+					, CONCAT(WORD_NO) AS path
+					, 0 AS LVL
+					, PARENT_NO
+			FROM	WORD 
+			WHERE	PARENT_NO=0 
+				AND ID=#{id}
+			
+			UNION ALL
+			SELECT	W.WORD_NO
+					, W.TITLE
+					, W.DESCRIPT
+					, W.FORDER_YN
+					, CONCAT(HW.PATH ,"-",W.WORD_NO) AS PATH
+					, HW.LVL+1 AS LVL
+					, W.PARENT_NO
+			FROM HIERARCHY_WORD HW JOIN WORD W ON HW.WORD_NO = W.PARENT_NO
+		)
+		SELECT	WORD_NO
+				, TITLE
+				, DESCRIPT
+				, FORDER_YN
+				, LVL
+				, PARENT_NO
+				, (SELECT 'CHILDREN_EXIST' FROM HIERARCHY_WORD group by PARENT_NO HAVING  PARENT_NO= WORD_NO  ) AS CHILDREN
+		FROM HIERARCHY_WORD 
 		ORDER BY PATH
 	</select>
 </mapper>

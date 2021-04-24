@@ -46,14 +46,15 @@ $(function(){
 
 <%--공부페이지--%>
 <c:if test="${!result}" var="result"> 
-	<div class="container-fluid height100">
+	<jsp:include page="/WEB-INF/views/template/BotNav.jsp"/>
+	<div class="container-fluid main-wrap">
 		<div class="row main-content">
-			<div class="col-md-12 height100 main-area">
+			<div class="col-md-12  main-area">
 				<jsp:include page="/WEB-INF/views/${content}"/>
 			</div>
 		</div>	
-		<jsp:include page="/WEB-INF/views/template/BotNav.jsp"/>
 	</div>
+
 </c:if>
 		
 
