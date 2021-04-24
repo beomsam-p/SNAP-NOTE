@@ -38,6 +38,10 @@
 		margin-right: 10px;
 	}
 	
+	.ml10{
+		margin-left: 10px;
+	}
+	
 	.top-minus-10per{
 		top: -10%;
 	}
@@ -261,9 +265,22 @@
 		display: inline-block;
 	}
 	
-	.hack-head-wrap{
+	.back-head-wrap{
 		border-bottom:1px solid #807097;
 	}
+	
+	.insert-head-wrap{
+		background-color :  #807097;
+		position:fixed;
+		text-align:center;
+		line-height : 50px;
+		height: 50px;
+		bottom: 50px;
+		width:100%;
+		margin-bottom: 1px;
+		
+	}
+	
 	.btn-back{
 		font-size: 1.7em;
 		color:  #807097;
@@ -274,8 +291,16 @@
         top :5px; 
         
 	}
+	.top-insert-txt{
+		width : 50%;
+		margin-right: 20px;
+		margin-left: 20px;
+		font-weight: bold;
+		font-size: 1.2em;
+		color: #f3f3f3;
+	}
 	
-	.top-txt{
+	.top-back-txt{
 		font-weight: bold;
 		font-size: 1.2em;
 		color: #807097;
@@ -315,12 +340,18 @@
 	}
 	
 	.cate-menu{
-		margin-bottom: 2px;		
-		padding : 5px 15px 5px 15px ;
+		padding : 0;
+		padding: 0 0 5px 15px;
 		font-weight: bold;	
 		/* border-bottom:2px solid #f3f3f3; */
 		background: white;
+		
 	}
+	
+	.cate-tit-noforder:hover{
+		color : #D499B9;
+	}
+	
 	
 	.cate-tit{
 		font-size :1.2em;
@@ -329,6 +360,7 @@
 		text-overflow: ellipsis;
 		color: #333030;	
 	}
+	
 	
 	.cate-desc{
 		font-size :0.8em;
@@ -349,7 +381,7 @@
 	}
 	
 	.cate-tab {
-		margin:5px;
+		margin: 20px 10px 20px 10px;
 	}
 	.cate-tab a{
 		color: #534847;

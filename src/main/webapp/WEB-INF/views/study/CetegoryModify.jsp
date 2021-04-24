@@ -34,14 +34,9 @@ $(function(){
 			$this.children().children("span").attr("class","glyphicon glyphicon-plus cate-icon");
 			$(innerCateId).slideUp();
 		} 
+		
+		//==========================================
 	});
-	
-	
-	$("#btnCateModify").on("click",function(){
-		location.href = "/study/categoryModify";
-	});
-	
-	
 });
 
 </script>
@@ -127,7 +122,7 @@ $(function(){
 		</div>
 	</div>
 </div>
-<div class="insert-head-wrap" id="btnCateModify">
+<div class="insert-head-wrap">
 		<span class="top-insert-txt">수정</span>
 </div>
 	

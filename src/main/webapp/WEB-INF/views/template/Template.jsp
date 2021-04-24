@@ -27,7 +27,7 @@
 <%-- 공용스크립트 --%>
 <script src="/static/assets/js/common.js?ver=1.0.0"></script>
 </head>
-<body>
+<body >
 <script type="text/javascript">
 $(function(){
 	 var exception = new URLSearchParams(location.search).get("exception")

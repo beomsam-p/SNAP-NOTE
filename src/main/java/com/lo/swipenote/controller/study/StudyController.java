@@ -1,6 +1,5 @@
 package com.lo.swipenote.controller.study;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -17,7 +16,6 @@ import org.springframework.web.servlet.ModelAndView;
 import com.lo.swipenote.aop.LoginCheck;
 import com.lo.swipenote.controller.MasterController;
 import com.lo.swipenote.dto.MemberDto;
-import com.lo.swipenote.dto.MenuDto;
 import com.lo.swipenote.service.MenuService;
 
 /**
@@ -81,7 +79,22 @@ public class StudyController extends MasterController {
 		// 경로 반환
 		return this.redirect("template/Template", model);
 	}
+	
+	/** 공부 페이지으로 이동
+	 * @return 공부 페이지 경로
+	 */
+	@LoginCheck
+	@RequestMapping(value = "/categoryModify")
+	public ModelAndView categoryModify(HttpSession session) {
 
+		// 리턴 파라미터 선언
+		HashMap<String, Object> model = new HashMap<String, Object>();
+	
+		model.put("content", "/study/CetegoryModify.jsp");
+		// 경로 반환
+		return this.redirect("template/Template", model);
+	}
+	
 	/** 공부 페이지으로 이동
 	 * @return 공부 페이지 경로
 	 */
@@ -96,5 +109,6 @@ public class StudyController extends MasterController {
 		// 경로 반환
 		return this.redirect("template/Template", model);
 	}
+	
 
 }
