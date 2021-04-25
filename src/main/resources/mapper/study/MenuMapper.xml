@@ -8,8 +8,10 @@
 					, TITLE
 		            , DESCRIPT
 					, FORDER_YN
-					, CONCAT(MENU_NO) AS path
+					, CONCAT(SORT) AS path
+					, CONCAT(TITLE) AS MENU_PATH
 	                , 0 AS LVL
+	                , DEPTH
                     , PARENT_NO
 		    FROM	MENU 
 			WHERE	PARENT_NO=0 
@@ -20,8 +22,10 @@
 					, M.TITLE
 		            , M.DESCRIPT
 		            , M.FORDER_YN
-		            , CONCAT(HM.PATH ,"-",M.MENU_NO) AS PATH
+		            , CONCAT(HM.PATH ,"-",M.SORT) AS PATH
+		            , CONCAT(HM.MENU_PATH ," > ",M.TITLE) AS MENU_PATH
 					, HM.LVL+1 AS LVL
+					, M.DEPTH
                     , M.PARENT_NO
 		    FROM HIERARCHY_MENU HM JOIN MENU M ON HM.MENU_NO = M.PARENT_NO
 		)
@@ -30,6 +34,9 @@
 		        , DESCRIPT
 	            , FORDER_YN
 	            , LVL
+	            , DEPTH
+	            , PATH
+	            , MENU_PATH
                 , PARENT_NO
                 , (SELECT 'CHILDREN_EXIST' FROM HIERARCHY_MENU group by PARENT_NO HAVING  PARENT_NO= MENU_NO  ) AS CHILDREN
 		FROM HIERARCHY_MENU 
@@ -42,8 +49,10 @@
 					, TITLE
 					, DESCRIPT
 					, FORDER_YN
-					, CONCAT(WORD_NO) AS path
+					, CONCAT(SORT) AS PATH
+					, CONCAT(TITLE) AS MENU_PATH
 					, 0 AS LVL
+					, DEPTH
 					, PARENT_NO
 			FROM	WORD 
 			WHERE	PARENT_NO=0 
@@ -54,8 +63,10 @@
 					, W.TITLE
 					, W.DESCRIPT
 					, W.FORDER_YN
-					, CONCAT(HW.PATH ,"-",W.WORD_NO) AS PATH
+					, CONCAT(HW.PATH ,"-",W.SORT) AS PATH
+					, CONCAT(HW.MENU_PATH ," > ",W.TITLE) AS MENU_PATH
 					, HW.LVL+1 AS LVL
+					, W.DEPTH
 					, W.PARENT_NO
 			FROM HIERARCHY_WORD HW JOIN WORD W ON HW.WORD_NO = W.PARENT_NO
 		)
@@ -63,7 +74,10 @@
 				, TITLE
 				, DESCRIPT
 				, FORDER_YN
+				, PATH
+				, MENU_PATH
 				, LVL
+				, DEPTH
 				, PARENT_NO
 				, (SELECT 'CHILDREN_EXIST' FROM HIERARCHY_WORD group by PARENT_NO HAVING  PARENT_NO= WORD_NO  ) AS CHILDREN
 		FROM HIERARCHY_WORD 

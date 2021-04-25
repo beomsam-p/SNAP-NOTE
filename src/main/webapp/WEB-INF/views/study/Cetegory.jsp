@@ -38,7 +38,7 @@ $(function(){
 	
 	
 	$("#btnCateModify").on("click",function(){
-		location.href = "/study/categoryModify";
+		location.href = "/study/categoryModify?tabType=Sentence";
 	});
 	
 	
@@ -52,8 +52,10 @@ $(function(){
 	<div class="back-head-wrap">
 		<div class="back-head">
 			<span id="btnBack" class="glyphicon glyphicon-menu-left btn-back"></span>
+			<span class="top-back-txt">카테고리</span>
+			<span id="btnCateModify" class="glyphicon glyphicon-cog btn-setting"></span>
 		</div>
-		<span class="top-back-txt">노트 정리함</span>
+		
 	</div>
 	<div class="menu-box">
 		<%-- <div class="profile-box">
@@ -76,7 +78,7 @@ $(function(){
 			
 				<div class="cate-menu <c:if test="${menu.LVL ne 0}"> cate-lvl0 </c:if>"
 					
-					style="	margin-left: ${10*menu.LVL+10}px;"
+					style="	margin-left: ${5*menu.LVL+10}px;"
 					
 					data-forder="${menu.FORDER_YN}"
 					data-parent="${menu.PARENT_NO}"
@@ -93,12 +95,12 @@ $(function(){
 				 
 					<div class="cate-tit <c:if test="${menu.FORDER_YN eq 'N'}">cate-tit-noforder</c:if>"
 						style="">
+						<c:if test="${menu.FORDER_YN eq 'N'}">
+							<i><span class="glyphicon glyphicon-folder-open ml10"></span></i>
+						</c:if>
 						${menu.TITLE} 
 						<c:if test="${menu.CHILDREN eq 'CHILDREN_EXIST'}" var="children">
 							<span class="glyphicon glyphicon-plus cate-icon"></span>
-						</c:if>
-						<c:if test="${menu.FORDER_YN eq 'N'}">
-							<i><span class="glyphicon glyphicon-folder-open ml10"></span></i>
 						</c:if>
 					</div>
 					
@@ -127,7 +129,5 @@ $(function(){
 		</div>
 	</div>
 </div>
-<div class="insert-head-wrap" id="btnCateModify">
-		<span class="top-insert-txt">수정</span>
-</div>
+
 	

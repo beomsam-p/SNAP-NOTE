@@ -98,7 +98,11 @@ $(function(){
 				<a id="btnJoin" class="btn btn-join btn-lg btn-block">회원가입</a>
 			</div>
 			<div class="clearfix">
-				<label class="pull-left checkbox-inline"><input type="checkbox" id="saveId" name="saveId" value="saveId">아이디 저장</label>
+				<label class="pull-left checkbox-inline">
+					<input type="checkbox" id="saveId" name="saveId" value="saveId">아이디 저장
+				</label> 
+				<!-- <input type="checkbox" id="saveId" name="saveId" value="saveId"/> 
+				<label for="saveId"> <span></span> 아이디 저장</label> -->
 				<a href="javascript:void(0);" class="findPwd pull-right">비밀번호 찾기</a>
 			</div>
 		</form>
