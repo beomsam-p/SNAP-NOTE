@@ -407,6 +407,8 @@ height: 100%;
 
 
 /*===================카테고리 수정페이지 팝업==============*/
+
+
 .modify-pop{
 	position:fixed;
 	border-radius: 5px;
@@ -415,12 +417,12 @@ height: 100%;
 	top: 50%;
 	left : 50%;
 	margin-left : -150px;
-	margin-top : -150px;
+	margin-top : -210px;
 	background-color: white;
 	box-shadow: 3px 3px 10px #534847;
 	z-index : 4;
 	display: none; 
-	
+	padding-bottom: 20px;
 	
 }
 
@@ -463,6 +465,7 @@ height: 100%;
 	text-align: center;
 	padding-top: 10px;	
 	float: left;
+	margin-top: 5px;
 	margin-bottom: 5px;
 }
 
@@ -481,7 +484,76 @@ height: 100%;
 }
 
 /*===================//카테고리 수정페이지 팝업==============*/
+/*===================카테고리 선택 팝업==============*/
+.select-position-pop{
+	position:fixed;
+	border-radius: 5px;
+	width: 300px;
+	height: 420px;
+	top: 50%;
+	left : 50%;
+	margin-left : -150px;
+	margin-top : -210px;
+	background-color: white;
+	box-shadow: 3px 3px 10px #534847;
+	z-index : 5;
+	display: none; 
+	padding-bottom: 20px;
+}
 
+.pop-folder-area{
+	width: 100%;
+	margin-bottom: 10px;
+}
+
+
+.pop-folder-tit{
+	font-size :1.2em;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	font-weight : bold;
+	color: #333030;	
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.pop-folder-desc{
+	font-size :0.8em;
+	margin-left: 10px;		
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	font-weight : bold;
+	color: #a3a1a1;
+}
+
+.folderRow{
+	background-color: #f3f3f3;
+	height: 50px;
+	margin-top: 10px;
+}
+.radioCell{
+	display: flex;
+    align-items: center;
+	height: 100%;
+	text-align: center;
+}
+
+.textCell{
+	margin-top:5px;
+	height: 100%;
+	vertical-align: middle;
+	
+}
+
+.path-explorer{
+	font-size :1.1em;
+	font-weight : bold;
+	color: #333030;	
+	margin-bottom: 5px;
+}
+/*===================//카테고리 선택 팝업==============*/
 
 
 

@@ -117,6 +117,45 @@ public class StudyController extends MasterController {
 		return this.redirect("template/Template", model);
 	}
 	
+	
+	/** 공부 페이지으로 이동
+	 * @return 공부 페이지 경로
+	 */
+	@LoginCheck
+	@ResponseBody
+	@RequestMapping(value = "/selectPosition")
+	public HashMap<String, Object> selectPosition(HttpSession session, String tabType, String menuNo) {
+
+		// 리턴 파라미터 선언
+		HashMap<String, Object> model = new HashMap<String, Object>();
+		
+		// 세션에서 유저정보 얻기
+		MemberDto memberInfo = (MemberDto) session.getAttribute("userSession");
+	
+		// 유저 아이디 초기화
+		String id = "";
+		
+		//try {
+			if (memberInfo != null) {
+				id = memberInfo.getId();
+				model.put("result","00");
+				model.put("list", menuService.searchUnderMenuListByNo(menuNo, tabType, id));		
+			}else {
+				model.put("result", "99");
+				model.put("msg", "noUserInfo");
+			}
+			
+		//} catch (Exception e) {
+		//	model.put("result","99");	
+		//	model.put("msg",e.getMessage());
+		//}
+		
+		return model;
+	}
+	
+	
+	
+	
 	/** 공부 페이지으로 이동
 	 * @return 공부 페이지 경로
 	 */

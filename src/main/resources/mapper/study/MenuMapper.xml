@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.lo.swipenote.mapper.MenuMapper">
-    <select id="searchMenuListBySentence" parameterType="String" resultType="map">
+    <select id="searchSendtenceMenuListById" parameterType="String" resultType="map">
 		WITH RECURSIVE HIERARCHY_MENU AS
 		(
 		    SELECT	MENU_NO
@@ -42,7 +42,7 @@
 		FROM HIERARCHY_MENU 
 		ORDER BY PATH
 	</select>
-	<select id="searchMenuListByWord" parameterType="String" resultType="map">
+	<select id="searchWordMenuListById" parameterType="String" resultType="map">
 		WITH RECURSIVE HIERARCHY_WORD AS
 		(
 			SELECT	WORD_NO
@@ -82,5 +82,43 @@
 				, (SELECT 'CHILDREN_EXIST' FROM HIERARCHY_WORD group by PARENT_NO HAVING  PARENT_NO= WORD_NO  ) AS CHILDREN
 		FROM HIERARCHY_WORD 
 		ORDER BY PATH
+	</select>
+	
+	
+	<select id="searchSentenceUnderMenuListByMenoNo" parameterType="map" resultType="map">
+		SELECT	MENU_NO
+				, ID
+				, TITLE
+		        , DESCRIPT
+		        , DEPTH
+		        , SORT
+		        , PARENT_NO
+		        , FORDER_YN
+		        , USE_YN
+		        , INS_DATE
+		        , UPT_DATE
+		        , (SELECT COUNT(1) FROM MENU WHERE PARENT_NO = M.MENU_NO ) AS UNDER_COUNT
+		FROM	MENU M
+		WHERE	PARENT_NO = #{menuNo}
+			AND	ID = #{id};
+	</select>
+	
+	
+	<select id="searchWordUnderMenuListByMenoNo" parameterType="String" resultType="map">
+		SELECT	WORD_NO
+				, ID
+				, TITLE
+		        , DESCRIPT
+		        , DEPTH
+		        , SORT
+		        , PARENT_NO
+		        , FORDER_YN
+		        , USE_YN
+		        , INS_DATE
+		        , UPT_DATE
+		        , (SELECT COUNT(1) FROM WORD WHERE PARENT_NO = W.WORD_NO ) AS UNDER_COUNT
+		FROM	WORD W
+		WHERE	PARENT_NO = #{menuNo}
+			AND	ID = #{id};
 	</select>
 </mapper>
