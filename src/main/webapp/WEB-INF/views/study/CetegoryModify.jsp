@@ -23,7 +23,9 @@ $(function(){
 	});
 	
 	$("[name='chkMenu']").on("change",function(e){
+		$("#divBotBtnWrap").show();
 		menuInfo.no = $(this).parent().parent().attr("id");
+		menuInfo.parent = $(this).parent().parent().data("parent");
 		menuInfo.title = $(this).parent().parent().data("title");
 		menuInfo.descript = $(this).parent().parent().data("desc");
 		menuInfo.depth = $(this).parent().parent().data("depth");
@@ -31,7 +33,8 @@ $(function(){
 	});
 	
 	$("#btnModify").on("click",function(){
-		var checkRadio = false;
+		$("#modifyPath").html("");
+		/* var checkRadio = false;
 		$("[name='chkMenu']").each(function(index, item){
 			if($(item).is(":checked")){
 				checkRadio=true;
@@ -42,13 +45,26 @@ $(function(){
 		if(!checkRadio){
 			alert("폴더를 선택해 주세요")
 			return false; //return
-		}
+		} */
 		
 		common.loding(true);
 		$("#modifyPop").fadeIn();
-		$("#title").val(menuInfo.title);
-		$("#descript").val(menuInfo.descript);
-		$("#path").html(menuInfo.path);
+		$("#modifyTitle").val(menuInfo.title);
+		$("#modifyDescript").val(menuInfo.descript);
+		
+		var arrPath = menuInfo.path.split(">");
+		
+		$(arrPath).each(function(index, item){
+			
+			var addPath = '<span class="pop-path">'+item+'</span>';
+			
+			if(arrPath.length-1 != index){
+				addPath += '<div class="path-split"><span class="glyphicon glyphicon-chevron-right"></span></div>';
+			}
+			
+			$("#modifyPath").append(addPath);
+			
+		});
 		
 		
 	});
@@ -78,18 +94,26 @@ $(function(){
 			method : "POST",        
 			dataType : "json",
 			success : function(data){
+				
+				getMenuPath(tabType, menuNo);
+				
 				$("#divAppendPoint").html("");
 				if(data.result=="00"){
-					
 					var list = data.list;
+					
+					if(data.list.length==0){
+						$("#divAppendPoint").append("<div class='empty-folder'>폴더없음</div>");
+						return;
+					}
+					
+					
 					$(list).each(function(index, item){
 						var html = "";
 						html	+= '<div class="row folderRow">'
-								+  '	<div class="col-xs-2 radioCell">'
+								+  '	<div class="col-xs-2 radioCell checks">'
 								+  '		<input type="radio" id="chkMenu'+item.MENU_NO+'" name="chkMenu" value="'+item.MENU_NO+'"/>'
-								+  '		<label for="chkMenu'+item.MENU_NO+'"><span></span></label>'
 								+  '	</div>'
-								+  '	<div class="col-xs-10 textCell" id="'+item.MENU_NO+'" name="forder" data-folderyn="'+item.FORDER_YN+'">'
+								+  '	<div class="col-xs-10 textCell" id="'+item.MENU_NO+'" name="forder" data-children="'+item.CHILDREN+'">'
 								+  '  		<div  class="pop-folder-tit">'
 								+ 				item.TITLE
 								+  '		</div>'
@@ -101,22 +125,23 @@ $(function(){
 								
 						$("#divAppendPoint").append(html);
 						
+						console.log("======비활성화 확인=====");
+						console.log(menuInfo.no);
+						console.log(item.MENU_NO);
+						
+						
+						if(menuInfo.no == item.MENU_NO){
+							console.log($("#chkMenu"+item.MENU_NO));
+							$("#chkMenu"+item.MENU_NO).attr("disabled","disabled");
+						}
+						console.log("====================");
 						$("[name='forder']").off().on("click",function(){
-							if($(this).data("folderyn") == 'N'){
-								alert("마지막 폴더입니다.");
-								return;
-							}
 							
 							var folderId = $(this).attr("id");
 							
 							var pathId = "path"+item.MENU_NO;
 							
 							var pathCount = $("#divPath span").length;
-							
-							var addPath = '<span id="'+pathId+'" data-no="'+item.MENU_NO+'" data-count="'+pathCount+'">'+$(this).children('.pop-folder-tit').text()+' > </span>'
-							
-							$("#divPath").append(addPath);
-							
 							
 							$("#divPath span").on("click",function(){
 								var pathMenuNo= $(this).data("no");
@@ -155,21 +180,73 @@ $(function(){
 	}
 	
 	
-	
-	$("#selectPosition").on("click",function(){
-		var tabType = "Sentence";
-		var menuNo = "0";
-		$("#divPath").html('<span id="path0" data-no="0" data-count="0">ROOT</span> > ');
+	function getMenuPath(tabType, menuNo){
 		
-		$("#path0").on("click",function(){
-			explorerFolder(tabType, menuNo);
+		$.ajax({
+			url : "/study/getMenuPath",     
+			data : {"tabType" : tabType, "menuNo" : menuNo},    
+			method : "POST",        
+			dataType : "json",
+			success : function(data){
+				
+				$("#divPath").html('<span class="pop-path" id="path0" data-no="0" data-count="0">ROOT</span>');
+				
+				$("#path0").on("click",function(){
+					explorerFolder("Sentence", "0");
+				});
+				
+				if(data.result=="00"){
+					var menuPath = data.path.MENU_PATH;
+					var path = data.path.PATH;
+					
+					var arrMenuPath = menuPath.split(">");
+					var arrPath = path.split(">");
+					
+					$(arrMenuPath).each(function(index, item){
+						
+						var addPath = '<div class="path-split"><span class="glyphicon glyphicon-chevron-right"></span></div><span class="pop-path" id="path'+arrPath[index]+'" data-no="'+arrPath[index]+'">'+item+'</span>';
+						
+						$("#divPath").append(addPath);
+						
+						$("#path"+arrPath[index]).on("click",function(){
+							explorerFolder("Sentence", arrPath[index]);
+						});
+					});
+					
+					
+					
+				}
+			}
 		});
-		
-		explorerFolder(tabType, menuNo);
-		
-		
+	}
+	
+	
+	$("#modifyPopPositionMove").on("click",function(){
+		var tabType = "Sentence";
+		var no = menuInfo.no;
+		explorerFolder(tabType, no);
 		$("#selectPositionPop").fadeIn();
 		
+	});
+	
+	$("#btnPositionSelect").on("click",function(){
+		var radioArr = $("#divAppendPoint").find("input");
+		
+		var radioChk = false;
+		$(radioArr).each(function(index, item){
+			console.log(item);
+			if($(item).is(':checked')){
+				radioChk = true;
+				return;
+			}
+		});
+		if(!radioChk){
+			alert("폴더를 선택하세요.")
+			return;
+		}
+		
+		$("#selectPositionPop").hide();
+		$("#modifyPath").html($("#divPath").html());
 		
 	});
 	
@@ -181,7 +258,7 @@ $(function(){
 		<div class="back-head modify-pop-tit-txt">
 			<span id="btnSelectPositionPopClose" class="glyphicon glyphicon-menu-left btn-back modify-pop-tit-txt"></span>
 		</div>
-		<span class="top-back-txt modify-pop-tit-txt">폴더 생성 위치 선택</span>
+		<span class="top-back-txt modify-pop-tit-txt">폴더 이동 위치 선택</span>
 	</div>
 	<div class="modify-pop-body">
 		<!-- 폴더  -->
@@ -199,7 +276,7 @@ $(function(){
 		</div>
 		<!-- 폴더  -->
 		<div class="form-group">
-			<div class="pop-btn-save">선택</div>
+			<div id="btnPositionSelect" class="pop-btn-full">선택</div>
 		</div>
 	</div>
 </div>
@@ -217,19 +294,18 @@ $(function(){
 	
 		<div class="form-group">
 			<label for="title">폴더명</label>
-			<input type="text" class="form-control" id="title" name="title" placeholder="이메일을 입력하세요">
+			<input type="text" class="form-control" id="addTitle" name="title" placeholder="이메일을 입력하세요.">
 		</div>
 		<div class="form-group">
 			<label for="descript">설명</label>
-			<input type="text" class="form-control" id="descript" name="descript" placeholder="암호">
+			<input type="text" class="form-control" id="addDescript" name="descript" placeholder="설명을 입력하세요.">
 		</div>
 		<div class="form-group">
 			<label for="descript">위치</label>
 			<div> 
-				<span id="path" class="pup-path"><!-- 토익단어 > 챕터1 단어 > 챕터 1-1 단어 --> 위치선택 버튼을 클릭해주세요</span>
+				<span id="addPath"><!-- 토익단어 > 챕터1 단어 > 챕터 1-1 단어 --> 위치선택 버튼을 클릭해주세요</span>
 			</div>
-			<div id="selectPosition" class="pop-btn-save">위치선택</div>
-			<div class="pop-btn-save">저장</div>
+			<div class="pop-btn-full">저장</div>
 		</div>
 	</div>
 </div>
@@ -246,20 +322,20 @@ $(function(){
 	
 		<div class="form-group">
 			<label for="title">폴더명</label>
-			<input type="text" class="form-control" id="title" name="title" placeholder="이메일을 입력하세요">
+			<input type="text" class="form-control" id="modifyTitle" name="title" placeholder="폴더명을 입력하세요.">
 		</div>
 		<div class="form-group">
 			<label for="descript">설명</label>
-			<input type="text" class="form-control" id="descript" name="descript" placeholder="암호">
+			<input type="text" class="form-control" id="modifyDescript" name="descript" placeholder="설명을 입력하세요.">
 		</div>
 		<div class="form-group">
 			<label for="descript">위치</label>
 			<div> 
-				<span id="path" class="pup-path"><!-- 토익단어 > 챕터1 단어 > 챕터 1-1 단어 --></span>
+				<span id="modifyPath" class="pup-path"><!-- 토익단어 > 챕터1 단어 > 챕터 1-1 단어 --></span>
 			</div>
-			<div class="pop-btn-float">하위 폴더 추가</div>
-			<div class="pop-btn-float">위치 변경</div>
-			<div class="pop-btn-save">저장</div>
+			<div id="modifyPopPositionMove" class=pop-btn-full>위치번경</div>
+			<div id="modifyPopSaveFolder" class="pop-btn-save">저장</div>
+			<div id="modifyPopDeleteFolder"class="pop-btn-delete">폴더 삭제</div>
 		</div>
 	</div>
 </div>
@@ -292,7 +368,7 @@ $(function(){
 			<li name="tabMenu" role="presentation" <c:if test="${tabType eq 'Sentence'}">class="active"</c:if>><a href="javascript:void(0);">Sentence</a></li>
 			<li name="tabMenu" role="presentation" <c:if test="${tabType eq 'Word'}">class="active"</c:if>><a href="javascript:void(0);">Word</a></li>
 		</ul>
-		<div style="margin-left: 10px;"
+		<div class=cate-menu-root
 			data-forder="Y"
 			data-parent=""
 			data-path="ROOT > "
@@ -369,8 +445,8 @@ $(function(){
 		</div>
 	</div>
 </div>
-<div class="insert-head-wrap">
+<div id="divBotBtnWrap" class="insert-head-wrap">
 	<div id="btnModify"  class="pop-btn-float">선택 폴더 수정</div>
-	<div id="btnAddFolder"  class="pop-btn-float">새 폴더 추가</div>
+	<div id="btnAddFolder"  class="pop-btn-float">선택 지점에 폴더 추가</div>
 </div>
 

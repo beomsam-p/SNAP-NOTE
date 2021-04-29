@@ -8,7 +8,7 @@
 					, TITLE
 		            , DESCRIPT
 					, FORDER_YN
-					, CONCAT(SORT) AS path
+					, CONCAT(MENU_NO) AS path
 					, CONCAT(TITLE) AS MENU_PATH
 	                , 0 AS LVL
 	                , DEPTH
@@ -22,8 +22,8 @@
 					, M.TITLE
 		            , M.DESCRIPT
 		            , M.FORDER_YN
-		            , CONCAT(HM.PATH ,"-",M.SORT) AS PATH
-		            , CONCAT(HM.MENU_PATH ," > ",M.TITLE) AS MENU_PATH
+		            , CONCAT(HM.PATH ,"-",M.MENU_NO) AS PATH
+		            , CONCAT(HM.MENU_PATH ,">",M.TITLE) AS MENU_PATH
 					, HM.LVL+1 AS LVL
 					, M.DEPTH
                     , M.PARENT_NO
@@ -49,7 +49,7 @@
 					, TITLE
 					, DESCRIPT
 					, FORDER_YN
-					, CONCAT(SORT) AS PATH
+					, CONCAT(WORD_NO) AS PATH
 					, CONCAT(TITLE) AS MENU_PATH
 					, 0 AS LVL
 					, DEPTH
@@ -63,8 +63,8 @@
 					, W.TITLE
 					, W.DESCRIPT
 					, W.FORDER_YN
-					, CONCAT(HW.PATH ,"-",W.SORT) AS PATH
-					, CONCAT(HW.MENU_PATH ," > ",W.TITLE) AS MENU_PATH
+					, CONCAT(HW.PATH ,"-",W.WORD_NO) AS PATH
+					, CONCAT(HW.MENU_PATH ,">",W.TITLE) AS MENU_PATH
 					, HW.LVL+1 AS LVL
 					, W.DEPTH
 					, W.PARENT_NO
@@ -100,7 +100,7 @@
 		        , (SELECT COUNT(1) FROM MENU WHERE PARENT_NO = M.MENU_NO ) AS UNDER_COUNT
 		FROM	MENU M
 		WHERE	PARENT_NO = #{menuNo}
-			AND	ID = #{id};
+			AND	ID = #{id}
 	</select>
 	
 	
@@ -119,6 +119,46 @@
 		        , (SELECT COUNT(1) FROM WORD WHERE PARENT_NO = W.WORD_NO ) AS UNDER_COUNT
 		FROM	WORD W
 		WHERE	PARENT_NO = #{menuNo}
-			AND	ID = #{id};
+			AND	ID = #{id}
 	</select>
+	
+	<select id="getMenuPath" parameterType="String" resultType="map">
+		SELECT	MENU_PATH
+				, PATH 
+		FROM	(WITH RECURSIVE HIERARCHY_MENU AS
+					(
+						SELECT	MENU_NO
+								, TITLE
+								, DESCRIPT
+								, FORDER_YN
+								, CONCAT(MENU_NO) AS PATH
+								, CONCAT(TITLE) AS MENU_PATH
+								, 0 AS LVL
+								, DEPTH
+								, PARENT_NO
+						FROM	MENU 
+						WHERE	PARENT_NO=0
+							AND ID = #{id}
+						
+						UNION ALL
+						SELECT	M.MENU_NO
+								, M.TITLE
+								, M.DESCRIPT
+								, M.FORDER_YN
+								, CONCAT(HM.PATH ,">",M.MENU_NO) AS PATH
+								, CONCAT(HM.MENU_PATH ,">",M.TITLE) AS MENU_PATH
+								, HM.LVL+1 AS LVL
+								, M.DEPTH
+								, M.PARENT_NO
+						FROM HIERARCHY_MENU HM JOIN MENU M ON HM.MENU_NO = M.PARENT_NO
+								 
+					)
+					SELECT	MENU_NO				
+							, MENU_PATH   
+							, PATH
+					FROM HIERARCHY_MENU 
+					ORDER BY PATH) MENU_PATH
+		WHERE	MENU_NO = #{menuNo}
+	</select>
+	
 </mapper>

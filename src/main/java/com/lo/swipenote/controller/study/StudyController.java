@@ -153,7 +153,35 @@ public class StudyController extends MasterController {
 		return model;
 	}
 	
+	/** 메뉴번호에 따른 패스 경로 얻기
+	 * @param session	유저 정보를 담은 세션객체
+	 * @param tabType	모드
+	 * @param menuNo	메뉴번호
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/getMenuPath",method = RequestMethod.POST)
+	public HashMap<String, Object> getMenuPath(HttpSession session, String tabType, String menuNo){
+		// 리턴 파라미터 선언
+		HashMap<String, Object> model = new HashMap<String, Object>();
+		
+		// 세션에서 유저정보 얻기
+		MemberDto memberInfo = (MemberDto) session.getAttribute("userSession");
 	
+		// 유저 아이디 초기화
+		String id = "";
+		
+		if (memberInfo != null) {
+			id = memberInfo.getId();
+			model.put("result","00");
+			model.put("path", menuService.getMenuPath(menuNo, tabType, id));		
+		}else {
+			model.put("result", "99");
+			model.put("msg", "noUserInfo");
+		}
+		
+		return model;
+	}
 	
 	
 	/** 공부 페이지으로 이동

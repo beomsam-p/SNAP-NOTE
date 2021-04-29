@@ -47,4 +47,16 @@ public class MenuService {
 			return menuMapper.searchWordUnderMenuListByMenoNo(param);	
 		}
 	}
+	
+	public HashMap<String, Object> getMenuPath(String menuNo, String tabType, String id){
+		HashMap<String, String> param = new HashMap<String, String>();
+		param.put("menuNo",menuNo);
+		param.put("id",id);
+		if(tabType.equals("Sentence")){
+			return menuMapper.getMenuPath(param);	
+		}else {
+			//todo 단어용 메퍼 만들어야함
+			return menuMapper.getMenuPath(param);
+		}
+	}
 }

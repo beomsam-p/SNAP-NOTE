@@ -294,7 +294,7 @@ height: 100%;
 	bottom: 50px;
 	width:100%;
 	margin-bottom: 1px;
-	
+	display: none;
 }
 
 .btn-back{
@@ -357,9 +357,15 @@ height: 100%;
 	padding : 0;
 	padding: 0 0 5px 10px;
 	font-weight: bold;	
-	/* border-bottom:2px solid #f3f3f3; */
 	background: white;
 	
+}
+.cate-menu-root{
+	padding : 0;
+	padding: 0 0 5px 10px;
+	font-weight: bold;
+	color:#EC7357;
+	background: white;
 }
 
 .cate-tit-noforder:hover{
@@ -413,7 +419,7 @@ height: 100%;
 	position:fixed;
 	border-radius: 5px;
 	width: 300px;
-	height: 420px;
+	height: 430px;
 	top: 50%;
 	left : 50%;
 	margin-left : -150px;
@@ -442,6 +448,7 @@ height: 100%;
 	overflow-y: auto;
 }
 
+
 .pop-btn-float{
 	width: 50%;
 	height: 40px;
@@ -456,7 +463,33 @@ height: 100%;
 	border: 1px solid white;
 }
 
+.pop-btn-delete{
+	width: 50%;
+	height: 40px;
+	background-color:#cb7575;
+	color: white;
+	font-weight: bold; 
+	text-align: center;
+	padding-top: 10px;	
+	margin-bottom: 10px;
+	float: left;
+	border: 1px solid white;
+}
+
 .pop-btn-save{
+	width: 50%;
+	height: 40px;
+	background-color:#807097;
+	color: white;
+	font-weight: bold; 
+	text-align: center;
+	padding-top: 10px;	
+	margin-bottom: 10px;
+	float: left;
+	border: 1px solid white;
+}
+
+.pop-btn-full{
 	width: 100%;
 	height: 40px;
 	background-color:#807097;
@@ -476,13 +509,50 @@ height: 100%;
 	
 }
 
-.pup-path{
+.pop-path{
 	font-weight: bold; 
-	margin-left: 10px;
+	margin-left: 5px;
+	margin-right: 5px;
 	margin-bottom: 5px; 
 	display: inline-block;
+	background-color: #807097;
+	color: white;
+	padding: 5px 10px 5px 10px;
+	border-radius: 10px;
+	font-size: 0.8em;
+}
+.pop-path2{
+	font-weight: bold; 
+	margin-left: 5px;
+	margin-right: 5px;
+	margin-bottom: 5px; 
+	display: inline-block;
+	background-color: #548687;
+	color: white;
+	padding: 5px 10px 5px 10px;
+	border-radius: 10px;
+	font-size: 0.8em;
 }
 
+.path-split{
+	color: #534847;
+	display: inline-block;
+	border-radius: 10px;
+
+}
+
+.empty-folder{
+	margin-top : 10px;
+	background-color: #f3f3f3;
+	text-align: center;
+	border-radius: 10px;
+	line-height:50px;
+	height: 50px;
+	font-weight: bold;
+	font-size: 1.2em;
+	color: #2E294E;
+	
+}
 /*===================//카테고리 수정페이지 팝업==============*/
 /*===================카테고리 선택 팝업==============*/
 .select-position-pop{
@@ -555,31 +625,13 @@ height: 100%;
 }
 /*===================//카테고리 선택 팝업==============*/
 
-
+input[type=radio]{
+  transform:scale(1.3);
+  margin-left: 10px;
+}
 
 
 
 /*===================체크박스==============*/
 	
-input[type="radio"] {
-    display:none;
-}
-
-
-input[type="radio"] + label span {
-    display: inline-block;
-    width: 20px;
-    height: 20px;
-    margin: -2px 0px 0 0;
-    vertical-align: middle;
-    background: url(/static/assets/img/input/checkbox.svg) left top no-repeat;
-    cursor: pointer;
-    background-size: cover;
-}
-
-
-input[type="radio"]:checked + label span {
-    background:url(/static/assets/img/input/checkbox.svg)  -22px top no-repeat;
-     background-size: cover;
-}
 
