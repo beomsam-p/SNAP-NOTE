@@ -704,17 +704,16 @@ input[type=radio]{
 }
 .move-cate-tit{
 	font-size :1.2em;
-	color: #333030;
 	font-weight : bold;
-	
+	color: #333030;
+	width : 100%;
+	padding-left: 80px;
 	position: relative;
 	top: -30px;
-	left : 80px;
-	padding-right : 80px;
 	
 	overflow: hidden;
 	text-overflow: ellipsis;
-	font-weight : bold;
+	
 }
 
 .move-cate-desc{

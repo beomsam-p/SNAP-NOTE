@@ -193,7 +193,7 @@ $(function(){
 		
 	</div>
 	<div class="form-group">
-		<div id="btnPositionSelect" class="pop-btn-full">선택</div>
+		<div id="btnPositionSelect" class="pop-btn-full">현 위치에 문장 생성</div>
 	</div>
 </div>
 
