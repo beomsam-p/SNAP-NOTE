@@ -6,7 +6,6 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
-import com.lo.swipenote.dto.MenuDto;
 
 @Mapper
 @Repository
@@ -42,4 +41,23 @@ public interface MenuMapper {
 	 * @return			메뉴제목 / 메뉴경로
 	 */
 	public HashMap<String, Object> getMenuPath(HashMap<String, String> param);
+	
+	
+	/** 매뉴 추가
+	 * @param 	param	문장번호 및 아이디를 담은 맵 객체
+	 * @return			메뉴제목 / 메뉴경로
+	 */
+	public int registMenu(HashMap<String, String> param);
+	
+	/** 매뉴 추가
+	 * @param 	param	문장번호 및 아이디를 담은 맵 객체
+	 * @return			메뉴제목 / 메뉴경로
+	 */
+	public int removeMenu(HashMap<String, String> param);
+	
+	/** 매뉴 수정
+	 * @param 	param	문장번호 및 아이디를 담은 맵 객체
+	 * @return			메뉴제목 / 메뉴경로
+	 */
+	public int modifyMenu(HashMap<String, String> param);
 }

@@ -106,7 +106,6 @@ $(function(){
 				<a href="javascript:void(0);" class="findPwd pull-right">비밀번호 찾기</a>
 			</div>
 		</form>
-		<c:import url="/WEB-INF/views/member/Modal.jsp"></c:import>	
 		<div class="form-group">
 			<div>Icons made by <a href="https://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
 		</div>

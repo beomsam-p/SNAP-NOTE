@@ -53,8 +53,8 @@ $(function(){
 				<jsp:include page="/WEB-INF/views/${content}"/>
 			</div>
 		</div>	
+		
 	</div>
-
 </c:if>
 		
 
@@ -69,5 +69,6 @@ $(function(){
  --%>
 
 <div class="loding"></div>
+<c:import url="/WEB-INF/views/member/Modal.jsp"></c:import>	
 </body>
 </html>

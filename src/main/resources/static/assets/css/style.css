@@ -6,13 +6,12 @@ src: url('/static/assets/fonts/nanum/NanumBarunGothic.ttf') format('embedded-ope
 url('/static/assets/fonts/nanum/NanumBarunGothic.ttf') format('ttf');
 }
 
+
 html,body {
 font-family: 'NanumBarunGothic', 'serif';
 height: 100%;
 
 }
-	
-
 
 .height100{
 	height: 100%;
@@ -96,7 +95,7 @@ height: 100%;
 	height: 80px;
 	border-radius: 50%;
 	z-index: 1;
-	background: #70c5c0;
+	background: #807097;
 	padding: 15px;
 	box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.1);
 }
@@ -105,30 +104,30 @@ height: 100%;
 	width: 100%;
 }	
 
-   .login-form input[type="checkbox"] {
-       margin-top: 2px;
-   }
-   
-   .login-form .btn-login {        
-       font-size: 16px;
-       font-weight: bold;
-	background: #70c5c0;
+.login-form input[type="checkbox"] {
+     margin-top: 2px;
+}
+ 
+.login-form .btn-login {        
+	font-size: 16px;
+	font-weight: bold;
+	background: #807097;
 	border: none;
 	color:white;
 	margin-bottom: 20px;
-   }
+}
    
-   .login-form .btn-join {        
-       font-size: 16px;
-       font-weight: bold;
+.login-form .btn-join {        
+	font-size: 16px;
+	font-weight: bold;
 	background: #808080;
 	color:white;
 	border: none;
 	margin-bottom: 20px;
-   }
+}
    
 .login-form .btn-login:hover, .login-form .btn:focus {
-	background: #50b8b3;
+	background: #807097;
        outline: none !important;
 }    
 
@@ -295,6 +294,7 @@ height: 100%;
 	width:100%;
 	margin-bottom: 1px;
 	display: none;
+	z-index: 2;
 }
 
 .btn-back{
@@ -368,10 +368,6 @@ height: 100%;
 	background: white;
 }
 
-.cate-tit-noforder:hover{
-	color : #D499B9;
-}
-
 
 .cate-tit{
 	font-size :1.2em;
@@ -379,12 +375,14 @@ height: 100%;
 	overflow: hidden;
 	text-overflow: ellipsis;
 	color: #333030;	
+	height: 25px;
+	line-height: 25px;
 }
 
 
 .cate-desc{
 	font-size :0.8em;
-	margin-left: 10px;		
+	margin-left: 35px;		
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
@@ -396,10 +394,10 @@ height: 100%;
 }
 
 .cate-icon{
-	font-size :0.6em;
+	font-size :1.2em;
 	position:relative;
-	top:-2px;
 	color:  #807097;
+	margin-right: 10px;
 }
 
 .cate-tab {
@@ -418,11 +416,11 @@ height: 100%;
 .modify-pop{
 	position:fixed;
 	border-radius: 5px;
-	width: 300px;
-	height: 430px;
+	width: 80%;
+	height: 450px;
 	top: 50%;
 	left : 50%;
-	margin-left : -150px;
+	margin-left :-40%;
 	margin-top : -210px;
 	background-color: white;
 	box-shadow: 3px 3px 10px #534847;
@@ -438,11 +436,11 @@ height: 100%;
 .pop-head-wrap{
 	border-bottom:1px solid #807097;
 	background-color:#807097;
-	height: 12%;
+	height: 45px;
 }
 
 .modify-pop-body{
-	height:88%;
+	height:360px;
 	width: 100%;
 	padding: 20px 20px 50px 20px ;
 	overflow-y: auto;
@@ -520,25 +518,18 @@ height: 100%;
 	padding: 5px 10px 5px 10px;
 	border-radius: 10px;
 	font-size: 0.8em;
-}
-.pop-path2{
-	font-weight: bold; 
-	margin-left: 5px;
-	margin-right: 5px;
-	margin-bottom: 5px; 
-	display: inline-block;
-	background-color: #548687;
-	color: white;
-	padding: 5px 10px 5px 10px;
-	border-radius: 10px;
-	font-size: 0.8em;
+	max-width : 70px;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	
 }
 
 .path-split{
 	color: #534847;
 	display: inline-block;
-	border-radius: 10px;
-
+	position: relative;
+	top: -11px;
 }
 
 .empty-folder{
@@ -558,11 +549,11 @@ height: 100%;
 .select-position-pop{
 	position:fixed;
 	border-radius: 5px;
-	width: 300px;
-	height: 420px;
+	width: 80%;
+	height: 450px;
 	top: 50%;
 	left : 50%;
-	margin-left : -150px;
+	margin-left : -40%;
 	margin-top : -210px;
 	background-color: white;
 	box-shadow: 3px 3px 10px #534847;
@@ -575,7 +566,20 @@ height: 100%;
 	width: 100%;
 	margin-bottom: 10px;
 }
-
+.pop-folder-selected-tit{
+	height:45px;
+	widows : 100%;
+	font-weight:  bold;
+	font-size: 1.2em;
+	text-align: center;	
+	color:white;
+	margin-top: 2px;
+	padding: 10px;
+	background-color:  #807097;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
 
 .pop-folder-tit{
 	font-size :1.2em;
@@ -583,24 +587,25 @@ height: 100%;
 	overflow: hidden;
 	text-overflow: ellipsis;
 	font-weight : bold;
-	color: #333030;	
-	overflow: hidden;
-	text-overflow: ellipsis;
+	color: #333030;
+	position: relative; 
+	top:5px;
 }
 
 .pop-folder-desc{
 	font-size :0.8em;
-	margin-left: 10px;		
+	margin-left: 40px;		
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
 	font-weight : bold;
 	color: #a3a1a1;
+	
 }
 
 .folderRow{
 	background-color: #f3f3f3;
-	height: 50px;
+	height: 55px;
 	margin-top: 10px;
 }
 .radioCell{
@@ -622,6 +627,12 @@ height: 100%;
 	font-weight : bold;
 	color: #333030;	
 	margin-bottom: 5px;
+	vertical-align: middle;
+}
+
+.top-minus{
+	position: relative;
+	top:-4px;
 }
 /*===================//카테고리 선택 팝업==============*/
 
@@ -632,6 +643,93 @@ input[type=radio]{
 
 
 
-/*===================체크박스==============*/
-	
+/*===================폴더이동=============*/
 
+
+.move-cate{
+	width:100%;
+	height: 100%;
+	background-color: white;
+	padding-bottom: 97px;
+	
+}
+
+
+
+.move-cate-head-wrap{
+	border-bottom:1px solid #807097;
+	background-color:#807097;
+	height:50px;
+}
+
+.move-cate-body{
+	height: 100%;
+	width: 100%;
+	padding: 20px 20px 50px 20px ;
+	overflow-y: auto;
+}
+
+
+.move-cate-context-menu{
+	z-index:2;
+    position: absolute;
+    background-color:#f3f3f3;
+  	box-shadow: 3px 3px 10px #534847;
+  	border-radius : 5px;
+  	width : 100px;
+  	height : 200px;
+    display: none;
+}
+
+
+.move-cate-context-menu-head-wrap{
+	background-color:#807097;
+	height:35px;
+	padding: 5px;
+}
+.move-cate-context{
+	font-weight: bold;
+	font-size: 0.8em;
+	color: #f3f3f3;
+}
+
+.move-cate-icon{
+	font-size :3em;
+	position:relative;
+	color:  #807097;
+	margin-left: 15px;
+	margin-right :15px;
+	position: relative;
+	top: 12px;
+}
+.move-cate-tit{
+	font-size :1.2em;
+	color: #333030;
+	font-weight : bold;
+	
+	position: relative;
+	top: -30px;
+	left : 80px;
+	padding-right : 80px;
+	
+	overflow: hidden;
+	text-overflow: ellipsis;
+	font-weight : bold;
+}
+
+.move-cate-desc{
+	font-size :0.8em;
+	margin-left: 5px;		
+	font-weight : bold;
+	color: #a3a1a1;
+	
+	overflow: hidden;
+	text-overflow: ellipsis;
+	font-weight : bold;
+}
+
+.move-cate-Row{
+	background-color: #f3f3f3;
+	height: 70px;
+	margin-top: 10px;
+}

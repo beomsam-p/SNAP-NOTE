@@ -2,45 +2,62 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.lo.swipenote.mapper.MenuMapper">
     <select id="searchSendtenceMenuListById" parameterType="String" resultType="map">
-		WITH RECURSIVE HIERARCHY_MENU AS
-		(
-		    SELECT	MENU_NO
-					, TITLE
-		            , DESCRIPT
-					, FORDER_YN
-					, CONCAT(MENU_NO) AS path
-					, CONCAT(TITLE) AS MENU_PATH
-	                , 0 AS LVL
-	                , DEPTH
-                    , PARENT_NO
-		    FROM	MENU 
-			WHERE	PARENT_NO=0 
-				AND ID=#{id}
-            
-		    UNION ALL
-		    SELECT	M.MENU_NO
-					, M.TITLE
-		            , M.DESCRIPT
-		            , M.FORDER_YN
-		            , CONCAT(HM.PATH ,"-",M.MENU_NO) AS PATH
-		            , CONCAT(HM.MENU_PATH ,">",M.TITLE) AS MENU_PATH
-					, HM.LVL+1 AS LVL
-					, M.DEPTH
-                    , M.PARENT_NO
-		    FROM HIERARCHY_MENU HM JOIN MENU M ON HM.MENU_NO = M.PARENT_NO
-		)
 		SELECT	MENU_NO
 				, TITLE
-		        , DESCRIPT
-	            , FORDER_YN
-	            , LVL
-	            , DEPTH
-	            , PATH
-	            , MENU_PATH
-                , PARENT_NO
-                , (SELECT 'CHILDREN_EXIST' FROM HIERARCHY_MENU group by PARENT_NO HAVING  PARENT_NO= MENU_NO  ) AS CHILDREN
-		FROM HIERARCHY_MENU 
-		ORDER BY PATH
+				, DESCRIPT
+				, FORDER_YN
+				, LVL
+				, DEPTH
+				, MENU_PATH
+				, PARENT_NO
+				, PATH
+				, USE_YN
+				, CHILDREN
+		FROM(
+			WITH RECURSIVE HIERARCHY_MENU AS
+			(
+				    SELECT	MENU_NO
+							, TITLE
+				            , DESCRIPT
+							, FORDER_YN
+							, CONCAT(MENU_NO) AS path
+							, CONCAT(TITLE) AS MENU_PATH
+			                , 0 AS LVL
+			                , DEPTH
+		                    , PARENT_NO
+		                    , USE_YN
+				    FROM	MENU 
+					WHERE	PARENT_NO=0 
+						AND ID=#{id}
+		            
+				    UNION ALL
+				    SELECT	M.MENU_NO
+							, M.TITLE
+				            , M.DESCRIPT
+				            , M.FORDER_YN
+				            , CONCAT(HM.PATH ,M.MENU_NO) AS PATH
+				            , CONCAT(HM.MENU_PATH ,">",M.TITLE) AS MENU_PATH
+							, HM.LVL+1 AS LVL
+							, M.DEPTH
+		                    , M.PARENT_NO
+		                    , M.USE_YN
+				    FROM HIERARCHY_MENU HM JOIN MENU M ON HM.MENU_NO = M.PARENT_NO AND M.USE_YN = 'Y'
+				)
+				SELECT	MENU_NO
+						, TITLE
+				        , DESCRIPT
+			            , FORDER_YN
+			            , LVL
+			            , DEPTH
+			            , PATH
+			            , MENU_PATH
+		                , PARENT_NO
+		                , USE_YN
+		                , (SELECT 'CHILDREN_EXIST' FROM HIERARCHY_MENU group by PARENT_NO HAVING  PARENT_NO= MENU_NO  ) AS CHILDREN
+				FROM HIERARCHY_MENU 
+				ORDER BY PATH
+			) MENU_PATH
+		WHERE USE_YN ='Y';
 	</select>
 	<select id="searchWordMenuListById" parameterType="String" resultType="map">
 		WITH RECURSIVE HIERARCHY_WORD AS
@@ -63,7 +80,7 @@
 					, W.TITLE
 					, W.DESCRIPT
 					, W.FORDER_YN
-					, CONCAT(HW.PATH ,"-",W.WORD_NO) AS PATH
+					, CONCAT(HW.PATH ,W.WORD_NO) AS PATH
 					, CONCAT(HW.MENU_PATH ,">",W.TITLE) AS MENU_PATH
 					, HW.LVL+1 AS LVL
 					, W.DEPTH
@@ -101,6 +118,7 @@
 		FROM	MENU M
 		WHERE	PARENT_NO = #{menuNo}
 			AND	ID = #{id}
+			AND USE_YN = 'Y'
 	</select>
 	
 	
@@ -120,6 +138,7 @@
 		FROM	WORD W
 		WHERE	PARENT_NO = #{menuNo}
 			AND	ID = #{id}
+			AND USE_YN = 'Y'
 	</select>
 	
 	<select id="getMenuPath" parameterType="String" resultType="map">
@@ -150,7 +169,7 @@
 								, HM.LVL+1 AS LVL
 								, M.DEPTH
 								, M.PARENT_NO
-						FROM HIERARCHY_MENU HM JOIN MENU M ON HM.MENU_NO = M.PARENT_NO
+						FROM HIERARCHY_MENU HM JOIN MENU M ON HM.MENU_NO = M.PARENT_NO AND M.USE_YN = 'Y'
 								 
 					)
 					SELECT	MENU_NO				
@@ -160,5 +179,43 @@
 					ORDER BY PATH) MENU_PATH
 		WHERE	MENU_NO = #{menuNo}
 	</select>
+	
+	<select id="getMenuLastIndex">
+		
+	</select>
+	
+	<insert id="registMenu"  parameterType="map">
+		INSERT INTO MENU(
+							MENU_NO
+							, ID
+							, TITLE
+							, DESCRIPT
+							, PARENT_NO
+						)
+				VALUES
+						(
+							NEXT_VAL('MENU')<!-- 시퀀스 함수 -->
+							, #{id}
+							, #{title}
+							, #{descript}
+							, #{parentNo}
+						)
+	</insert>
+	
+	<update id="removeMenu"  parameterType="map">
+		UPDATE	MENU
+		SET		USE_YN = 'N'
+		WHERE	MENU_NO = #{menuNo}
+			AND	ID = #{id}
+	</update>
+	
+	<update id="modifyMenu"  parameterType="map">
+		UPDATE	MENU
+		SET		PARENT_NO = #{moveNo} 
+				, TITLE = #{title} 
+				, DESCRIPT = #{descript} 
+		WHERE	MENU_NO = #{crrentNo}
+			AND	ID = #{id}
+	</update>
 	
 </mapper>
