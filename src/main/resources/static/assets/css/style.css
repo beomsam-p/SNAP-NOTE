@@ -766,7 +766,7 @@ input[type=radio]{
 	background-color : white ;
 	height:inherit;
 	width: 100%;
-	overflow: auto;
+	overflow: hidden;
 }
 
 .sentence-wrap{
@@ -774,7 +774,6 @@ input[type=radio]{
 	position: sticky; 
 	width: 100%;
 	height : 100%;
-	
 	background: linear-gradient(-45deg, #fec8c9, #807097) fixed;
 }
 
@@ -821,6 +820,50 @@ input[type=radio]{
 	float: left;
 	margin-top: 5px;
 	margin-bottom: 5px;
+}
+.sentence-append-point{
+	position : relative;
+	height: 85%;
+	padding: 20px 30px 20px 30px;
+	background-color: white;
+	border-radius: 10px;
+	color: #5e5e5f;
+	font-weight: bold;
+	overflow: auto;
+	top: -35px;
+}
+
+.word-box-temp{
+	background-color: #6E7783;
+	color: white;
+}
+
+.word-box-on{
+	background-color: #ff7473;
+	color: white;
+}
+
+
+.context-menu-wrap{
+	position: absolute;
+	top:0;
+	left: 0;
+	display: none;
+	background-color: white;
+	color: #5e5e5f;
+	box-shadow: 1px 3px 6px #5e5e5f;
+	height: 40px;
+	z-index: 3;
+	font-size :0.8em;
+	padding : 5px 10px 5px 10px;
+	border-radius: 5px;
+	text-align: center;
+	line-height: 30px;
+	font-weight: bold;
+}
+
+.context-menu{
+	margin-right: 20px;	
 }
 /* 
 .sentence-btn-delete{

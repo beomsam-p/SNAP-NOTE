@@ -39,4 +39,18 @@ public class HomeController extends MasterController{
 		//탬플릿으로 이동
 		return this.redirect("template/Template", param);
 	}
+	
+	
+	/** imgtest 이동 
+	 * @return	메인 뷰 경로
+	 * */
+	@RequestMapping("/test")
+	public ModelAndView test(HttpSession session) {
+		//파라미터 세팅
+		HashMap<String, Object> param = new HashMap<String, Object>();
+		//뷰 경로 설정
+		
+		//탬플릿으로 이동
+		return this.redirect("test", param);
+	}
 }

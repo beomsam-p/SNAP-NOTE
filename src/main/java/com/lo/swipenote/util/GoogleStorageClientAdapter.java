@@ -22,14 +22,17 @@ public class GoogleStorageClientAdapter {
     }
 
     public String upload(MultipartFile file) throws IOException {
-    	
+    	System.out.println("fileName:::"+file.getOriginalFilename());
     	
     	
         StorageObject object = new StorageObject();
         String fileNm = System.currentTimeMillis()+"_"+file.getOriginalFilename();
         
         object.setName(fileNm);
+        
         InputStream targetStream = new ByteArrayInputStream(file.getBytes());
+        
+        
         storage.objects().insert(bucketName, object, new AbstractInputStreamContent(file.getOriginalFilename()) {
             @Override
             public long getLength() throws IOException {
