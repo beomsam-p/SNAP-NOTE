@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.lo.swipenote.mapper.MenuMapper;
+import com.lo.swipenote.mapper.SentenceMapper;
 
 /** 문장 및 단어 메뉴 관련 서비스 클래스
  * @author 편범삼
@@ -17,6 +18,11 @@ public class MenuService {
 	 * */
 	@Autowired
 	MenuMapper menuMapper;
+	
+	/** 메뉴 관련 매퍼 클래스
+	 * */
+	@Autowired
+	SentenceMapper sentenceMapper;
 	
 	/** 메뉴 리스트 얻기  (탭 타입에 따라 문장 / 단어 리스트 반환)
 	 * @param id		유저아이디
@@ -65,6 +71,26 @@ public class MenuService {
 			return menuMapper.getMenuPath(param);
 		}
 	}
+	
+	/** 매뉴에 따른 경로 반환
+	 * @param menuNo	매뉴번호
+	 * @param tabType	매뉴탭 타입  (Sentence / Word)
+	 * @param id		아이디
+	 * @return
+	 */
+	public List<HashMap<String, Object>> searchSentenceListUnderFolder(String menuNo, String tabType, String id){
+		HashMap<String, String> param = new HashMap<String, String>();
+		param.put("menuNo",menuNo);
+		param.put("id",id);
+		if(tabType.equals("Sentence")){
+			return sentenceMapper.searchSentenceListUnderFolder(param);	
+		}else {
+			//todo 단어용 메퍼 만들어야함
+			return sentenceMapper.searchSentenceListUnderFolder(param);
+		}
+	}
+	
+	
 	
 	/**매뉴 추가
 	 * @param tabType	매뉴탭 타입  (Sentence / Word)

@@ -275,6 +275,7 @@ height: 100%;
 	position: sticky; 
 	top: 0;
 	z-index: 2;
+	height: 55px;
 }
 
 .btn-setting{
@@ -358,6 +359,7 @@ height: 100%;
 	padding: 0 0 5px 10px;
 	font-weight: bold;	
 	background: white;
+	margin-top: 10px;
 	
 }
 .cate-menu-root{
@@ -371,12 +373,12 @@ height: 100%;
 
 .cate-tit{
 	font-size :1.2em;
-	white-space: nowrap;
-	overflow: hidden;
-	text-overflow: ellipsis;
 	color: #333030;	
 	height: 25px;
 	line-height: 25px;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 
 
@@ -391,6 +393,7 @@ height: 100%;
 
 .cate-inner-box{
 	display: none;
+	padding-left: 15px;
 }
 
 .cate-icon{
@@ -702,6 +705,14 @@ input[type=radio]{
 	position: relative;
 	top: 12px;
 }
+
+.move-cate-icon-empty{
+	font-size :1.2em;
+	position:relative;
+	color:  #807097;
+	margin-right: 10px;
+	color: white;
+}
 .move-cate-tit{
 	font-size :1.2em;
 	font-weight : bold;
@@ -732,3 +743,113 @@ input[type=radio]{
 	height: 70px;
 	margin-top: 10px;
 }
+
+.move-cate-path{
+	font-weight: bold; 
+	margin-left: 5px;
+	margin-right: 5px;
+	margin-bottom: 5px; 
+	display: inline-block;
+	background-color: #807097;
+	color: white;
+	padding: 5px 10px 5px 10px;
+	border-radius: 10px;
+	font-size: 1.0em;
+	max-width : 100px;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	
+}
+/*===============================문장페이지================================*/
+.sentenceList{
+	background-color : white ;
+	height:inherit;
+	width: 100%;
+	overflow: auto;
+}
+
+.sentence-wrap{
+	background-color : white;
+	position: sticky; 
+	width: 100%;
+	height : 100%;
+	
+	background: linear-gradient(-45deg, #fec8c9, #807097) fixed;
+}
+
+.sentence-box{
+	display: none;
+	width: 100%;
+	height : 100%;
+}
+
+.sentence-btn-wrap{
+	width: 100%;
+	height : 100%;
+	padding-left: 20px;
+	padding-right: 20px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.sentence-btn-float{
+	width: 50%;
+	height: 40px;
+	background-color: #FFFFF3;
+	color: #534847;
+	font-weight: bold; 
+	text-align: center;
+	padding-top: 10px;	
+	margin-right:10px;
+	margin-left:10px;
+	float: left;
+	border-radius: 5px;
+	box-shadow: 1px 3px 6px #8b8687;
+	
+}
+
+.sentence-btn-full{
+	width: 100%;
+	height: 40px;
+	background-color:#566270;
+	color: #534847;
+	font-weight: bold; 
+	text-align: center;
+	padding-top: 10px;	
+	float: left;
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+/* 
+.sentence-btn-delete{
+	width: 50%;
+	height: 40px;
+	background-color:#cb7575;
+	color: white;
+	font-weight: bold; 
+	text-align: center;
+	padding-top: 10px;	
+	margin-bottom: 10px;
+	float: left;
+	border: 1px solid white;
+}
+
+.sentence-btn-save{
+	width: 50%;
+	height: 40px;
+	background-color:#807097;
+	color: white;
+	font-weight: bold; 
+	text-align: center;
+	padding-top: 10px;	
+	margin-bottom: 10px;
+	float: left;
+	border: 1px solid white;
+} */
+
+
+
+
+/*===============================/문장페이지===============================*/

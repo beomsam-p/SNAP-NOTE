@@ -30,7 +30,7 @@ public class HomeController extends MasterController{
 			//뷰 경로 설정
 			param.put("content", "Main.jsp");
 		}else {
-			return this.direct("/study/study");				
+			return this.direct("/my/myHome");				
 		}
 		
 		//뷰 경로 설정

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lo.swipenote.mapper.SentenceMapper">
+	<select id="searchSentenceListUnderFolder" parameterType="map" resultType="map">
+		SELECT	SENTENCE_NO
+				, ID
+				, MENU_NO
+				, TITLE
+				, DESCRIPT
+		        , CONTENT
+		FROM	SENTENCE
+		WHERE	TEMP_YN = 'N'
+			AND	USE_YN = 'Y'
+			AND	ID = #{id}
+			AND	MENU_NO = #{menuNo}
+	</select>
+	
+	<select id="getSentence" parameterType="map" resultType="map">
+		SELECT	SENTENCE_NO
+				, ID
+				, MENU_NO
+				, TITLE
+				, DESCRIPT
+		        , CONTENT
+		FROM	SENTENCE
+		WHERE	TEMP_YN = 'N'
+			AND	USE_YN = 'Y'
+			AND	ID = #{id}
+			AND	SENTENCE_NO = #{sentenceNo}
+	</select>
+</mapper>

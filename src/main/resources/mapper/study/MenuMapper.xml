@@ -180,9 +180,6 @@
 		WHERE	MENU_NO = #{menuNo}
 	</select>
 	
-	<select id="getMenuLastIndex">
-		
-	</select>
 	
 	<insert id="registMenu"  parameterType="map">
 		INSERT INTO MENU(

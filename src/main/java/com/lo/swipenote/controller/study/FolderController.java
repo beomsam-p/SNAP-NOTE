@@ -7,6 +7,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -23,9 +24,9 @@ import com.lo.swipenote.service.MenuService;
  * 
  * @author 편범삼
  */
-@RequestMapping("/study")
+@RequestMapping("/study/folder")
 @Controller
-public class StudyController extends MasterController {
+public class FolderController extends MasterController {
 
 	@Autowired
 	MenuService menuService;
@@ -70,7 +71,7 @@ public class StudyController extends MasterController {
 		}
 
 		// 뷰 경로
-		model.put("content", "study/Cetegory.jsp");
+		model.put("content", "study/Category.jsp");
 		model.put("tabType",tabType);
 		// 경로 반환
 		return this.redirect("template/Template", model);
@@ -112,7 +113,7 @@ public class StudyController extends MasterController {
 
 		// 뷰 경로
 		model.put("tabType",tabType);
-		model.put("content", "/study/CetegoryModify.jsp");
+		model.put("content", "/study/CategoryModify.jsp");
 		// 경로 반환
 		return this.redirect("template/Template", model);
 	}
@@ -135,7 +136,7 @@ public class StudyController extends MasterController {
 		// 유저 아이디 초기화
 		String id = "";
 		
-		//try {
+		try {
 			if (memberInfo != null) {
 				id = memberInfo.getId();
 				model.put("result","00");
@@ -145,10 +146,10 @@ public class StudyController extends MasterController {
 				model.put("msg", "noUserInfo");
 			}
 			
-		//} catch (Exception e) {
-		//	model.put("result","99");	
-		//	model.put("msg",e.getMessage());
-		//}
+		} catch (Exception e) {
+			model.put("result","99");	
+			model.put("msg",e.getMessage());
+		}
 		
 		return model;
 	}
@@ -278,24 +279,6 @@ public class StudyController extends MasterController {
 		return model;
 	}
 	
-	
-	/** 공부 페이지으로 이동
-	 * @return 공부 페이지 경로
-	 */
-	@LoginCheck
-	@RequestMapping(value = "/study")
-	public ModelAndView searchMenuList(HttpSession session) {
-
-		// 리턴 파라미터 선언
-		HashMap<String, Object> model = new HashMap<String, Object>();
-	
-		model.put("content", "/study/Study.jsp");
-		// 경로 반환
-		return this.redirect("template/Template", model);
-	}
-	
-	
-	
 	/** 폴더+글 페이지로 이동
 	 * @return 공부 페이지 경로
 	 */
@@ -311,6 +294,7 @@ public class StudyController extends MasterController {
 		// 경로 반환
 		return this.redirect("template/Template", model);
 	}
+	
 	
 
 }

@@ -19,13 +19,13 @@ $(function(){
 	});
 	
 	$("[name='tabMenu']").on("click",function(){
-		location.href="/study/category?tabType="+$(this).text();
+		location.href="/study/folder/category?tabType="+$(this).text();
 	});
 	
 	
  	$("[name='btnPlus']").off().on("click",function(e){
 		e.stopPropagation();
-		var $this = $(this).parent();
+		var $this = $(this).parent().parent();
 		console.log($this);
 		var innerCateId = "#innerCateBox"+$this.attr('id');
 		if(	$(innerCateId).css("display") == "none"){
@@ -42,12 +42,12 @@ $(function(){
 		//해당폴더 상세로 이동할 예정
 		var menuNo = $(this).parent().attr('id');
 		var tabType = "Sentence";
-		location.href = "/study/moveFolder?menuNo="+menuNo+"&tabType="+tabType;
+		location.href = "/study/folder/moveFolder?menuNo="+menuNo+"&tabType="+tabType;
 	});
 	
 	
 	$("#btnCateModify").on("click",function(){
-		location.href = "/study/categoryModify?tabType=Sentence";
+		location.href = "/study/folder/categoryModify?tabType=Sentence";
 	});
 	
 	
@@ -61,7 +61,7 @@ $(function(){
 	<div class="back-head-wrap">
 		<div class="back-head">
 			<span id="btnBack" class="glyphicon glyphicon-menu-left btn-back"></span>
-			<span class="top-back-txt">카테고리</span>
+			<span class="top-back-txt">폴더</span>
 			<span id="btnCateModify" class="glyphicon glyphicon-cog btn-setting"></span>
 		</div>
 		
@@ -93,21 +93,20 @@ $(function(){
 				id="0"
 				data-title="ROOT"
 				data-desc="ROOT">
-				<span  name="btnPlus" class="glyphicon glyphicon-minus cate-icon"></span>
-				<span class="cate-tit">
+				
+				<div class="cate-tit">
+					<span  name="btnPlus" class="glyphicon glyphicon-minus cate-icon"></span>
 					스냅노트
-				</span>
+				</div>
 						
 				<div class="cate-desc">ROOT</div>
 				
-				<div class="cate-inner-box"   id="innerCateBox0">
+				<div class="cate-inner-box"  id="innerCateBox0">
 				
 					<!-- 동적 카테고리 출력부 -->
 					<c:forEach items="${list}" var="menu" varStatus="status">
 			
 						<div class="cate-menu <c:if test="${menu.LVL ne 0}"> cate-lvl0 </c:if>"
-							
-							style="	margin-left: ${20*menu.LVL+15}px;"
 							
 							data-forder="${menu.FORDER_YN}"
 							data-parent="${menu.PARENT_NO}"
@@ -121,16 +120,21 @@ $(function(){
 								id="${menu.WORD_NO }"
 							</c:if>
 						 >
-						 	<c:if test="${menu.CHILDREN eq 'CHILDREN_EXIST'}" var="children">
+						 	
+							
+							<div class="cate-tit <c:if test="${menu.FORDER_YN eq 'N'}">cate-tit-noforder</c:if>">
+								<c:if test="${menu.CHILDREN eq 'CHILDREN_EXIST'}" var="children">
 									<span  name="btnPlus" class="glyphicon glyphicon-plus cate-icon"></span>
-							</c:if>
-							<span class="cate-tit <c:if test="${menu.FORDER_YN eq 'N'}">cate-tit-noforder</c:if>">
-									${menu.TITLE}
-							</span>
+								</c:if>
+							 	<c:if test="${!children}" >
+									<span  name="btnPlus" class="glyphicon glyphicon-unchecked move-cate-icon-empty"></span>
+								</c:if>
+								${menu.TITLE}
+							</div>
 							
 							<div class="cate-desc">${menu.DESCRIPT}</div>
 							
-							<div class="cate-inner-box" id="innerCateBox<c:if test="${tabType eq 'Sentence'}">${menu.MENU_NO }</c:if><c:if test="${tabType eq 'Word'}">${menu.WORD_NO }</c:if>">
+							<div class="cate-inner-box"  id="innerCateBox<c:if test="${tabType eq 'Sentence'}">${menu.MENU_NO }</c:if><c:if test="${tabType eq 'Word'}">${menu.WORD_NO }</c:if>">
 							
 							<c:if test="${list[status.index+1].LVL > menu.LVL}">
 							

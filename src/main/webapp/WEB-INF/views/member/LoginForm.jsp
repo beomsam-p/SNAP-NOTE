@@ -54,7 +54,7 @@ $(function(){
 				common.loding(false);
 				
 				if(data != null && data.result == "00"){
-					location.href="/study/study"
+					location.href="/my/myHome"
 				}
 				else{
 					common.showModal('SNAP NOTE 로그인',data.errorMsg);

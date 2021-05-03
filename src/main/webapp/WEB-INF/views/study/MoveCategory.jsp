@@ -4,6 +4,9 @@
 
 <script>
 $(function(){
+	var emptyFolder = false;
+	var emptyFile = false;
+	
 	$("#btnBack").on("click",function(){
 		history.back();
 	});
@@ -37,7 +40,7 @@ $(function(){
 	
 	function explorerFolder(tabType, menuNo){
 		$.ajax({
-			url : "/study/selectPosition",     
+			url : "/study/folder/selectPosition",     
 			data : {"tabType" : tabType, "menuNo" : menuNo},    
 			method : "POST",        
 			dataType : "json",
@@ -45,15 +48,15 @@ $(function(){
 				
 				getMenuPath(tabType, menuNo);
 				
-				$("[name='divAppendPoint']").html("");
+				$("[name='divAppendPointForFolder']").html("");
 				if(data.result=="00"){
 					var list = data.list;
 					
-					if(data.list.length==0){
-						$("[name='divAppendPoint']").append("<div class='empty-folder'>폴더없음</div>");
-						return;
+					if(list.length == 0){
+						emptyFolder = true;
+					}else{
+						emptyFolder = false;
 					}
-					
 					
 					$(list).each(function(index, item){
 						var html = "";
@@ -69,7 +72,7 @@ $(function(){
 								+  '</div>';
 							
 
-						$("[name='divAppendPoint']").append(html);
+						$("[name='divAppendPointForFolder']").append(html);
 						
 						
 						$("#"+item.MENU_NO).off().on("click",function(){
@@ -104,6 +107,12 @@ $(function(){
 						
 					});//each
 					
+					//파일도 얻어오기
+					searchSentence(tabType, menuNo);
+					
+					
+					
+					
 				}else{
 					common.loding(false);
 					common.showModal('SNAP NOTE','요청에 실패하였습니다.');
@@ -120,23 +129,19 @@ $(function(){
 	
 	
 	function getMenuPath(tabType, menuNo){
-		
 		$.ajax({
-			url : "/study/getMenuPath",     
+			url : "/study/folder/getMenuPath",     
 			data : {"tabType" : tabType, "menuNo" : menuNo},    
 			method : "POST",        
 			dataType : "json",
 			success : function(data){
-				$("[name='divPath']").html('<span class="pop-path" id="path0" data-no="0">스냅노트</span>');
+				$("[name='divPath']").html('<span class="move-cate-path" id="path0" data-no="0">스냅노트</span>');
+				
 				$("#path0").on("click",function(){
 					explorerFolder("Sentence", "0");
 				});
 				
 				if(data.result=="00"){
-					if(data.path==null){
-						return;
-					}
-					
 					var menuPath = data.path.MENU_PATH;
 					
 					var path = data.path.PATH;
@@ -144,7 +149,7 @@ $(function(){
 					var arrMenuPath = menuPath.split(">");
 					var arrPath = path.split(">");
 					$(arrMenuPath).each(function(index, item){
-						var addPath ='<div class="path-split"><span class="glyphicon glyphicon-chevron-right"></span></div><span class="pop-path" id="path'+arrPath[index]+'" data-no="'+arrPath[index]+'" >'+item+'</span>';
+						var addPath ='<div class="path-split"><span class="glyphicon glyphicon-chevron-right"></span></div><span class="move-cate-path" id="path'+arrPath[index]+'" data-no="'+arrPath[index]+'" >'+item+'</span>';
 						
 						$("[name='divPath']").append(addPath);
 						
@@ -152,12 +157,72 @@ $(function(){
 							explorerFolder("Sentence", arrPath[index]);
 						});
 					});
-					
-					
-					
 				}
 			}
 		});
+	}
+	
+	function searchSentence(tabType, menuNo){
+		console.log("tabType:::"+tabType);
+		console.log("menuNo:::"+menuNo);
+		
+		$.ajax({
+			url : "/study/sentence/searchSentence",     
+			data : {"tabType" : tabType, "menuNo" : menuNo},    
+			method : "POST",        
+			dataType : "json",
+			success : function(data){
+				$("[name='divAppendPointForSentence']").html("");
+				if(data.result=="00"){
+					var list = data.list;
+					
+					if(list.length == 0){
+						emptyFile = true;
+					}else{
+						emptyFile = false;
+					}
+					
+					
+					$(list).each(function(index, item){
+						var html = "";
+						html	+= '<div class="move-cate-Row">'
+								+  '	<span class="glyphicon glyphicon-file move-cate-icon"></span>'
+								+  ' 	<div  class="move-cate-tit"  id="sentence'+item.SENTENCE_NO+'" name="sentence">'
+								+ 			item.TITLE
+								+  '		<div class="move-cate-desc">'
+								+  				item.DESCRIPT
+								+  '		</div>'
+								+  '    </div>'
+								+  '</div>';
+							
+
+						$("[name='divAppendPointForSentence']").append(html);
+						
+						console.log(item.SENTENCE_NO)
+						$("#sentence"+item.SENTENCE_NO).off().on("click",function(){
+							console.log("#sentence"+item.SENTENCE_NO);
+							location.href="/study/sentence/"+item.SENTENCE_NO;
+						});//클릭
+					});//each
+					
+					console.log("emptyFile::"+emptyFile);
+					console.log("emptyFolder::"+emptyFolder);
+					
+					if(emptyFile && emptyFolder){
+						$("[name='divAppendPointForSentence']").append('<div class="empty-folder">비어 있음</div>');
+					}
+					
+				}else{
+					common.loding(false);
+					common.showModal('SNAP NOTE','요청에 실패하였습니다.');
+				}
+				
+			},
+			error : function(jqXHR,status,error){
+				common.loding(false);
+				common.showModal('SNAP NOTE 로그인','에러발생 :<br>'+error);
+			}
+		});	
 	}
 	
 });
@@ -182,7 +247,13 @@ $(function(){
 				<div class="path-explorer" name="divPath">
 					
 				</div>
-				<div class="container-fluid" name="divAppendPoint">
+				<div class="container-fluid" name="divAppendPointForFolder">
+					<!-- append list-->
+					
+					<!-- append list -->
+				</div>
+				
+				<div class="container-fluid" name="divAppendPointForSentence">
 					<!-- append list-->
 					
 					<!-- append list -->

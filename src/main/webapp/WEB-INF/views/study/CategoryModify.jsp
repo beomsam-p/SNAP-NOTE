@@ -23,14 +23,15 @@ $(function(){
 	
 	//메뉴닫기
 	$("#btnBack").on("click",function(){
-		location.href = "/study/category?tabType=Sentence";
+		location.href = "/study/folder/category?tabType=Sentence";
 	});
 	
 	$("[name='tabMenu']").on("click",function(){
-		location.href="/study/categoryModify?tabType="+$(this).text();
+		location.href="/study/folder/categoryModify?tabType="+$(this).text();
 	});
 	
 	$("[name='chkMenu']").on("change",function(e){
+		e.stopPropagation();
 		$("#divBotBtnWrap").show();
 		menuInfo.no = $(this).parent().parent().attr("id");
 		menuInfo.parent = $(this).parent().parent().data("parent");
@@ -113,7 +114,7 @@ $(function(){
 	
 	function explorerFolder(tabType, menuNo){
 		$.ajax({
-			url : "/study/selectPosition",     
+			url : "/study/folder/selectPosition",     
 			data : {"tabType" : tabType, "menuNo" : menuNo},    
 			method : "POST",        
 			dataType : "json",
@@ -134,9 +135,9 @@ $(function(){
 					$(list).each(function(index, item){
 						var html = "";
 						html	+= '<div class="row folderRow">'
-								+  '  	<div class="pop-folder-tit" id="'+item.MENU_NO+'" name="forder" data-children="'+item.CHILDREN+'">'
+								+  '  	<div class="pop-folder-tit"  name="forder" data-children="'+item.CHILDREN+'">'
 								+  '		<input style="position: relative; top:10px;" type="radio" id="chkMenu'+item.MENU_NO+'" name="chkMenu" value="'+item.MENU_NO+'" data-folderNm="'+item.TITLE+'" data-no="'+item.MENU_NO+'"  data-parent="'+item.PARENT_NO+'"/>'
-								+  '		<span style="margin-left:5px;">'+item.TITLE+'</span>'
+								+  '		<span style="margin-left:5px;" id="'+item.MENU_NO+'">'+item.TITLE+'</span>'
 								+  '		<div class="pop-folder-desc">'
 								+  				item.DESCRIPT
 								+  '		</div>'								
@@ -156,7 +157,6 @@ $(function(){
 							$("#"+item.MENU_NO).off().on("click",function(){
 								console.log(menuInfo.no);
 								console.log(item.MENU_NO);
-								
 								var folderId = $(this).attr("id");
 								
 								var pathId = "path"+item.MENU_NO;
@@ -207,7 +207,7 @@ $(function(){
 	function getMenuPath(tabType, menuNo){
 		
 		$.ajax({
-			url : "/study/getMenuPath",     
+			url : "/study/folder/getMenuPath",     
 			data : {"tabType" : tabType, "menuNo" : menuNo},    
 			method : "POST",        
 			dataType : "json",
@@ -317,7 +317,7 @@ $(function(){
 		if(!venReq){
 			venReq=true;
 			$.ajax({
-				url : "/study/saveModify",     
+				url : "/study/folder/saveModify",     
 				data : {
 							"tabType" : "Sentence"
 							, "title" : title
@@ -368,7 +368,7 @@ $(function(){
 		if(!venReq){
 			venReq=true;
 			$.ajax({
-				url : "/study/addFolder",     
+				url : "/study/folder/addFolder",     
 				data : {
 							"tabType" : "Sentence"
 							, "parentNo" : menuInfo.no
@@ -407,7 +407,7 @@ $(function(){
 		if(!venReq){
 			venReq=true;
 			$.ajax({
-				url : "/study/removeFolder",     
+				url : "/study/folder/removeFolder",     
 				data : {
 							"tabType" : "Sentence"
 							, "menuNo" : menuInfo.no
@@ -558,7 +558,7 @@ $(function(){
 		<div class="back-head">
 			<span id="btnBack" class="glyphicon glyphicon-menu-left btn-back"></span>
 		</div>
-		<span class="top-back-txt">카테고리 수정</span>
+		<span class="top-back-txt">폴더 수정</span>
 	</div>
 	<div class="menu-box">
 		<%-- <div class="profile-box">

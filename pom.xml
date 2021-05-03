@@ -16,7 +16,50 @@
 	<properties>
 		<java.version>1.8</java.version>
 	</properties>
+	
+	  <!-- [START spring_vision_bom_fragment] -->
+	  <dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-gcp-dependencies</artifactId>
+				<version>1.2.7.RELEASE</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+	  </dependencyManagement>
+	  <!-- [END spring_vision_bom_fragment] -->
+	
+	
 	<dependencies>
+		 <!-- [START spring_vision_dependency_fragment] -->
+	    <dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-gcp-starter-vision</artifactId>
+	    </dependency>
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-gcp-starter-storage</artifactId>
+		</dependency>
+	    
+	    <!-- [END spring_vision_dependency_fragment] -->
+	    
+	    
+	    <dependency>
+			<groupId>commons-fileupload</groupId>
+			<artifactId>commons-fileupload</artifactId>
+			<version>1.3.1</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/com.google.api-client/google-api-client-gson -->
+		<dependency>
+			<groupId>com.google.api-client</groupId>
+			<artifactId>google-api-client-gson</artifactId>
+			<version>1.31.2</version>
+		</dependency>
+	    
+	    
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
@@ -135,8 +178,7 @@
 		    <version>1.16</version>
 		</dependency>
 
-
-
+				
 	</dependencies>
 
 	<build>
