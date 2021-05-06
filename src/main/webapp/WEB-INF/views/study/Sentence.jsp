@@ -137,67 +137,59 @@ $(function(){
 		            success: function (data) {
 		            	
 		            	common.loding(false);
+		            	$("#btnFileToText, #btnCameraToText").hide();
+		            	$("#appendPoint").append(data.result.replace("\n","<br>"));
 						
-						var sentenceArr = data.result.split('\n');
+		            	$("#appendPoint").fadeIn();
 						
-						$("#btnFileToText, #btnCameraToText").hide()
+						$("[name='word']").off().click(function(){
+							$("[name='word']").removeClass("word-box-temp");
+							$(this).addClass("word-box-temp");
+						}); 
 						
-						var html=""
-						
-						$(sentenceArr).each(function(sentenceIdx, sentence){
-							
-							html += "<div name='sentence' id='sentence"+sentenceIdx+"'>"
-							
-							var wordArr = sentence.split(" ");
-							
-							$(wordArr).each(function(wordIdx, word){
-								 html += "<span name='word' id='s"+sentenceIdx+"word"+wordIdx+"'>" +word+" </span>";
-							})
-							
-							html+="</div>"
+						$("[name='word']").off().on("touchend",function(){
+							console.log("touchend")
 						});
 						
-						$("#appendPoint").append(html);
-						
-						$("#appendPoint").fadeIn();
-						
-						$("[name='word']").on("click",function(){
-							console.log($(this));
-						});
-						
-						
-						$("[name='word']").on('contextmenu', function(event) {
-							console.log($(this));
+					 	$("[name='word']").off().on('contextmenu', function(event) {
 							var x = event.pageX;
 							var y = event.pageY; 
-							var $this = $(this);
 							
-							if($this.hasClass("word-box-on")){
+							if($selectedNode.hasClass("word-box-on")){
 								$("#menu1").text("현광펜 제거");
+								$("#menu1").off().click(function(){
+									var nodeText = $selectedNode.text();
+									$selectedNode.remove();
+									range.insertNode(document.createTextNode(nodeText));
+									//$selectedNode.removeClass("word-box-on");
+									
+									$("#contextMenu").hide();
+								});
 							}else{
 								$("#menu1").text("현광펜");
-							}
+								$("#menu1").off().click(function(){
+									var extractText = range.extractContents().textContent;
+									var newNode = document.createElement('span');
+									newNode.innerHTML = extractText;
+									newNode.className = "word-box-on";
+									range.insertNode(newNode);
+									
+									$("#contextMenu").hide();
+								});
+							} 
 							
 							$("#contextMenu").show();
 							$("#contextMenu").css("top",y-50);
 							$("#contextMenu").css("left",x);
 										
-							$("#menu1").click(function(){
-								if($this.hasClass("word-box-on")){
-									$this.removeClass("word-box-on");
-								}else{
-									$this.addClass("word-box-on");
-								}
-								
-								$("#contextMenu").hide();
-								
-							});
+							
 							
 							$("#menu2").click(function(){
-								$this.addClass("word-box-on");
+								$("#contextMenu").hide();
 							});
+							
 							$("#menu3").click(function(){
-								$this.addClass("word-box-on");
+								$("#contextMenu").hide();
 							});
 							
 							return false;
@@ -210,6 +202,7 @@ $(function(){
 						$(document).on('contextmenu', function() {
 							return false;
 						});
+						 
 		            },
 		            error: function (e) {
 		            	common.loding(false);
@@ -224,39 +217,55 @@ $(function(){
 		}//파일 로드 end
 	
 	});
-	
-	$("[name='word']").click(function(){
-		$("[name='word']").removeClass("word-box-temp");
+	/* 
+	 $("[name='word']").off().click(function(){
+		$("[name='word']").removeClass("");
 		$(this).addClass("word-box-temp");
 	}); 
 	
-	$("[name='word']").on("touchend",function(){
+	$("[name='word']").off().on("touchend",function(){
 		console.log("touchend")
-	});
+	}); */
 	
- 	$("[name='word']").on('contextmenu', function(event) {
+ 	$(document).off().on('contextmenu', function(event) {
+ 	
 		var x = event.pageX;
-		var y = event.pageY; 
+		var y = event.pageY;
+		if(x+200 > screen.width ){
+			x = x - ((x+200) - screen.width);
+		}
+		
 		var $this = $(this);
 		
-		if($this.hasClass("word-box-on")){
-			
+	
+
+		var selObj = window.getSelection();
+		var range  = selObj.getRangeAt(0);
+		
+		var $selectedNode=$(selObj.extentNode.parentNode);
+ 		
+		if($selectedNode.hasClass("word-box-on")){
 			$("#menu1").text("현광펜 제거");
-			
-			$("#menu1").click(function(){
-				$this.removeClass("word-box-on");
+			$("#menu1").off().click(function(){
+				var nodeText = $selectedNode.text();
+				$selectedNode.remove();
+				range.insertNode(document.createTextNode(nodeText));
+				//$selectedNode.removeClass("word-box-on");
+				
 				$("#contextMenu").hide();
 			});
-			
 		}else{
-			
 			$("#menu1").text("현광펜");
-			
-			$("#menu1").click(function(){
-				$this.addClass("word-box-on");
+			$("#menu1").off().click(function(){
+				var extractText = range.extractContents().textContent;
+				var newNode = document.createElement('span');
+				newNode.innerHTML = extractText;
+				newNode.className = "word-box-on";
+				range.insertNode(newNode);
+				
 				$("#contextMenu").hide();
 			});
-		}
+		} 
 		
 		$("#contextMenu").show();
 		$("#contextMenu").css("top",y-50);
@@ -264,12 +273,13 @@ $(function(){
 					
 		
 		
-		$("#menu2").click(function(){
-			$("#contextMenu").hide();
+		$("#menu2").off().click(function(){
+			
 		});
 		
-		$("#menu3").click(function(){
-			$("#contextMenu").hide();
+		
+		
+		$("#menu3").off().click(function(){
 		});
 		
 		return false;
@@ -285,6 +295,21 @@ $(function(){
 	 
 	 
 	 
+	$("#btnFixText").on("click",function(){
+		
+		if($("#appendPoint").attr("contentEditable")){
+			alert("내용이 저장되었습니다.");
+			$("#appendPoint").removeAttr("contentEditable");
+			$("#appendPoint").removeClass("text-on");
+			
+		}else{
+			alert("내용이 수정합니다");
+			$("#appendPoint").attr("contentEditable",true);
+			$("#appendPoint").addClass("text-on");
+			$("#appendPoint").focus();
+		}
+		
+	});
 	
 });
 </script>
@@ -292,11 +317,12 @@ $(function(){
 <div id="contextMenu" class="context-menu-wrap">
 	<span id="menu1" class="context-menu">현광펜</span> 
 	<span id="menu2" class="context-menu">뜻 달기</span>
-	<span id="menu3" class="context-menu">메뉴</span> 
+	<span id="menu3" class="context-menu">삭제</span> 
 </div>
 
+<div id="btnFixText" class="sentence-btn-full">문장 입력</div>
 
-<input type="file" id="file" name="file" style="display: none;">
+<input type="file" id="file" name="file" style="display: none;" >
 <div name="sentence" id="sentenceList" class="sentenceList">
 	<div class="back-head-wrap">
 		<div class="back-head">
@@ -306,98 +332,21 @@ $(function(){
 		
 	</div>
 	<div class="sentence-wrap">
-		<div class="sentence-btn-wrap">
-			
-			 <div id="btnFileToText" class="sentence-btn-float"  style="display: none;">사진으로 문장 등록</div>
-			<div id="btnCameraToText"  class="sentence-btn-float" style="display: none;">카메라로 문장 등록</div>
-			
-			<div class="sentence-append-point" id="appendPoint" >
-				 <div name="sentence" id="sentence0">
-					<span name="word" id="word0">[Editorial] </span><span name="word" id="word1">Negative </span><span name="word" id="word2">reversal </span>
-				</div>
-				<div name="sentence" id="sentence1">
-					<span name="word" id="word0">By </span><span name="word" id="word1">Korea </span><span name="word" id="word2">Herald </span>
-					</div>
-				<div name="sentence" id="sentence2">
-						<span name="word" id="word0">Korea </span><span name="word" id="word1">set </span><span name="word" id="word2">to </span>
-						<span name="word" id="word3">record </span><span name="word" id="word4">first </span><span name="word" id="word5">monthly </span>
-						<span name="word" id="word6">current </span><span name="word" id="word7">account </span><span name="word" id="word8">deficit </span>
-						<span name="word" id="word9">in </span><span name="word" id="word10">7 </span><span name="word" id="word11">years </span>
-				</div>
-				<div name="sentence" id="sentence3">
-					<span name="word" id="word0">Published </span><span name="word" id="word1">: </span><span name="word" id="word2">Jun </span>
-					<span name="word" id="word3">3, </span><span name="word" id="word4">2019 </span><span name="word" id="word5">- </span><span name="word" id="word6">17:03 </span>
-				</div>
-				<div name="sentence" id="sentence4">
-					<span name="word" id="word0">Updated </span><span name="word" id="word1">: </span><span name="word" id="word2">Jun </span><span name="word" id="word3">3, </span>
-					<span name="word" id="word4">2019 </span><span name="word" id="word5">-17:03 </span>
-				</div>
-				<div name="sentence" id="sentence5">
-					<span name="word" id="word0">A </span><span name="word" id="word1">Afy </span>
-				</div>
-				<div name="sentence" id="sentence6">
-					<span name="word" id="word0">South </span><span name="word" id="word1">Korea </span><span name="word" id="word2">seems </span><span name="word" id="word3">set </span>
-					<span name="word" id="word4">to </span><span name="word" id="word5">record </span><span name="word" id="word6">a </span><span name="word" id="word7">current </span>
-					<span name="word" id="word8">account </span><span name="word" id="word9">deficit </span><span name="word" id="word10">in </span><span name="word" id="word11">April </span>
-					<span name="word" id="word12">for </span><span name="word" id="word13">the </span><span name="word" id="word14">first </span><span name="word" id="word15">time </span>
-					<span name="word" id="word16">since </span>
-				</div>
-				<div name="sentence" id="sentence7">
-					<span name="word" id="word0">May </span><span name="word" id="word1">2012 </span><span name="word" id="word2">in </span><span name="word" id="word3">yet </span>
-					<span name="word" id="word4">another </span><span name="word" id="word5">warning </span><span name="word" id="word6">sign </span><span name="word" id="word7">about </span>
-					<span name="word" id="word8">the </span><span name="word" id="word9">sluggish </span><span name="word" id="word10">performance </span><span name="word" id="word11">of </span>
-					<span name="word" id="word12">Asia's </span><span name="word" id="word13">fourth- </span>
-				</div>
-				<div name="sentence" id="sentence8">
-					<span name="word" id="word0">largest </span><span name="word" id="word1">economy. </span>
-				</div>
-				<div name="sentence" id="sentence9">
-					<span name="word" id="word0">With </span><span name="word" id="word1">the </span><span name="word" id="word2">Bank </span><span name="word" id="word3">of </span>
-					<span name="word" id="word4">Korea </span><span name="word" id="word5">scheduled </span><span name="word" id="word6">to </span><span name="word" id="word7">announce </span>
-					<span name="word" id="word8">official </span><span name="word" id="word9">data </span><span name="word" id="word10">this </span><span name="word" id="word11">week, </span>
-					<span name="word" id="word12">government </span>
-				</div>
-				<div name="sentence" id="sentence10">
-					<span name="word" id="word0">officials </span><span name="word" id="word1">have </span><span name="word" id="word2">indicated </span><span name="word" id="word3">that </span>
-					<span name="word" id="word4">the </span><span name="word" id="word5">country's </span><span name="word" id="word6">current </span><span name="word" id="word7">account </span>
-					<span name="word" id="word8">balance </span><span name="word" id="word9">will </span><span name="word" id="word10">tip </span><span name="word" id="word11">into </span>
-					<span name="word" id="word12">negative </span>
-				</div>
-				<div name="sentence" id="sentence11">
-					<span name="word" id="word0">territory </span><span name="word" id="word1">after </span><span name="word" id="word2">having </span><span name="word" id="word3">been </span>
-					<span name="word" id="word4">in </span><span name="word" id="word5">the </span><span name="word" id="word6">black </span><span name="word" id="word7">for </span>
-					<span name="word" id="word8">83 </span><span name="word" id="word9">straight </span><span name="word" id="word10">months </span><span name="word" id="word11">through </span>
-					<span name="word" id="word12">March. </span>
-				</div>
-				<div name="sentence" id="sentence12">
-					<span name="word" id="word0">A </span><span name="word" id="word1">statement </span><span name="word" id="word2">released </span><span name="word" id="word3">Friday </span>
-					<span name="word" id="word4">by </span><span name="word" id="word5">the </span><span name="word" id="word6">Ministry </span><span name="word" id="word7">of </span>
-					<span name="word" id="word8">Economy </span><span name="word" id="word9">and </span><span name="word" id="word10">Finance </span><span name="word" id="word11">said </span>
-					<span name="word" id="word12">there </span><span name="word" id="word13">was </span><span name="word" id="word14">a </span>
-				</div>
-				<div name="sentence" id="sentence13">
-					<span name="word" id="word0">possibility </span><span name="word" id="word1">that </span><span name="word" id="word2">the </span><span name="word" id="word3">country </span>
-					<span name="word" id="word4">would </span><span name="word" id="word5">suffer </span><span name="word" id="word6">a </span><span name="word" id="word7">"slight </span>
-					<span name="word" id="word8">current </span><span name="word" id="word9">account </span><span name="word" id="word10">deficit </span><span name="word" id="word11">temporarily" </span>
-					<span name="word" id="word12">in </span>
-				</div>
-				<div name="sentence" id="sentence14">
-					<span name="word" id="word0">April </span><span name="word" id="word1">due </span><span name="word" id="word2">to </span><span name="word" id="word3">the </span>
-					<span name="word" id="word4">payment </span><span name="word" id="word5">of </span><span name="word" id="word6">dividends </span><span name="word" id="word7">to </span>
-					<span name="word" id="word8">offshore </span><span name="word" id="word9">investors. </span>
-				</div>
-				<div name="sentence" id="sentence16">
-					<span name="word" id="word0">April </span><span name="word" id="word1">due </span><span name="word" id="word2">to </span><span name="word" id="word3">the </span>
-					<span name="word" id="word4">payment </span><span name="word" id="word5">of </span><span name="word" id="word6">dividends </span><span name="word" id="word7">to </span>
-					<span name="word" id="word8">offshore </span><span name="word" id="word9">investors. </span>
-				</div>
-				<div name="sentence" id="sentence17">
-					<span name="word" id="word0">April </span><span name="word" id="word1">due </span><span name="word" id="word2">to </span><span name="word" id="word3">the </span>
-					<span name="word" id="word4">payment </span><span name="word" id="word5">of </span><span name="word" id="word6">dividends </span><span name="word" id="word7">to </span>
-					<span name="word" id="word8">offshore </span><span name="word" id="word9">investors. </span>
-				</div>
-			</div>
+		<!-- <div class="sentence-append-point" id="appendPoint" >
+			<span name="word" id="0">[Editorial]&nbsp;</span><span name="word" id="1">Negative&nbsp;</span><span name="word" id="2">reversal&nbsp;</span><span><br></span><span name="word" id="3">By&nbsp;</span><span name="word" id="4">Korea&nbsp;</span><span name="word" id="5">Herald&nbsp;</span><span><br></span><span name="word" id="6">Korea&nbsp;</span><span name="word" id="7">set&nbsp;</span><span name="word" id="8">to&nbsp;</span><span name="word" id="9">record&nbsp;</span><span name="word" id="10">first&nbsp;</span><span name="word" id="11">monthly&nbsp;</span><span name="word" id="12">current&nbsp;</span><span name="word" id="13">account&nbsp;</span><span name="word" id="14">deficit&nbsp;</span><span name="word" id="15">in&nbsp;</span><span name="word" id="16">7&nbsp;</span><span name="word" id="17">years&nbsp;</span><span><br></span><span name="word" id="18">Published&nbsp;</span><span name="word" id="19">:&nbsp;</span><span name="word" id="20">Jun&nbsp;</span><span name="word" id="21">3,&nbsp;</span><span name="word" id="22">2019&nbsp;</span><span name="word" id="23">-&nbsp;</span><span name="word" id="24">17:03&nbsp;</span><span><br></span><span name="word" id="25">Updated&nbsp;</span><span name="word" id="26">:&nbsp;</span><span name="word" id="27">Jun&nbsp;</span><span name="word" id="28">3,&nbsp;</span><span name="word" id="29">2019&nbsp;</span><span name="word" id="30">-17:03&nbsp;</span><span><br></span><span name="word" id="31">A&nbsp;</span><span name="word" id="32">Afy&nbsp;</span><span><br></span><span name="word" id="33">South&nbsp;</span><span name="word" id="34">Korea&nbsp;</span><span name="word" id="35">seems&nbsp;</span><span name="word" id="36">set&nbsp;</span><span name="word" id="37">to&nbsp;</span><span name="word" id="38">record&nbsp;</span><span name="word" id="39">a&nbsp;</span><span name="word" id="40">current&nbsp;</span><span name="word" id="41">account&nbsp;</span><span name="word" id="42">deficit&nbsp;</span><span name="word" id="43">in&nbsp;</span><span name="word" id="44">April&nbsp;</span><span name="word" id="45">for&nbsp;</span><span name="word" id="46">the&nbsp;</span><span name="word" id="47">first&nbsp;</span><span name="word" id="48">time&nbsp;</span><span name="word" id="49">since&nbsp;</span><span><br></span><span name="word" id="50">May&nbsp;</span><span name="word" id="51">2012&nbsp;</span><span name="word" id="52">in&nbsp;</span><span name="word" id="53">yet&nbsp;</span><span name="word" id="54">another&nbsp;</span><span name="word" id="55">warning&nbsp;</span><span name="word" id="56">sign&nbsp;</span><span name="word" id="57">about&nbsp;</span><span name="word" id="58">the&nbsp;</span><span name="word" id="59">sluggish&nbsp;</span><span name="word" id="60">performance&nbsp;</span><span name="word" id="61">of&nbsp;</span><span name="word" id="62">Asia's&nbsp;</span><span name="word" id="63">fourth-&nbsp;</span><span><br></span><span name="word" id="64">largest&nbsp;</span><span name="word" id="65">economy.&nbsp;</span><span><br></span><span name="word" id="66">With&nbsp;</span><span name="word" id="67">the&nbsp;</span><span name="word" id="68">Bank&nbsp;</span><span name="word" id="69">of&nbsp;</span><span name="word" id="70">Korea&nbsp;</span><span name="word" id="71">scheduled&nbsp;</span><span name="word" id="72">to&nbsp;</span><span name="word" id="73">announce&nbsp;</span><span name="word" id="74">official&nbsp;</span><span name="word" id="75">data&nbsp;</span><span name="word" id="76">this&nbsp;</span><span name="word" id="77">week,&nbsp;</span><span name="word" id="78">government&nbsp;</span><span><br></span><span name="word" id="79">officials&nbsp;</span><span name="word" id="80">have&nbsp;</span><span name="word" id="81">indicated&nbsp;</span><span name="word" id="82">that&nbsp;</span><span name="word" id="83">the&nbsp;</span><span name="word" id="84">country's&nbsp;</span><span name="word" id="85">current&nbsp;</span><span name="word" id="86">account&nbsp;</span><span name="word" id="87">balance&nbsp;</span><span name="word" id="88">will&nbsp;</span><span name="word" id="89">tip&nbsp;</span><span name="word" id="90">into&nbsp;</span><span name="word" id="91">negative&nbsp;</span><span><br></span><span name="word" id="92">territory&nbsp;</span><span name="word" id="93">after&nbsp;</span><span name="word" id="94">having&nbsp;</span><span name="word" id="95">been&nbsp;</span><span name="word" id="96">in&nbsp;</span><span name="word" id="97">the&nbsp;</span><span name="word" id="98">black&nbsp;</span><span name="word" id="99">for&nbsp;</span><span name="word" id="100">83&nbsp;</span><span name="word" id="101">straight&nbsp;</span><span name="word" id="102">months&nbsp;</span><span name="word" id="103">through&nbsp;</span><span name="word" id="104">March.&nbsp;</span><span><br></span><span name="word" id="105">A&nbsp;</span><span name="word" id="106">statement&nbsp;</span><span name="word" id="107">released&nbsp;</span><span name="word" id="108">Friday&nbsp;</span><span name="word" id="109">by&nbsp;</span><span name="word" id="110">the&nbsp;</span><span name="word" id="111">Ministry&nbsp;</span><span name="word" id="112">of&nbsp;</span><span name="word" id="113">Economy&nbsp;</span><span name="word" id="114">and&nbsp;</span><span name="word" id="115">Finance&nbsp;</span><span name="word" id="116">said&nbsp;</span><span name="word" id="117">there&nbsp;</span><span name="word" id="118">was&nbsp;</span><span name="word" id="119">a&nbsp;</span><span><br></span><span name="word" id="120">possibility&nbsp;</span><span name="word" id="121">that&nbsp;</span><span name="word" id="122">the&nbsp;</span><span name="word" id="123">country&nbsp;</span><span name="word" id="124">would&nbsp;</span><span name="word" id="125">suffer&nbsp;</span><span name="word" id="126">a&nbsp;</span><span name="word" id="127">"slight&nbsp;</span><span name="word" id="128">current&nbsp;</span><span name="word" id="129">account&nbsp;</span><span name="word" id="130">deficit&nbsp;</span><span name="word" id="131">temporarily"&nbsp;</span><span name="word" id="132">in&nbsp;</span><span><br></span><span name="word" id="133">April&nbsp;</span><span name="word" id="134">due&nbsp;</span><span name="word" id="135">to&nbsp;</span><span name="word" id="136">the&nbsp;</span><span name="word" id="137">payment&nbsp;</span><span name="word" id="138">of&nbsp;</span><span name="word" id="139">dividends&nbsp;</span><span name="word" id="140">to&nbsp;</span><span name="word" id="141">offshore&nbsp;</span><span name="word" id="142">investors.&nbsp;</span><span><br></span><span name="word" id="143">&nbsp;</span><span><br></span>
+		</div> -->
+		<div class="sentence-append-point text-on" id="appendPoint" contentEditable="true" style="display: none;">
+				<!-- [Editorial] <br>Negative reversal By Korea Herald Korea set to record first monthly current account deficit in 7 years Published : Jun 3, 2019 - 17:03 Updated : Jun 3, 2019 -17:03 A Afy South Korea seems set to record a current account deficit in April for the first time since May 2012 in yet another warning sign about the sluggish performance of Asia's fourth- largest economy. With the Bank of Korea scheduled to announce official data this week, government officials have indicated that the country's current account balance will tip into negative territory after having been in the black for 83 straight months through March. A statement released Friday by the Ministry of Economy and Finance said there was a possibility that the country would suffer a "slight current account deficit temporarily" in April due to the payment of dividends to offshore investors. -->
 		</div>
+		
+		
+		
+		<div class="sentence-btn-wrap"  >
+			<div id="btnFileToText" class="sentence-btn-float">사진으로 문장 등록</div>
+			<div id="btnCameraToText"  class="sentence-btn-float" >카메라로 문장 등록</div>
+			
+		</div>
+		
 		
 		<div class="sentence-box">
 			<input type="text" >

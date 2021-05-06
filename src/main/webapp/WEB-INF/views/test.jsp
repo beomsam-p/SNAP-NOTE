@@ -161,10 +161,31 @@ $(function(){
 		}//파일 로드 end
 		
 	}//업로드 이벤트 정의
+	
 });
 
 </script>
+<p id="p">Select me: <i>italic</i> and <b>bold</b></p>
 
+Cloned: <span id="cloned"></span>
+<br>
+As text: <span id="astext"></span>
+
+<script>
+  document.onselectionchange = function() {
+    let selection = document.getSelection();
+
+    cloned.innerHTML = astext.innerHTML = "";
+
+    // Clone DOM nodes from ranges (we support multiselect here)
+    for (let i = 0; i < selection.rangeCount; i++) {
+      cloned.append(selection.getRangeAt(i).cloneContents());
+    }
+
+    // Get as text
+    astext.innerHTML += selection;
+  };
+</script>
 <%-- <script type="text/javascript">
     window.onload = function(){
         var canvas = document.getElementById("canvas");
