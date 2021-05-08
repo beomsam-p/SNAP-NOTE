@@ -22,7 +22,7 @@ $(function(){
 	
 });
 </script>
-<div class="row bot-nav">
+<div id="botNav" class="row bot-nav">
 	<div class="col-xs-4 height100"  >
  		<div class="menuBtn" id="btnMenuList">
 			<span class="glyphicon glyphicon-folder-open gi-1_5x "></span>

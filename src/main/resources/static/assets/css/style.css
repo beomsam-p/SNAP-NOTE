@@ -1,14 +1,12 @@
 @charset "UTF-8";
 @font-face { 
-font-family: 'NanumBarunGothic';
-src: url('/static/assets/fonts/nanum/NanumBarunGothic.ttf');
-src: url('/static/assets/fonts/nanum/NanumBarunGothic.ttf') format('embedded-opentype'),
-url('/static/assets/fonts/nanum/NanumBarunGothic.ttf') format('ttf');
+font-family: 'NanumBarunGothicLight';
+src: url('/static/assets/fonts/nanum/NanumBarunGothicLight.ttf') format('truetype');
 }
 
 
 html,body {
-font-family: 'NanumBarunGothic', 'serif';
+font-family: 'NanumBarunGothicLight';
 height: 100%;
 
 }
@@ -773,7 +771,6 @@ input[type=radio]{
 	background-color : white;
 	width: 100%;
 	height : 100%;
-	background: linear-gradient(-45deg, #fec8c9, #807097) fixed;
 }
 
 .sentence-box{
@@ -805,7 +802,6 @@ input[type=radio]{
 	float: left;
 	border-radius: 5px;
 	box-shadow: 1px 3px 6px #8b8687;
-	
 }
 
 .sentence-btn-full{
@@ -825,7 +821,9 @@ input[type=radio]{
 	float: left;
 }
 .sentence-append-point{
-	position : relative;
+	position:absolute;
+	top:0;
+	padding-top:70px;
 	width : 100%;
 	height:100%;
 	background-color: white;
@@ -837,10 +835,19 @@ input[type=radio]{
 	padding-bottom :170px;
 	white-space : normal ;
 	line-height: 200%;
+	-ms-overflow-style: none; 
 }
+
+
+.sentence-append-point::-webkit-scrollbar{ 
+	display:none; 
+}
+
 .text-on{
-	color: #a7a7a2;
+	color: #3E4348;
 }
+
+
 
 .word-box-temp{
 	background-color: #f4f7f7;
@@ -871,9 +878,53 @@ input[type=radio]{
 	font-weight: bold;
 }
 
+
 .context-menu{
 	margin-right: 20px;	
 }
+
+.tool-box-wrap{
+	position: absolute;
+	top: 50%;
+	left: 82%;
+	background-color: white;
+	color: #8b8687;
+	box-shadow: 1px 3px 6px #5e5e5f;
+	z-index: 5;
+	font-size :0.9em;
+	padding : 5px 10px 5px 10px;
+	border-radius: 5px;
+	text-align: center;
+	line-height: 20px;
+	font-weight: bold;
+	display: none;
+}
+
+.tool-box-item{
+	padding: 7px;
+}
+
+.input-word{
+	position: absolute;
+	top : 50%;
+	left: 50%;
+	margin-left : -60px;
+	margin-top : -100px;
+	z-index: 5;
+	background-color: white;
+	box-shadow: 1px 3px 6px #5e5e5f;
+	padding : 10px 10px 5px 10px;
+	display: none;
+}
+
+.words{
+	color: red;
+	height: 30px;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
 /* 
 .sentence-btn-delete{
 	width: 50%;

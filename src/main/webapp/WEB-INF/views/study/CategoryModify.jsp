@@ -540,7 +540,7 @@ $(function(){
 				</div>
 				<span id="modifyPath" class="pup-path"><!-- 토익단어 > 챕터1 단어 > 챕터 1-1 단어 --></span>
 			</div>
-			<div id="modifyPopPositionMove" class=pop-btn-full>위치번경</div>
+			<div id="modifyPopPositionMove" class="pop-btn-full">위치번경</div>
 			<div id="modifyPopSaveFolder" class="pop-btn-save">저장</div>
 			<div id="modifyPopDeleteFolder"class="pop-btn-delete">폴더 삭제</div>
 		</div>
