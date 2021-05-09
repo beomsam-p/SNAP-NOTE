@@ -173,6 +173,8 @@ $(function(){
 			dataType : "json",
 			success : function(data){
 				$("[name='divAppendPointForSentence']").html("");
+				$("#hdnMenuNo").val(menuNo);
+				console.log("hdn menuNO::"+$("#hdnMenuNo").val())
 				if(data.result=="00"){
 					var list = data.list;
 					
@@ -222,11 +224,19 @@ $(function(){
 				common.loding(false);
 				common.showModal('SNAP NOTE 로그인','에러발생 :<br>'+error);
 			}
-		});	
+		});
+		
+		$("#btnFixText").on("click",function(){
+			location.href="/study/sentence/"+$("#hdnMenuNo").val();
+		});
+		
 	}
 	
 });
 </script>
+<input type="hidden" id="hdnMenuNo"  name ="menuNo"  style="display: none;" />
+<div id="btnFixText" class="sentence-btn-full">현재폴더에 문서생성</div>
+
 <div id="divContextMenu" class='move-cate-context-menu'>
 	<div class="move-cate-context-menu-head-wrap">
 		<span class="move-cate-context">우클릭 메뉴</span>

@@ -163,7 +163,7 @@ height: 100%;
   width:100%;
   height:100%;
   background:rgba(0, 0, 0, 0.5);
-  z-index:2;
+  z-index:3;
   display: none;
 }   
 
@@ -235,7 +235,7 @@ height: 100%;
 	width: 100%;
 	margin: 0;
 	padding: 0;
-	z-index: 4;
+	z-index: 2;
 }
 
 .nav-txt{
@@ -792,8 +792,8 @@ input[type=radio]{
 .sentence-btn-float{
 	width: 50%;
 	height: 40px;
-	background-color: #FFFFF3;
-	color: #534847;
+	background-color: #807097;
+	color: white;
 	font-weight: bold; 
 	text-align: center;
 	padding-top: 10px;	
@@ -810,7 +810,7 @@ input[type=radio]{
 	width: 100%;
 	margin: 0;
 	padding: 0;
-	z-index: 4;
+	z-index: 2;
 	height: 55px;
 	line-height: 55px;
 	background-color:#807097;
@@ -880,7 +880,8 @@ input[type=radio]{
 
 
 .context-menu{
-	margin-right: 20px;	
+	margin-left: 10px;	
+	margin-right: 10px;
 }
 
 .tool-box-wrap{
@@ -917,15 +918,29 @@ input[type=radio]{
 	display: none;
 }
 
+
+.glyphicon-tag{
+	vertical-align:bottom;
+	position: relative;
+	top: -5px;
+	left: -5px;
+	color: #cbe86b;
+	background-color: white;
+}
+
+/* 
 .words{
-	color: red;
+	color: #ff7473;
 	height: 30px;
+	margin-top: -25px;
+	word-break : normal;
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
 }
 
-/* 
+
+
 .sentence-btn-delete{
 	width: 50%;
 	height: 40px;

@@ -109,6 +109,43 @@ public class SentenceController extends MasterController {
 		return model;
 	}
 	
+	/** 문장 문서 얻기
+	 * @param session	유저정보를 받아올 세션
+	 * @param tabType	매뉴탭 타입  (Sentence / Word)
+	 * @param menuNo	매뉴 번호
+	 * @return
+	 */
+	@LoginCheck
+	@ResponseBody
+	@RequestMapping(value = "/saveSentence")
+	public HashMap<String, Object> searchSentence(HttpSession session, String sentence) {
 
+		// 리턴 파라미터 선언
+		HashMap<String, Object> model = new HashMap<String, Object>();
+		
+		// 세션에서 유저정보 얻기
+		MemberDto memberInfo = (MemberDto) session.getAttribute("userSession");
+	
+		// 유저 아이디 초기화
+		String id = "";
+		
+		try {
+			if (memberInfo != null) {
+				id = memberInfo.getId();
+				model.put("result","00");
+				//model.put("list", menuService.saveSentence(sentence, id));		
+			}else {
+				model.put("result", "99");
+				model.put("msg", "noUserInfo");
+			}
+			
+		} catch (Exception e) {
+			model.put("result","99");	
+			model.put("msg",e.getMessage());
+		}
+		
+		return model;
+	}
+	
 	
 }
