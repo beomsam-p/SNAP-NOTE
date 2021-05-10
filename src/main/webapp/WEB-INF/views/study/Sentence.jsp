@@ -143,207 +143,12 @@ $(function(){
 		            success: function (data) {
 		            	
 		            	common.loding(false);
+		            	$("#btnFixText").show();
 		            	$("#btnFileToText, #btnCameraToText").hide();
 		            	$("#appendPoint").append(data.result);
 						
 		            	$("#appendPoint").fadeIn();
 		            	
-						$("[name='word']").off().click(function(){
-							$("[name='word']").removeClass("word-box-temp");
-							$(this).addClass("word-box-temp");
-						}); 
-						
-						$("[name='word']").off().on("touchend",function(){
-							console.log("touchend")
-						});
-						
-						$(document).off().on('contextmenu', function(event) {
-					 		var $this = $(this);
-
-							var selection = window.getSelection();
-							var range  = selection.getRangeAt(0);
-
-							var $selectedNode = $(selection.extentNode.parentNode);
-							var selectedNode = selection.extentNode.parentNode;
-							
-					 		if(editMode){
-					 			return;
-					 		}
-					 		
-					 		var x = event.pageX;
-							var y = event.pageY;
-							
-							if($selectedNode.hasClass("word-box-on")){
-								if(x+200 > window.innerWidth  ){
-									x = x - ((x+220) - window.innerWidth);
-								}
-								
-								$("#menu1").text("현광펜 제거");
-								
-								if($selectedNode.children(".words").length == 0){
-									$("#menu2").show();
-						 		}else{
-						 			$("#menu2").hide();
-						 		}
-								
-								$("#menu3").show();						
-								
-								$("#menu1").off().click(function(){
-									var id = $selectedNode.attr("id");
-									$("#word"+id).remove();
-								
-									var nodeText = $selectedNode.text();
-									$selectedNode.remove();
-									range.insertNode(document.createTextNode(nodeText));
-									
-									$("#contextMenu").hide();
-								});
-							}else{
-								if(x+100 > window.innerWidth  ){
-									x = x - ((x+100) - window.innerWidth);
-								}
-							
-								
-								$("#menu1").text("현광펜");
-								$("#menu2").hide();
-								$("#menu3").hide();
-								$("#menu1").off().click(function(){
-									var extractText = range.extractContents().textContent;
-									var newNode = document.createElement('span');
-									newNode.innerHTML = extractText;
-									newNode.className = "word-box-on";
-									newNode.id = highlightIdx;
-									range.insertNode(newNode);
-									highlightIdx++;
-									$("#contextMenu").hide();
-								});
-							} 
-
-							$("#contextMenu").css("top",y-50);
-							$("#contextMenu").css("left",x);
-							$("#contextMenu").show();
-							
-							
-							$("#menu2").off().click(function(){
-								common.loding(true);
-								$("#inputWord").show();
-								$("#contextMenu").hide();
-							});
-							
-							$("#btnWordOk").off().click(function(){
-								var wordVal = $("#word").val();
-								if(wordVal.trim()==""){
-									alert("단어를 입력해주세요.");
-									return;
-								}
-								
-								var top = $selectedNode.offset().top;
-								var left = $selectedNode.offset().left;
-								
-								console.log("selectedNode left::"+left);
-							
-								var wordNode = document.createElement('span');
-								
-								wordNode.innerHTML = wordVal;
-								wordNode.style.position = 'absolute';
-								wordNode.style.fontSize = '10px';
-								wordNode.style.width = $selectedNode.css("width");
-								wordNode.className = 'words';
-								wordNode.id = "word"+$selectedNode.attr("id");
-								
-								range.setStart(selectedNode,0);
-								range.insertNode(wordNode);
-								
-								//header.append(wordNode);
-								common.loding(false);
-								
-								$("#inputWord").hide();
-								
-								$("#word").val("");
-							});
-							
-							$("#btnWordCancel").off().click(function(){
-								common.loding(false);
-								$("#inputWord").hide();
-							});
-							
-							
-							
-							$("#menu3").off().click(function(){
-								//todo
-								//단어장에 저장
-							});
-							
-							return false;
-						});
-						
-						
-						$("[name='sentence']").click(function(){
-							$("#contextMenu").hide();
-						});
-						
-						$(document).on('contextmenu', function() {
-							return false;
-						});
-						
-						 
-						$("#btnFixText").on("click",function(){
-							if(!confirm("내용을 저장하면 다시 수정 하실 수 없습니다.\r\n저장 하시겠습니까?")){
-								return;
-							}
-							$("#contextMenu").hide();
-							var appendPoint = $("#appendPoint");
-							$(this).remove();
-							appendPoint.removeAttr("contentEditable");
-							appendPoint.removeClass("text-on");
-							editMode = false;
-						});
-						
-						
-						var scroll_x = 0;
-						var appendPoint = $("#appendPoint");
-						
-						$("#appendPoint").on('mousewheel', function(e){
-							toggleHaderAndBotNav(e.originalEvent.wheelDelta, 0);
-					    });
-						
-						
-						$("#appendPoint").on("touchstart",function(e){
-							scroll_x= appendPoint.scrollTop();
-						});
-						
-						$("#appendPoint").on("touchend",function(e){
-							var crrent_x =appendPoint.scrollTop();
-							toggleHaderAndBotNav(scroll_x, crrent_x);
-						});
-						
-						$("#toggleWord").on("click",function(){
-							var toggleWord = $(this);
-							if(toggleWord.hasClass("glyphicon-unchecked")){
-								toggleWord.removeClass("glyphicon-unchecked");
-								toggleWord.addClass("glyphicon-check");
-								//todo
-								//단어보임
-							}else{
-								toggleWord.addClass("glyphicon-unchecked");
-								toggleWord.removeClass("glyphicon-check");
-								//todo
-								//단어안보임
-							}
-						});
-
-						
-						$("#moveToTop").on("click",function(){
-							var appendPoint = $("#appendPoint");
-							appendPoint.animate({scrollTop:'0'},1000);
-						});
-						
-						$("#moveToDown").on("click",function(){
-							var appendPoint = $("#appendPoint");
-							appendPoint.animate({scrollTop:appendPoint.prop("scrollHeight")},1000);
-						});
-						
-						 
 		            },
 		            error: function (e) {
 		            	common.loding(false);
@@ -358,10 +163,20 @@ $(function(){
 		}//파일 로드 end
 	
 	});
-	 
+	
+	//버튼 초기화
+	if (common.isMobile()) {
+	   $("#btnSelf").hide()
+	}else{
+		$("#btnCameraToText").hide();
+	}
+	
+	
+	//에디터
 	var editMode = true; 
 	var highlightIdx = 0;
 	var lastHighlightIdx = -1;
+	
 	
 	var wordBoxOn = $(".word-box-on");
 	
@@ -383,6 +198,10 @@ $(function(){
 	if(lastHighlightIdx >-1){
 		highlightIdx = parseInt(lastHighlightIdx)+1;
 	}
+	
+	
+	var words = new Object(); 
+	
 	
  	$(document).off().on('contextmenu', function(event) {
  		var $this = $(this);
@@ -416,7 +235,12 @@ $(function(){
 			$("#menu3").show();						
 			
 			$("#menu1").off().click(function(){
-				var id = $selectedNode.attr("id");
+				var id  = $selectedNode.attr("id");
+				
+				delete words[id];
+				
+				console.log(words);
+				
 				$("#word"+id).remove();
 			
 				var nodeText = $selectedNode.text();
@@ -424,6 +248,8 @@ $(function(){
 				range.insertNode(document.createTextNode(nodeText));
 				
 				$("#contextMenu").hide();
+				
+				
 			});
 			
 		}else{
@@ -456,6 +282,7 @@ $(function(){
 		$("#menu2").off().click(function(){
 			common.loding(true);
 			$("#inputWord").show();
+			$("#targetWord").text($selectedNode.text());
 			$("#contextMenu").hide();
 		});
 		
@@ -484,7 +311,9 @@ $(function(){
 			
 			//range.setStart(selectedNode,1);
 			//range.insertNode(wordNode);
-			$("#"+$selectedNode.attr("id")).after(wordNode);
+			
+			var id  = $selectedNode.attr("id");
+			$("#"+id).after(wordNode);
 			
 			//header.append(wordNode);
 			common.loding(false);
@@ -493,10 +322,20 @@ $(function(){
 			
 			$("#word").val("");
 			
-			$("#"+$selectedNode.attr("id")).on("click",function(){
+			
+			var wordObj = new Object();
+			wordObj.wordOrg = $selectedNode.text();
+			wordObj.wordMean = wordVal;
+			console.log(wordObj);
+			
+			words[id] = wordObj;
+			console.log(words);
+			
+			
+			$("#"+id).on("click",function(){
 				common.loding(true);
 				$("#viewWord").show();
-				$("#orgWord").val($selectedNode.text());
+				$("#orgWord").text($selectedNode.text());
 				$("#meanWord").val(wordVal);
 			});
 		});
@@ -535,6 +374,7 @@ $(function(){
 		$("#contextMenu").hide();
 		var appendPoint = $("#appendPoint");
 		$(this).remove();
+		$("#btnSaveSentence").show();
 		appendPoint.removeAttr("contentEditable");
 		appendPoint.removeClass("text-on");
 		editMode = false;
@@ -590,10 +430,21 @@ $(function(){
 		if(!confirm("작업내용을 저장하시겠습니까?")){
 			return;
 		}
+		var appendPoint = $("#appendPoint");
+		
+		var sentence = appendPoint.html();
+		
+		var menuNo = "${menuNo}";
+		
+		if(appendPoint.html().trim == ""){
+			alert("저장할 내용을 입력해주세요.");
+			appendPoint.focus();
+			return;
+		}
 		
 		$.ajax({
-			url : "/member/loginProc",     
-			data : {"id" : id.val(), "pwd" : pwd.val(),"saveId":saveId },    
+			url : "/study/saveSentence",     
+			data : {"sentence": sentence, "menuNo" : menuNo},    
 			method : "POST",        
 			dataType : "json",
 			beforeSend : function() {
@@ -619,51 +470,47 @@ $(function(){
 		
 	});
 	
-	
-	
-	
-/* 	$("#appendPoint").off().click(function(){
-		$("#toolBox").fadeOut();
-	}); 
-	
-	$("#appendPoint").off().on("touchend",function(){
-		$("#toolBox").fadeOut();
-	}); 
-	$(window).resize(function (){
-		wordsRePosition();
+	$("#btnSelf").on("click",function(){
+		$("#btnFileToText, #btnCameraToText, #btnSelf" ).hide();
+    	$("#appendPoint").fadeIn();
+    	$("#btnFixText").fadeIn();
+    	
+    	$("#appendPoint").focus();
+    	
 	});
-	
-	wordsRePosition();
-	
-	function wordsRePosition(){
-		$(".words").each(function(wordIdx, word){
-			var wordId ="#"+ $(word).attr("id").split("word")[1];
-			var top = $(wordId).offset().top;
-			var left = $(wordId).offset().left;
-			$(word).offset({"top":top-30 , "left":left});
-		});
-	} */
 	
 	function toggleHaderAndBotNav(oldScroll, crrentScroll){
 		var header = $("#header");
 		var botNav = $("#botNav");
 		var btnFixText = $("#btnFixText");
+		var btnSaveSentence = $("#btnSaveSentence")
 		var toolBox = $("#toolBox")
 		
 		if(oldScroll < crrentScroll){
 			header.fadeOut();
 			botNav.fadeOut();
 			btnFixText.fadeOut();
+			if(!btnFixText.length){
+				btnSaveSentence.fadeOut();	
+			}
+			
 			toolBox.fadeIn();
 		}else if(oldScroll > crrentScroll){
 			header.fadeIn();
 			botNav.fadeIn();
 			btnFixText.fadeIn();
+			if(!btnFixText.length){
+				btnSaveSentence.fadeIn();
+			}
+			
 			toolBox.fadeOut();
 		}else{
 			header.fadeOut();
 			botNav.fadeOut();
 			btnFixText.fadeOut();
+			if(!btnFixText.length){
+				btnSaveSentence.fadeOut();	
+			}
 		}
 	}
 	
@@ -687,23 +534,20 @@ $(function(){
 </div>
 
 <div id="inputWord" class="input-word" >
-	<div class="form-group">
-		<input id="word" type="text" class="form-control"  placeholder="단어의 뜻을 입력하세요." >
-		<div id="btnWordOk" class = "pop-btn-save">확인</div>
-		<div id="btnWordCancel" class="pop-btn-save">최소</div>
-	</div>
+	<div id="targetWord" class="target-word"></div>
+	<textarea id="word" class="wordArea"  placeholder="단어의 뜻을 입력하세요." ></textarea>
+	<div id="btnWordOk" class = "pop-btn-save">확인</div>
+	<div id="btnWordCancel" class="pop-btn-save">최소</div>
 </div>
 
 <div id="viewWord" class="input-word" >
-	<div class="form-group">
-		<input id="orgWord" type="text" class="form-control"  readonly="readonly">
-		<input id="meanWord" type="text" class="form-control"  readonly="readonly">
-		<div id="btnViewWordOk" class = "pop-btn-full">확인</div>
-	</div>
+	<div id="orgWord" class="target-word"></div>
+	<textarea id="meanWord" class="wordArea"  readonly="readonly"></textarea>
+	<div id="btnViewWordOk" class = "pop-btn-full">확인</div>
 </div>
 
-<div id="btnFixText" class="sentence-btn-full">텍스트 고정</div>
-<div id="btnSaveSentence" class="sentence-btn-full" style="display: none;">내용 저장</div>
+<div id="btnFixText" class="sentence-btn-full" style="display: none;">문장 고정</div>
+<div id="btnSaveSentence" class="sentence-btn-full" style="display: none;">문장 기록</div>
 
 <input type="file" id="file" name="file" style="display: none;" capture="camera" accept="image/*">
 
@@ -722,8 +566,8 @@ $(function(){
 			<span name="word" id="0">[Editorial]&nbsp;</span><span name="word" id="1">Negative&nbsp;</span><span name="word" id="2">reversal&nbsp;</span><span><br></span><span name="word" id="3">By&nbsp;</span><span name="word" id="4">Korea&nbsp;</span><span name="word" id="5">Herald&nbsp;</span><span><br></span><span name="word" id="6">Korea&nbsp;</span><span name="word" id="7">set&nbsp;</span><span name="word" id="8">to&nbsp;</span><span name="word" id="9">record&nbsp;</span><span name="word" id="10">first&nbsp;</span><span name="word" id="11">monthly&nbsp;</span><span name="word" id="12">current&nbsp;</span><span name="word" id="13">account&nbsp;</span><span name="word" id="14">deficit&nbsp;</span><span name="word" id="15">in&nbsp;</span><span name="word" id="16">7&nbsp;</span><span name="word" id="17">years&nbsp;</span><span><br></span><span name="word" id="18">Published&nbsp;</span><span name="word" id="19">:&nbsp;</span><span name="word" id="20">Jun&nbsp;</span><span name="word" id="21">3,&nbsp;</span><span name="word" id="22">2019&nbsp;</span><span name="word" id="23">-&nbsp;</span><span name="word" id="24">17:03&nbsp;</span><span><br></span><span name="word" id="25">Updated&nbsp;</span><span name="word" id="26">:&nbsp;</span><span name="word" id="27">Jun&nbsp;</span><span name="word" id="28">3,&nbsp;</span><span name="word" id="29">2019&nbsp;</span><span name="word" id="30">-17:03&nbsp;</span><span><br></span><span name="word" id="31">A&nbsp;</span><span name="word" id="32">Afy&nbsp;</span><span><br></span><span name="word" id="33">South&nbsp;</span><span name="word" id="34">Korea&nbsp;</span><span name="word" id="35">seems&nbsp;</span><span name="word" id="36">set&nbsp;</span><span name="word" id="37">to&nbsp;</span><span name="word" id="38">record&nbsp;</span><span name="word" id="39">a&nbsp;</span><span name="word" id="40">current&nbsp;</span><span name="word" id="41">account&nbsp;</span><span name="word" id="42">deficit&nbsp;</span><span name="word" id="43">in&nbsp;</span><span name="word" id="44">April&nbsp;</span><span name="word" id="45">for&nbsp;</span><span name="word" id="46">the&nbsp;</span><span name="word" id="47">first&nbsp;</span><span name="word" id="48">time&nbsp;</span><span name="word" id="49">since&nbsp;</span><span><br></span><span name="word" id="50">May&nbsp;</span><span name="word" id="51">2012&nbsp;</span><span name="word" id="52">in&nbsp;</span><span name="word" id="53">yet&nbsp;</span><span name="word" id="54">another&nbsp;</span><span name="word" id="55">warning&nbsp;</span><span name="word" id="56">sign&nbsp;</span><span name="word" id="57">about&nbsp;</span><span name="word" id="58">the&nbsp;</span><span name="word" id="59">sluggish&nbsp;</span><span name="word" id="60">performance&nbsp;</span><span name="word" id="61">of&nbsp;</span><span name="word" id="62">Asia's&nbsp;</span><span name="word" id="63">fourth-&nbsp;</span><span><br></span><span name="word" id="64">largest&nbsp;</span><span name="word" id="65">economy.&nbsp;</span><span><br></span><span name="word" id="66">With&nbsp;</span><span name="word" id="67">the&nbsp;</span><span name="word" id="68">Bank&nbsp;</span><span name="word" id="69">of&nbsp;</span><span name="word" id="70">Korea&nbsp;</span><span name="word" id="71">scheduled&nbsp;</span><span name="word" id="72">to&nbsp;</span><span name="word" id="73">announce&nbsp;</span><span name="word" id="74">official&nbsp;</span><span name="word" id="75">data&nbsp;</span><span name="word" id="76">this&nbsp;</span><span name="word" id="77">week,&nbsp;</span><span name="word" id="78">government&nbsp;</span><span><br></span><span name="word" id="79">officials&nbsp;</span><span name="word" id="80">have&nbsp;</span><span name="word" id="81">indicated&nbsp;</span><span name="word" id="82">that&nbsp;</span><span name="word" id="83">the&nbsp;</span><span name="word" id="84">country's&nbsp;</span><span name="word" id="85">current&nbsp;</span><span name="word" id="86">account&nbsp;</span><span name="word" id="87">balance&nbsp;</span><span name="word" id="88">will&nbsp;</span><span name="word" id="89">tip&nbsp;</span><span name="word" id="90">into&nbsp;</span><span name="word" id="91">negative&nbsp;</span><span><br></span><span name="word" id="92">territory&nbsp;</span><span name="word" id="93">after&nbsp;</span><span name="word" id="94">having&nbsp;</span><span name="word" id="95">been&nbsp;</span><span name="word" id="96">in&nbsp;</span><span name="word" id="97">the&nbsp;</span><span name="word" id="98">black&nbsp;</span><span name="word" id="99">for&nbsp;</span><span name="word" id="100">83&nbsp;</span><span name="word" id="101">straight&nbsp;</span><span name="word" id="102">months&nbsp;</span><span name="word" id="103">through&nbsp;</span><span name="word" id="104">March.&nbsp;</span><span><br></span><span name="word" id="105">A&nbsp;</span><span name="word" id="106">statement&nbsp;</span><span name="word" id="107">released&nbsp;</span><span name="word" id="108">Friday&nbsp;</span><span name="word" id="109">by&nbsp;</span><span name="word" id="110">the&nbsp;</span><span name="word" id="111">Ministry&nbsp;</span><span name="word" id="112">of&nbsp;</span><span name="word" id="113">Economy&nbsp;</span><span name="word" id="114">and&nbsp;</span><span name="word" id="115">Finance&nbsp;</span><span name="word" id="116">said&nbsp;</span><span name="word" id="117">there&nbsp;</span><span name="word" id="118">was&nbsp;</span><span name="word" id="119">a&nbsp;</span><span><br></span><span name="word" id="120">possibility&nbsp;</span><span name="word" id="121">that&nbsp;</span><span name="word" id="122">the&nbsp;</span><span name="word" id="123">country&nbsp;</span><span name="word" id="124">would&nbsp;</span><span name="word" id="125">suffer&nbsp;</span><span name="word" id="126">a&nbsp;</span><span name="word" id="127">"slight&nbsp;</span><span name="word" id="128">current&nbsp;</span><span name="word" id="129">account&nbsp;</span><span name="word" id="130">deficit&nbsp;</span><span name="word" id="131">temporarily"&nbsp;</span><span name="word" id="132">in&nbsp;</span><span><br></span><span name="word" id="133">April&nbsp;</span><span name="word" id="134">due&nbsp;</span><span name="word" id="135">to&nbsp;</span><span name="word" id="136">the&nbsp;</span><span name="word" id="137">payment&nbsp;</span><span name="word" id="138">of&nbsp;</span><span name="word" id="139">dividends&nbsp;</span><span name="word" id="140">to&nbsp;</span><span name="word" id="141">offshore&nbsp;</span><span name="word" id="142">investors.&nbsp;</span><span><br></span><span name="word" id="143">&nbsp;</span><span><br></span>
 		</div> 
 		-->
-		<div class="sentence-append-point text-on" id="appendPoint"  contentEditable="true" >
-				
+		<div class="sentence-append-point text-on" id="appendPoint"  contentEditable="true"  style="display: none;">
+			<!-- 	
 			[Editorial] <span class="word-box-on" id="0">Negative</span><span class="glyphicon glyphicon-tag" id="word0" style="font-size: 0.5em;"></span> reversal
 			By Korea Herald
 			Korea set to <span class="word-box-on" id="2">record </span><span class="glyphicon glyphicon-tag" id="word2" style="font-size: 0.5em;"></span>first monthly current account deficit in 7 years
@@ -740,28 +584,29 @@ $(function(){
 			possibility that the country would suffer a "slight current account deficit temporarily" in
 			April due to the payment of dividends to offshore investors. 
 			
-			<!-- 
-			[Editorial] Negative reversal
-			By Korea Herald
-			Korea set to record first monthly current account deficit in 7 years
-			Published : Jun 3, 2019 - 17:03
-			Updated : Jun 3, 2019 -17:03
-			A Afy
-			South Korea seems set to record a current account deficit in for the first time since
-			May 2012 in yet another warning sign about the sluggish performance of Asia's fourth-
-			largest economy.
-			With the Bank of Korea scheduled to announce official data this week, government
-			officials have indicated that the country's current account balance will tip into negative
-			territory after having been in the black for 83 straight months through March.
-			A statement released Friday by the Ministry of Economy and Finance said there was a
-			possibility that the country would suffer a "slight current account deficit temporarily" in
-			April due to the payment of dividends to offshore investors.
+			
+[Editorial] Negative reversal
+By Korea Herald
+Korea set to record first monthly current account deficit in 7 years
+Published : Jun 3, 2019 - 17:03
+Updated : Jun 3, 2019 -17:03
+A Afy
+South Korea seems set to record a current account deficit in for the first time since
+May 2012 in yet another warning sign about the sluggish performance of Asia's fourth-
+largest economy.
+With the Bank of Korea scheduled to announce official data this week, government
+officials have indicated that the country's current account balance will tip into negative
+territory after having been in the black for 83 straight months through March.
+A statement released Friday by the Ministry of Economy and Finance said there was a
+possibility that the country would suffer a "slight current account deficit temporarily" in
+April due to the payment of dividends to offshore investors.
 			-->
 		</div>
 		
 		<div class="sentence-btn-wrap"  >
 			<div id="btnFileToText" class="sentence-btn-float">사진으로 문장 등록</div>
 			<div id="btnCameraToText"  class="sentence-btn-float" >카메라로 문장 등록</div>
+			<div id="btnSelf"  class="sentence-btn-float">직접 문장 등록</div>
 			
 		</div>
 		
@@ -773,8 +618,6 @@ $(function(){
 </div>
 <%--주요 문제점
 	
-	폴더번호 문장파일번호 url 로 접근하는 것 정의 필요
-	 /study/sentence/?forderNO=폴더번호&sendtenceNO=문장번호
 	 문장번호 없으면 등록모드
 	 있으면 수정및 리딩모드(현광펜 및 뜻달기만 가능)
 	폴더번호 없이 들어올 경우 에러 발생
@@ -782,8 +625,12 @@ $(function(){
 	문장파일 저장 기능 필요
 	불러왔을 때 달아 놓은 뜻 클릭이벤트 바운드 필요
 	뜻은 단어 테이블에서 가져와야함
-	문장 저장시 단어 테이블에 단어 저장 필요.
 	
+	문장 저장시 단어 테이블에 단어 저장 필요.
+	-> 단어를 담을 객체구조 완성
+	-> 문장 단어 저장 Service Mapper 작성필요
+	
+	+ - 버튼 $("#appendPoint").css("fontSize","+=5");
 	
 	1. 문장이미지에서 문장 변환 후 한번 텍스트 수정 가능함
 	2. 단어 뜻 위치는 방법을 찾아야함.

@@ -227,7 +227,7 @@ $(function(){
 		});
 		
 		$("#btnFixText").on("click",function(){
-			location.href="/study/sentence/"+$("#hdnMenuNo").val();
+			location.href="/study/sentence/0?menuNo="+$("#hdnMenuNo").val();
 		});
 		
 	}

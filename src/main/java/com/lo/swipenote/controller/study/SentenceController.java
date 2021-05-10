@@ -36,11 +36,12 @@ public class SentenceController extends MasterController {
 	 */
 	@LoginCheck
 	@RequestMapping(value = "/{sentenceNo}")
-	public ModelAndView searchMenuList(@PathVariable("sentenceNo") String sentenceNo) {
+	public ModelAndView searchMenuList(@PathVariable("sentenceNo") String sentenceNo, String menuNo) {
 		// 리턴 파라미터 선언
 		HashMap<String, Object> model = new HashMap<String, Object>();
 		model.put("content", "/study/Sentence.jsp");
 		model.put("sentenceNo", sentenceNo);
+		model.put("menuNo", menuNo);
 		// 경로 반환
 		return this.redirect("template/Template", model);
 	}
@@ -118,7 +119,7 @@ public class SentenceController extends MasterController {
 	@LoginCheck
 	@ResponseBody
 	@RequestMapping(value = "/saveSentence")
-	public HashMap<String, Object> searchSentence(HttpSession session, String sentence) {
+	public HashMap<String, Object> saveSentence(HttpSession session, String sentence, String menuNo) {
 
 		// 리턴 파라미터 선언
 		HashMap<String, Object> model = new HashMap<String, Object>();

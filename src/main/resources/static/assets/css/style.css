@@ -93,7 +93,7 @@ height: 100%;
 	height: 80px;
 	border-radius: 50%;
 	z-index: 1;
-	background: #807097;
+	background: #c64756;
 	padding: 15px;
 	box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.1);
 }
@@ -109,7 +109,7 @@ height: 100%;
 .login-form .btn-login {        
 	font-size: 16px;
 	font-weight: bold;
-	background: #807097;
+	background: #c64756;
 	border: none;
 	color:white;
 	margin-bottom: 20px;
@@ -125,7 +125,7 @@ height: 100%;
 }
    
 .login-form .btn-login:hover, .login-form .btn:focus {
-	background: #807097;
+	background: #c64756;
        outline: none !important;
 }    
 
@@ -229,8 +229,8 @@ height: 100%;
 
 .bot-nav{
 	height: 55px;
-	background-color: #807097;
-	position: absolute;
+	background-color: #c64756;
+	position: fixed;
 	bottom: 0;
 	width: 100%;
 	margin: 0;
@@ -268,7 +268,7 @@ height: 100%;
 }
 
 .back-head-wrap{
-	border-bottom:1px solid #807097;
+	border-bottom:1px solid #c64756;
 	background-color : white;
 	position: sticky; 
 	top: 0;
@@ -281,7 +281,7 @@ height: 100%;
 	top: 15px;
 	/* width: 100% */
 	right: 20px;
-	color:  #807097;
+	color:  #c64756;
 	font-size: 1.5em;
 }
 
@@ -298,7 +298,7 @@ height: 100%;
 
 .btn-back{
 	font-size: 1.7em;
-	color:  #807097;
+	color:  #c64756;
 	margin : 10px 5px 20px 20px;
        height: 3%;
        padding: 0;
@@ -316,7 +316,7 @@ height: 100%;
 .top-back-txt{
 	font-weight: bold;
 	font-size: 1.2em;
-	color: #807097;
+	color: #c64756;
 }
 
 .profile-box{
@@ -397,7 +397,7 @@ height: 100%;
 .cate-icon{
 	font-size :1.2em;
 	position:relative;
-	color:  #807097;
+	color:  #c64756;
 	margin-right: 10px;
 }
 
@@ -435,8 +435,8 @@ height: 100%;
 	color:white;
 }
 .pop-head-wrap{
-	border-bottom:1px solid #807097;
-	background-color:#807097;
+	border-bottom:1px solid #c64756;
+	background-color:#c64756;
 	height: 45px;
 }
 
@@ -451,7 +451,7 @@ height: 100%;
 .pop-btn-float{
 	width: 50%;
 	height: 40px;
-	background-color:#807097;
+	background-color:#c64756;
 	color: white;
 	font-weight: bold; 
 	text-align: center;
@@ -478,7 +478,7 @@ height: 100%;
 .pop-btn-save{
 	width: 50%;
 	height: 40px;
-	background-color:#807097;
+	background-color:#c64756;
 	color: white;
 	font-weight: bold; 
 	text-align: center;
@@ -491,7 +491,7 @@ height: 100%;
 .pop-btn-full{
 	width: 100%;
 	height: 40px;
-	background-color:#807097;
+	background-color:#c64756;
 	color: white;
 	font-weight: bold; 
 	text-align: center;
@@ -514,7 +514,7 @@ height: 100%;
 	margin-right: 5px;
 	margin-bottom: 5px; 
 	display: inline-block;
-	background-color: #807097;
+	background-color: #c64756;
 	color: white;
 	padding: 5px 10px 5px 10px;
 	border-radius: 10px;
@@ -576,7 +576,7 @@ height: 100%;
 	color:white;
 	margin-top: 2px;
 	padding: 10px;
-	background-color:  #807097;
+	background-color:  #c64756;
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
@@ -658,8 +658,8 @@ input[type=radio]{
 
 
 .move-cate-head-wrap{
-	border-bottom:1px solid #807097;
-	background-color:#807097;
+	border-bottom:1px solid #c64756;
+	background-color:#c64756;
 	height:50px;
 }
 
@@ -684,7 +684,7 @@ input[type=radio]{
 
 
 .move-cate-context-menu-head-wrap{
-	background-color:#807097;
+	background-color:#c64756;
 	height:35px;
 	padding: 5px;
 }
@@ -697,7 +697,7 @@ input[type=radio]{
 .move-cate-icon{
 	font-size :3em;
 	position:relative;
-	color:  #807097;
+	color:  #c64756;
 	margin-left: 15px;
 	margin-right :15px;
 	position: relative;
@@ -707,7 +707,7 @@ input[type=radio]{
 .move-cate-icon-empty{
 	font-size :1.2em;
 	position:relative;
-	color:  #807097;
+	color:  #c64756;
 	margin-right: 10px;
 	color: white;
 }
@@ -748,7 +748,7 @@ input[type=radio]{
 	margin-right: 5px;
 	margin-bottom: 5px; 
 	display: inline-block;
-	background-color: #807097;
+	background-color: #c64756;
 	color: white;
 	padding: 5px 10px 5px 10px;
 	border-radius: 10px;
@@ -792,7 +792,7 @@ input[type=radio]{
 .sentence-btn-float{
 	width: 50%;
 	height: 40px;
-	background-color: #807097;
+	background-color: #c64756;
 	color: white;
 	font-weight: bold; 
 	text-align: center;
@@ -805,7 +805,7 @@ input[type=radio]{
 }
 
 .sentence-btn-full{
-	position: absolute;
+	position: fixed;
 	bottom: 56px;
 	width: 100%;
 	margin: 0;
@@ -813,7 +813,7 @@ input[type=radio]{
 	z-index: 2;
 	height: 55px;
 	line-height: 55px;
-	background-color:#807097;
+	background-color:#c64756;
 	color: white;
 	font-size:1.2em;
 	font-weight: bold; 
@@ -841,10 +841,12 @@ input[type=radio]{
 
 .sentence-append-point::-webkit-scrollbar{ 
 	display:none; 
+	background-color: #8c9184;
 }
 
 .text-on{
-	color: #3E4348;
+	color: white;
+	background-color: #333030;
 }
 
 
@@ -855,7 +857,7 @@ input[type=radio]{
 }
 
 .word-box-on{
-	background-color: #ff7473;
+	background-color: #96bb7c;
 	color: white;
 }
 
@@ -907,10 +909,10 @@ input[type=radio]{
 
 .input-word{
 	position: absolute;
-	top : 50%;
-	left: 50%;
-	margin-left : -60px;
-	margin-top : -100px;
+	width: 80%;
+	height: 400px;
+	top : 10%;
+	left: 10%;
 	z-index: 5;
 	background-color: white;
 	box-shadow: 1px 3px 6px #5e5e5f;
@@ -918,14 +920,31 @@ input[type=radio]{
 	display: none;
 }
 
+.wordArea{
+	width: 100%;
+	height: 70%;
+	resize: none;
+}
 
 .glyphicon-tag{
 	vertical-align:bottom;
 	position: relative;
 	top: -5px;
 	left: -5px;
-	color: #cbe86b;
-	background-color: white;
+	color: #fad586;
+	width: 0;
+}
+
+.target-word{
+	margin: 20px;
+	font-size: 1.2em;
+	font-weight: bold;
+	text-align: center;
+}
+
+::selection { 
+	background: #96bb7c;
+	color: white;
 }
 
 /* 
@@ -957,7 +976,7 @@ input[type=radio]{
 .sentence-btn-save{
 	width: 50%;
 	height: 40px;
-	background-color:#807097;
+	background-color:#c64756;
 	color: white;
 	font-weight: bold; 
 	text-align: center;
