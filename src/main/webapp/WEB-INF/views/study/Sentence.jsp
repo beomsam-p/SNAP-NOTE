@@ -171,36 +171,60 @@ $(function(){
 		$("#btnCameraToText").hide();
 	}
 	
-	
-	//에디터
+	//등록 수정 분기
 	var editMode = true; 
-	var highlightIdx = 0;
-	var lastHighlightIdx = -1;
+	var sentenceNo = '${sentenceNo}';
+	var sentence = $("#hdnSentence").val();
+	var menuNo = "${menuNo}";
+	console.log("sentenceNo::"+sentenceNo);
 	
+	if(sentenceNo != "0"){
+		$("#appendPoint").show();
+		$("#appendPoint").removeAttr("contentEditable");
+		$("#appendPoint").removeClass("text-on");
+		$("#appendPoint").html(sentence);
+		$("#btnFixText").remove();
+		$("#btnSaveSentence").text("문장수정");
+		$("#btnSaveSentence").show();
+		editMode = false;
+		
+		//불러온 문서 이벤트 바인딩
+		
+		var wordHighlight = $(".word-box-on");
+		wordHighlight.each(function(index, item){
+			$(item).on("click",function(){
+				var word = $("#word"+$(this).attr("id")).find(".hidden").text();
+				common.loding(true);
+				$("#viewWord").show();
+				$("#orgWord").text($(this).text());
+				$("#meanWord").val(word);
+			});
+		});
+	}
+
 	
+
 	var wordBoxOn = $(".word-box-on");
-	
 	var wordIdxArr = new Array();
-	
 	wordBoxOn.each(function(index, item){
 		 wordIdxArr.push($(item).attr("id"));
 	}); 
-	
 	wordIdxArr.sort((curr,next) => curr-next);
 	
+	
+	var highlightIdx = 0;
+	var lastHighlightIdx = -1;
 	try{
 		lastHighlightIdx = wordIdxArr[wordIdxArr.length-1];
 	}catch(err){
 		lastHighlightIdx = -1;
 	}
-	
-	
 	if(lastHighlightIdx >-1){
 		highlightIdx = parseInt(lastHighlightIdx)+1;
 	}
 	
 	
-	var words = new Object(); 
+	//var words = new Object(); 
 	
 	
  	$(document).off().on('contextmenu', function(event) {
@@ -237,9 +261,9 @@ $(function(){
 			$("#menu1").off().click(function(){
 				var id  = $selectedNode.attr("id");
 				
-				delete words[id];
+				//delete words[id];
 				
-				console.log(words);
+				//console.log(words);
 				
 				$("#word"+id).remove();
 			
@@ -297,7 +321,7 @@ $(function(){
 			var left = $selectedNode.offset().left;
 			
 			var wordNode = document.createElement('span');
-			
+			var id  = $selectedNode.attr("id");
 			//wordNode.innerHTML = wordVal;
 			//wordNode.innerHTML = "&nbsp;";
 			//wordNode.style.position = 'absolute';
@@ -305,15 +329,20 @@ $(function(){
 			wordNode.style.fontSize = '0.5em';
 			//wordNode.style.width = "100px";
 			wordNode.className = 'glyphicon glyphicon-tag';
-			wordNode.id = "word"+$selectedNode.attr("id");
+			wordNode.id = "word"+id;
 
 			console.log(range);
 			
 			//range.setStart(selectedNode,1);
 			//range.insertNode(wordNode);
 			
-			var id  = $selectedNode.attr("id");
+			
 			$("#"+id).after(wordNode);
+			
+			var hiddenWord = document.createElement('span');
+			hiddenWord.className = 'hidden';
+			hiddenWord.innerHTML =  wordVal;
+			$("#word"+id).append(hiddenWord);
 			
 			//header.append(wordNode);
 			common.loding(false);
@@ -323,13 +352,15 @@ $(function(){
 			$("#word").val("");
 			
 			
+			/* 	
 			var wordObj = new Object();
 			wordObj.wordOrg = $selectedNode.text();
 			wordObj.wordMean = wordVal;
 			console.log(wordObj);
 			
 			words[id] = wordObj;
-			console.log(words);
+			console.log(words); 
+			*/
 			
 			
 			$("#"+id).on("click",function(){
@@ -340,15 +371,6 @@ $(function(){
 			});
 		});
 		
-		$("#btnWordCancel").off().click(function(){
-			common.loding(false);
-			$("#inputWord").hide();
-		});
-		
-		$("#btnViewWordOk").on("click",function(){
-			common.loding(false);
-			$("#viewWord").hide();
-		});
 		
 		$("#menu3").off().click(function(){
 			//todo
@@ -358,6 +380,17 @@ $(function(){
 		return false;
 	});
 	
+ 	$("#btnWordCancel").off().click(function(){
+		common.loding(false);
+		$("#inputWord").hide();
+	});
+	
+	$("#btnViewWordOk").on("click",function(){
+		common.loding(false);
+		$("#viewWord").hide();
+	});
+	
+ 	
 	$("[name='sentence']").click(function(){
 		$("#contextMenu").hide();
 	});
@@ -426,25 +459,59 @@ $(function(){
 	
 	
 	
-	$("#btnSaveSentence").on("click",function(){
+	$("#btnSaveSentence").on("click", function(){
+		common.loding(true);
+		$("#inputTitle").show();
+	});
+	
+	
+	$("#btnTitleCancel").on("click", function(){
+		common.loding(false);
+		$("#inputTitle").hide();
+	});
+	
+	$("#btnTitleOk").on("click",function(){
+		var title = $("#title");
+		
+		var descript = $("#descript");
+		
+		if(title.val().trim() == ""){
+			alert("제목을 입력해주세요.");
+			title.focus();
+			return;
+		}
+		
+		if(descript.val().trim() == ""){
+			alert("설명을 입력해주세요.");
+			descript.focus();
+			return;
+		}
+		
+		
 		if(!confirm("작업내용을 저장하시겠습니까?")){
 			return;
 		}
+		
 		var appendPoint = $("#appendPoint");
 		
 		var sentence = appendPoint.html();
+	
 		
-		var menuNo = "${menuNo}";
-		
-		if(appendPoint.html().trim == ""){
+		if(appendPoint.html().trim() == ""){
 			alert("저장할 내용을 입력해주세요.");
 			appendPoint.focus();
 			return;
 		}
 		
 		$.ajax({
-			url : "/study/saveSentence",     
-			data : {"sentence": sentence, "menuNo" : menuNo},    
+			url : "/study/sentence/saveSentence",     
+			data : {
+					"sentence": sentence
+					, "menuNo" : menuNo
+					, "title" : title.val()
+					, "descript" : descript.val()
+					, "sentenceNo" : sentenceNo
+					},    
 			method : "POST",        
 			dataType : "json",
 			beforeSend : function() {
@@ -455,20 +522,21 @@ $(function(){
 				common.loding(false);
 				
 				if(data != null && data.result == "00"){
-					location.href="/my/myHome"
-				}
-				else{
-					common.showModal('SNAP NOTE 로그인',data.errorMsg);
+					common.showModal('SNAP NOTE','문장을 저장했어요!');
+					common.loding(false);
+					$("#inputTitle").hide();
+				}else{
+					common.showModal('SNAP NOTE 로그인','저장에 실패했어요...');
 				}
 			},
 			error : function(jqXHR,status,error){
 				common.loding(false);
-				common.showModal('SNAP NOTE 로그인','에러발생 :<br>'+error);
+				common.showModal('SNAP NOTE 로그인','저장에 실패했어요...<br>'+error);
 			}
 		});
 		
-		
 	});
+
 	
 	$("#btnSelf").on("click",function(){
 		$("#btnFileToText, #btnCameraToText, #btnSelf" ).hide();
@@ -478,6 +546,7 @@ $(function(){
     	$("#appendPoint").focus();
     	
 	});
+	
 	
 	function toggleHaderAndBotNav(oldScroll, crrentScroll){
 		var header = $("#header");
@@ -518,6 +587,7 @@ $(function(){
 	
 });
 </script>
+<input id="hdnSentence" value="${sentence}" style="display: none;">
 
 <div id="contextMenu" class="context-menu-wrap">
 	<span id="menu1" class="context-menu">현광펜</span> 
@@ -538,6 +608,18 @@ $(function(){
 	<textarea id="word" class="wordArea"  placeholder="단어의 뜻을 입력하세요." ></textarea>
 	<div id="btnWordOk" class = "pop-btn-save">확인</div>
 	<div id="btnWordCancel" class="pop-btn-save">최소</div>
+</div>
+
+<div id="inputTitle" class="input-title" >
+	<div class="form-group">
+		<label for="title">제목</label> 
+		<input id="title"   class="form-control" placeholder="제목을 입력하세요." value="${title}">
+		<br>
+		<label for="descript">설명</label> 
+		<input id="descript"   class="form-control" placeholder="설명을 입력하세요." value="${descript}">
+	</div>
+	<div id="btnTitleOk" class = "pop-btn-save">확인</div>
+	<div id="btnTitleCancel" class="pop-btn-save">최소</div>
 </div>
 
 <div id="viewWord" class="input-word" >
@@ -616,22 +698,20 @@ April due to the payment of dividends to offshore investors.
 		</div>
 	</div>
 </div>
-<%--주요 문제점
+<%--주요 문제점	
+	봇네비로 등록하러 들어올 때 폴더 지정할 수 있어야함.
+	->폴더 지정방식 정해야함.
 	
-	 문장번호 없으면 등록모드
-	 있으면 수정및 리딩모드(현광펜 및 뜻달기만 가능)
-	폴더번호 없이 들어올 경우 에러 발생
-		 
-	문장파일 저장 기능 필요
-	불러왔을 때 달아 놓은 뜻 클릭이벤트 바운드 필요
-	뜻은 단어 테이블에서 가져와야함
+	폴더 수정과 폴더 탐색 을 합칠 수 있을까?
+	-> 탐색도 하면서 문서도 생성하면서 폴더도 수정삭제 할 수 있게
 	
-	문장 저장시 단어 테이블에 단어 저장 필요.
-	-> 단어를 담을 객체구조 완성
-	-> 문장 단어 저장 Service Mapper 작성필요
+	임시저장기능
 	
+	텍스트 확대 축소 기능(막대바로 조절하는게 나을까 버튼이 나을까)
 	+ - 버튼 $("#appendPoint").css("fontSize","+=5");
 	
-	1. 문장이미지에서 문장 변환 후 한번 텍스트 수정 가능함
-	2. 단어 뜻 위치는 방법을 찾아야함.
+	폴더 슬라이더에서 해당 폴더에 문장 들어있을 경우 갯수 뱃지 달아주기
+	
+	문장삭제 기능 
+	
 --%>

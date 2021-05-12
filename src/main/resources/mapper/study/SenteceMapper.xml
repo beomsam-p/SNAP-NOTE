@@ -28,4 +28,33 @@
 			AND	ID = #{id}
 			AND	SENTENCE_NO = #{sentenceNo}
 	</select>
+	
+	<insert id="saveSentence" parameterType="map">
+		INSERT INTO SENTENCE
+					(
+						ID
+						, MENU_NO
+						, TITLE
+						, DESCRIPT
+						, CONTENT
+					)
+					VALUES
+					(
+						#{id}
+						, #{menuNo}
+						, #{title}
+						, #{descript}
+						, #{sentence}
+					)
+	</insert>
+	
+	<update id="modifySentence">
+		UPDATE	SENTENCE
+		SET		ID = #{id}
+				, MENU_NO = #{menuNo}
+				, TITLE = #{title}
+				, DESCRIPT = #{descript}
+				, CONTENT = #{sentence}
+		WHERE	SENTENCE_NO = #{sentenceNo}
+	</update>
 </mapper>

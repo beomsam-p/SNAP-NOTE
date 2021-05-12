@@ -200,10 +200,8 @@ $(function(){
 
 						$("[name='divAppendPointForSentence']").append(html);
 						
-						console.log(item.SENTENCE_NO)
 						$("#sentence"+item.SENTENCE_NO).off().on("click",function(){
-							console.log("#sentence"+item.SENTENCE_NO);
-							location.href="/study/sentence/"+item.SENTENCE_NO;
+							location.href="/study/sentence/"+item.MENU_NO+"?sentenceNo="+item.SENTENCE_NO;
 						});//클릭
 					});//each
 					
@@ -227,7 +225,7 @@ $(function(){
 		});
 		
 		$("#btnFixText").on("click",function(){
-			location.href="/study/sentence/0?menuNo="+$("#hdnMenuNo").val();
+			location.href="/study/sentence/"+$("#hdnMenuNo").val()+"?sentenceNo=0";
 		});
 		
 	}

@@ -30,5 +30,39 @@ public class SentenceService {
 		return sentenceMapper.getSentence(param);
 	}
 	
+	/** 문장 저장
+	 * @param sentence	문장
+	 * @param menuNo	폴더번호
+	 * @param id		유저 아이디
+	 * @return
+	 */
+	public int saveSentence(String sentence, String menuNo, String title, String descript, String id){
+		HashMap<String, String> param = new HashMap<String, String>();
+		param.put("sentence", sentence);
+		param.put("menuNo", menuNo);
+		param.put("title", title);
+		param.put("descript", descript);
+		param.put("id", id);
+		return sentenceMapper.saveSentence(param);
+	}
+
+	/** 문장 수정
+	 * @param sentence	문장
+	 * @param menuNo	폴더번호
+	 * @param id		유저 아이디
+	 * @return
+	 */
+	public int modifySentence(String sentence, String menuNo, String title, String descript, String sentenceNo, String id){
+		HashMap<String, String> param = new HashMap<String, String>();
+		param.put("sentence", sentence);
+		param.put("menuNo", menuNo);
+		param.put("title", title);
+		param.put("descript", descript);
+		param.put("sentenceNo", sentenceNo);
+		param.put("id", id);
+		return sentenceMapper.modifySentence(param);
+	}
+	
+	
 }
 

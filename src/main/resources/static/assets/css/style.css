@@ -920,6 +920,19 @@ input[type=radio]{
 	display: none;
 }
 
+.input-title{
+	position: absolute;
+	width: 80%;
+	height: 230px;
+	top : 10%;
+	left: 10%;
+	z-index: 5;
+	background-color: white;
+	box-shadow: 1px 3px 6px #5e5e5f;
+	padding : 10px 10px 5px 10px;
+	display: none;
+}
+
 .wordArea{
 	width: 100%;
 	height: 70%;
@@ -941,6 +954,13 @@ input[type=radio]{
 	font-weight: bold;
 	text-align: center;
 }
+
+.hidden{
+	display: none;
+}
+
+
+
 
 ::selection { 
 	background: #96bb7c;

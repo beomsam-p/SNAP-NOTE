@@ -13,7 +13,7 @@ $(function(){
 	
 	//문장등록 페이지 이동
 	$("#btnMenuRegSentence").on("click",function(e){
-		location.href="/study/sentence/0";
+		location.href="/study/sentence/0?sentenceNo=0";
 	});
 	
 	$("#btnMenuList").on("click",function(e){

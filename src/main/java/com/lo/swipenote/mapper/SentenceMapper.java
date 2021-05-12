@@ -24,4 +24,16 @@ public interface SentenceMapper {
 	 * @return
 	 */
 	public HashMap<String, Object> getSentence(HashMap<String, String> param);
+	
+	/** 문장저장
+	 * @param param	문장 및 폴더번호를 담은 맵 객체
+	 * @return
+	 */
+	public int  saveSentence(HashMap<String, String> param);
+	
+	/** 문장 수정
+	 * @param param	문장 및 폴더번호를 담은 맵 객체
+	 * @return
+	 */
+	public int  modifySentence(HashMap<String, String> param);
 }
