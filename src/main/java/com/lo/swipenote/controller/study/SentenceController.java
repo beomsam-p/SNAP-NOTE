@@ -37,7 +37,7 @@ public class SentenceController extends MasterController {
 	 */
 	@LoginCheck
 	@RequestMapping(value = "/{menuNo}")
-	public ModelAndView searchMenuList(@PathVariable("menuNo") String menuNo, String sentenceNo, HttpSession session) {
+	public ModelAndView searchMenuList(@PathVariable("menuNo") String menuNo, String sentenceNo, String type, HttpSession session) {
 	
 		// 리턴 파라미터 선언
 		HashMap<String, Object> model = new HashMap<String, Object>();
@@ -67,6 +67,7 @@ public class SentenceController extends MasterController {
 		model.put("content", "/study/Sentence.jsp");
 		model.put("sentenceNo", sentenceNo);
 		model.put("menuNo", menuNo);
+		model.put("type", type);
 		// 경로 반환
 		return this.redirect("template/Template", model);
 	}
@@ -118,8 +119,8 @@ public class SentenceController extends MasterController {
 	 */
 	@LoginCheck
 	@ResponseBody
-	@RequestMapping(value = "/saveSentence", method = RequestMethod.POST)
-	public HashMap<String, Object> saveSentence(HttpSession session, String sentence, String menuNo, String title, String descript, String sentenceNo) {
+	@RequestMapping(value = "/save", method = RequestMethod.POST)
+	public HashMap<String, Object> save(HttpSession session, String sentence, String menuNo, String title, String descript, String sentenceNo) {
 
 		// 리턴 파라미터 선언
 		HashMap<String, Object> model = new HashMap<String, Object>();
@@ -153,5 +154,37 @@ public class SentenceController extends MasterController {
 		return model;
 	}
 	
+	
+	@LoginCheck
+	@ResponseBody
+	@RequestMapping(value = "/delete", method = RequestMethod.POST)
+	public HashMap<String, Object> delete(HttpSession session, String sentenceNo) {
+
+		// 리턴 파라미터 선언
+		HashMap<String, Object> model = new HashMap<String, Object>();
+		
+		// 세션에서 유저정보 얻기
+		MemberDto memberInfo = (MemberDto) session.getAttribute("userSession");
+	
+		// 유저 아이디 초기화
+		String id = "";
+		
+		try {
+			if (memberInfo != null) {
+				id = memberInfo.getId();
+				model.put("result","00");
+				sentenceService.deleteSentence(sentenceNo, id);
+			}else {
+				model.put("result", "99");
+				model.put("msg", "noUserInfo");
+			}
+			
+		} catch (Exception e) {
+			model.put("result","99");	
+			model.put("msg",e.getMessage());
+		}
+		
+		return model;
+	}
 	
 }

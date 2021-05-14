@@ -69,6 +69,10 @@ $(function(){
  --%>
 
 <div class="loding"></div>
-<c:import url="/WEB-INF/views/member/Modal.jsp"></c:import>	
+<c:import url="/WEB-INF/views/member/Modal.jsp"></c:import>
+
+<div id="toast"></div>
+
+
 </body>
 </html>

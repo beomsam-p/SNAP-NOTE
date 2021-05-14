@@ -4,7 +4,7 @@
 <div class="modal fade" id="modal" role="dialog" style="z-index: 999;  border-radius: 0;">
   <div class="modal-dialog mt100">
     <div class="modal-content">
-      <div class="modal-header" style="background-color: #c64756; color: white; font-weight: bold;">
+      <div class="modal-header" style="background-color: #5c196b; color: white; font-weight: bold;">
         <button type="button" class="close" data-dismiss="modal"  style="color: white; opacity: 100%;">×</button>
         <h4 id="modalTitle"  class="modal-title" style="text-align: center;"> </h4>
       </div>

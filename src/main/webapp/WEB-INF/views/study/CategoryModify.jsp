@@ -23,7 +23,7 @@ $(function(){
 	
 	//메뉴닫기
 	$("#btnBack").on("click",function(){
-		location.href = "/study/folder/category?tabType=Sentence";
+		history.back();
 	});
 	
 	$("[name='tabMenu']").on("click",function(){
@@ -47,7 +47,7 @@ $(function(){
 	
 	$("#btnModify").on("click",function(){
 		if(menuInfo.no == 0){
-			common.showModal('SNAP NOTE',"ROOT 폴더는 수정할 수 없습니다.");	
+			common.toast ("ROOT 폴더는 수정할 수 없습니다.");
 			return
 		}
 		$("#modifyPath").html("");
@@ -83,9 +83,8 @@ $(function(){
 	});
 	
 	$("#btnAddFolder").on("click",function(){
-		console.log(crrentDepth);
 		if(crrentDepth>4){
-			common.showModal('SNAP NOTE',"더 이상 깊게 폴더를 만들 수 없습니다. <br> 너무 깊어요...!");
+			common.toast("더 이상 깊게 폴더를 만들 수 없습니다.");
 			return;
 		}
 		
@@ -93,9 +92,6 @@ $(function(){
 		$("#addfolderPop").fadeIn();
 		
 		if(menuInfo.no == 0){
-			
-			console.log(menuInfo.no)
-			
 			$("[name='selectedTit']").text('스냅노트');
 			var addPath = '<span class="pop-path" id="path0" data-no="0">스냅노트</span>';
 			$("[name='divPath']").html(addPath);
@@ -150,13 +146,11 @@ $(function(){
 						if(menuInfo.no == item.MENU_NO){
 							$("#chkMenu"+item.MENU_NO).attr("disabled","disabled");
 							$("#"+item.MENU_NO).off().on("click",function(){
-								common.showModal('SNAP NOTE',"원본폴더 보다 하위폴더로 이동할 수 없습니다.");	
+								common.toast("원본폴더 보다 하위폴더로 이동할 수 없습니다.");	
 							});
 							return;
 						}else{
 							$("#"+item.MENU_NO).off().on("click",function(){
-								console.log(menuInfo.no);
-								console.log(item.MENU_NO);
 								var folderId = $(this).attr("id");
 								
 								var pathId = "path"+item.MENU_NO;
@@ -171,7 +165,6 @@ $(function(){
 									var pathArr = $("[name='divPath'] span");
 									
 									if(pathArr.length > pathIndex+1){
-										console.log(pathArr[pathIndex+1]);
 										$(pathArr[pathIndex+1]).remove();	
 									}
 									//폴더 출력 및 클릭이벤트 바인딩 재귀
@@ -191,13 +184,13 @@ $(function(){
 					
 				}else{
 					common.loding(false);
-					common.showModal('SNAP NOTE','요청에 실패하였습니다.');
+					common.toast('요청에 실패하였습니다.');
 				}
 				
 			},
 			error : function(jqXHR,status,error){
 				common.loding(false);
-				common.showModal('SNAP NOTE 로그인','에러발생 :<br>'+error);
+				ccommon.toast('에러발생 :<br>');
 			}
 		});	
 		
@@ -277,7 +270,7 @@ $(function(){
 		});
 		
 		if(!radioChk){
-			common.showModal('SNAP NOTE',"폴더를 선택하세요.");
+			common.toast("폴더를 선택하세요.");
 			return;
 		}
 		
@@ -298,21 +291,15 @@ $(function(){
 		var moveNo = moveToThisFolder;
 		
 		if(title == ''){
-			common.showModal('SNAP NOTE',"폴더명을 입력하세요.");
+			common.toast("폴더명을 입력하세요.");
 			return;
 		}
 		
 		if(descript == ''){
-			common.showModal('SNAP NOTE',"설명을 입력하세요.");
+			common.toast("설명을 입력하세요.");
 			return;
 		}
 		
-		console.log("=====saveFolderInfo====");
-		console.log("title:::"+title);
-		console.log("descript:::"+descript);
-		console.log("crrentNo:::"+crrentNo);
-		console.log("moveNo:::"+moveNo);
-		console.log("=======================");
 		
 		if(!venReq){
 			venReq=true;
@@ -330,21 +317,21 @@ $(function(){
 				success : function(data){
 					venReq = false;
 					if(data.result == '1'){
-						alert('성공적으로 저장 되었습니다.');
+						common.toast ("저장했어요!")
 					}
 					else{
-						alert('폴더 저장에 실패하였습니다. 관리자에게 문의 부탁드립니다.');
+						common.toast ("폴더 저장을 실패했어요... 관리자에게 문의 부탁려요!")
 					}
 					location.reload();
 				},
 				error : function(jqXHR,status,error){
-					alert('에러발생');
+					common.toast ("폴더 저장을 실패했어요... 관리자에게 문의 부탁려요!")
 					location.reload();
 				}
 				
 			});
 		}else{
-			common.showModal('SNAP NOTE',"처리 중 입니다.");
+			common.toast ("처리 중 입니다.")
 		}
 	});
 	
@@ -356,12 +343,12 @@ $(function(){
 		var descript = $("#addDescript").val().trim();
 		
 		if(title == ''){
-			common.showModal('SNAP NOTE',"폴더명을 입력하세요.");
+			common.toast ("폴더명을 입력하세요.")
 			return;
 		}
 		
 		if(descript == ''){
-			common.showModal('SNAP NOTE',"설명을 입력하세요.");
+			common.toast ("설명을 입력하세요.")
 			return;
 		}
 		
@@ -378,13 +365,12 @@ $(function(){
 				method : "POST",        
 				dataType : "json",
 				success : function(data){
-					console.log(data);
 					venReq = false;
 					if(data.result == '1'){
-						alert('폴더가 성공적으로 생성되었습니다.');
+						common.toast ("폴더 생성에 성공했어요.");
 					}
 					else{
-						alert('폴더생성에 실패하였습니다. 관리자에게 문의 부탁드립니다.');
+						common.toast ("폴더생성에 실패하였습니다. 관리자에게 문의 부탁드립니다.");
 					}
 					location.reload();
 				},
@@ -395,7 +381,7 @@ $(function(){
 				
 			});
 		}else{
-			common.showModal('SNAP NOTE',"처리 중 입니다.");
+			common.toast ("처리 중 입니다.");
 		}
 	});
 	
@@ -415,18 +401,17 @@ $(function(){
 				method : "POST",        
 				dataType : "json",
 				success : function(data){
-					console.log(data);
 					venReq = false;
 					if(data.result == '1'){
-						alert('폴더를 삭제하였습니다.');
+						common.toast ("폴더를 삭제하였습니다.");
 					}
 					else{
-						alert('폴더삭제에 실패하였습니다. 관리자에게 문의 부탁드립니다.');
+						common.toast ("폴더삭제에 실패하였습니다. 관리자에게 문의 부탁드립니다.");
 					}
 					location.reload();
 				},
 				error : function(jqXHR,status,error){
-					alert('에러발생');
+					common.toast ("에러발생");
 					location.reload();
 				}
 				
@@ -561,22 +546,6 @@ $(function(){
 		<span class="top-back-txt">폴더 수정</span>
 	</div>
 	<div class="menu-box">
-		<%-- <div class="profile-box">
-			<div class="profile-img">
-			</div>
-		</div>
-		<div class="nick-box">
-			<div class="nick-txt">${nick}</div>
-		</div> --%>
-		
-		
-		
-		<ul class="nav nav-tabs  cate-tab">
-			<li name="tabMenu" role="presentation" <c:if test="${tabType eq 'Sentence'}">class="active"</c:if>><a href="javascript:void(0);">Sentence</a></li>
-			<li name="tabMenu" role="presentation" <c:if test="${tabType eq 'Word'}">class="active"</c:if>><a href="javascript:void(0);">Word</a></li>
-		</ul>
-		
-		
 		<div id="divCateBox" class="cate-box" >
 			<!-- 루트  -->
 			<div class=cate-menu-root

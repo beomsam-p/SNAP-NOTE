@@ -36,4 +36,12 @@ public interface SentenceMapper {
 	 * @return
 	 */
 	public int  modifySentence(HashMap<String, String> param);
+	
+	/** 문장 삭제
+	 * @param param	문장 및 폴더번호를 담은 맵 객체
+	 * @return
+	 */
+	public int  deleteSentence(HashMap<String, String> param);
+	
+	
 }

@@ -11,26 +11,9 @@ $(function(){
 		history.back();
 	});
 	
-	$(document).on('mousedown', function(event) {
-		
-		// Code here
-		if ((event.button == 2) || (event.which == 3)) {
-		   
-		}
-	});
-	
-	$(document).on("contextmenu",function(event){
-		console.log(event.pageX);
-		console.log(event.pageY);
-	   // $("#divContextMenu").fadeIn().css({top: event.pageY + "px", left: event.pageX + "px"});
-    	return false;
-	}).on("click", function(event) {
-	   // $("#divContextMenu").hide();
-	}); 
-	
-	
 	var tabType = "${tabType}";
 	var menuNo = "${menuNo}";
+	
 	
 	explorerFolder(tabType, menuNo);
 	
@@ -187,7 +170,7 @@ $(function(){
 					
 					$(list).each(function(index, item){
 						var html = "";
-						html	+= '<div class="move-cate-Row">'
+						html	+= '<div class="move-cate-Row move-sentence-Row" data-del="'+item.SENTENCE_NO+'" id="row'+item.SENTENCE_NO+'">'
 								+  '	<span class="glyphicon glyphicon-file move-cate-icon"></span>'
 								+  ' 	<div  class="move-cate-tit"  id="sentence'+item.SENTENCE_NO+'" name="sentence">'
 								+ 			item.TITLE
@@ -199,6 +182,54 @@ $(function(){
 							
 
 						$("[name='divAppendPointForSentence']").append(html);
+						
+						$(".move-sentence-Row").off().on('contextmenu', function(event) {
+							var sentenceNo = $(this).data("del");
+							var rowId = "#row"+sentenceNo;
+							var x = event.pageX;
+							var y = event.pageY;
+							
+							
+							if(x+200 > window.innerWidth  ){
+								x = x - ((x+220) - window.innerWidth);
+							}
+							
+							var x = event.pageX;
+							var y = event.pageY;
+							
+							if(x+120 > window.innerWidth  ){
+								x = x - ((x+120) - window.innerWidth);
+							}
+							
+							$("#divContextMenu").css("top",y-50);
+							$("#divContextMenu").css("left",x);
+							$("#divContextMenu").show();
+							
+							$("#menu1").on("click",function(){
+								$.ajax({
+									url : "/study/sentence/delete",     
+									data : {"sentenceNo" : sentenceNo},    
+									method : "POST",        
+									dataType : "json",
+									success : function(data){
+										if(data.result=="00"){
+											common.toast ("지워졌어요!")
+											$(rowId).remove();
+											
+										}
+										
+									},
+									error: function (e) {
+										common.toast ("지우기 실패...")
+									}
+								});
+								
+								$("#divContextMenu").hide();
+							});
+							
+							return false;
+						});
+						
 						
 						$("#sentence"+item.SENTENCE_NO).off().on("click",function(){
 							location.href="/study/sentence/"+item.MENU_NO+"?sentenceNo="+item.SENTENCE_NO;
@@ -230,15 +261,30 @@ $(function(){
 		
 	}
 	
+	$(document).off().on('contextmenu', function(event) {
+		return false;
+	});
+	
+	
+	$(document).on('click', function(event) {
+		$("#divContextMenu").hide();
+	});
+	
+	
+	
 });
 </script>
+
+
+
 <input type="hidden" id="hdnMenuNo"  name ="menuNo"  style="display: none;" />
 <div id="btnFixText" class="sentence-btn-full">현재폴더에 문서생성</div>
 
 <div id="divContextMenu" class='move-cate-context-menu'>
 	<div class="move-cate-context-menu-head-wrap">
-		<span class="move-cate-context">우클릭 메뉴</span>
+		<span class="move-cate-context">메뉴</span>
 	</div>
+	<div id="menu1" class="context-menu2">삭제</div> 
 </div>
 <div class="move-cate">
 	<div class="move-cate-head-wrap">

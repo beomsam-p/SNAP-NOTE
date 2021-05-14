@@ -67,20 +67,6 @@ $(function(){
 		
 	</div>
 	<div class="menu-box">
-		<%-- <div class="profile-box">
-			<div class="profile-img">
-			</div>
-		</div>
-		<div class="nick-box">
-			<div class="nick-txt">${nick}</div>
-		</div> --%>
-		
-		
-		
-		<ul class="nav nav-tabs  cate-tab">
-			<li name="tabMenu" role="presentation" <c:if test="${tabType eq 'Sentence'}">class="active"</c:if>><a href="javascript:void(0);">Sentence</a></li>
-			<li name="tabMenu" role="presentation" <c:if test="${tabType eq 'Word'}">class="active"</c:if>><a href="javascript:void(0);">Word</a></li>
-		</ul>
 		<div id="divCateBox" class="cate-box" >
 			<!-- 루트  -->
 			<div class=cate-menu-root

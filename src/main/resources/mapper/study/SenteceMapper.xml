@@ -57,4 +57,12 @@
 				, CONTENT = #{sentence}
 		WHERE	SENTENCE_NO = #{sentenceNo}
 	</update>
+	
+	
+	<update id="deleteSentence">
+		UPDATE	SENTENCE
+		SET		USE_YN = 'N'
+		WHERE	SENTENCE_NO = #{sentenceNo}
+			AND	ID = #{id}
+	</update>
 </mapper>

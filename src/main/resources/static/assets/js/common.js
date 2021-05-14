@@ -15,6 +15,31 @@ common.showModal = function(title, content){
 	$("#modal").modal();
 }
 
+common.toast = function (text){
+	const toast = $('#toast');  
+	
+	toast.text(text);
+	
+	var width =  toast.css("width");
+	
+	toast.css("marginLeft" , -parseInt(width)/2);
+	
+	
+	toast.fadeIn();
+  
+	setTimeout(function () {
+	
+	toast.fadeOut();	
+    }, 1700);
+
+} 
+
+
+common.hasScrollBar = function (target){
+    return ($(target).prop("scrollHeight") == 0 && $(target).prop("clientHeight") == 0)
+            || ($(target).prop("scrollHeight") > $(target).prop("clientHeight"));
+}
+
 /** 로딩 dim 제어
  * param	on	true : loding dim 보이기 
  *				false :  loding dim 감추기

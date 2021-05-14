@@ -46,10 +46,13 @@ public class SentenceService {
 		return sentenceMapper.saveSentence(param);
 	}
 
-	/** 문장 수정
-	 * @param sentence	문장
-	 * @param menuNo	폴더번호
-	 * @param id		유저 아이디
+	/**문장수정
+	 * @param sentence		문장
+	 * @param menuNo		폴더번호
+	 * @param title			제목
+	 * @param descript		설명
+	 * @param sentenceNo	문장번호
+	 * @param id			유저아이디
 	 * @return
 	 */
 	public int modifySentence(String sentence, String menuNo, String title, String descript, String sentenceNo, String id){
@@ -61,6 +64,18 @@ public class SentenceService {
 		param.put("sentenceNo", sentenceNo);
 		param.put("id", id);
 		return sentenceMapper.modifySentence(param);
+	}
+	
+	/** 문장 수정
+	 * @param sentenceNo	문장 번호
+	 * @param id			유저 아이디
+	 * @return
+	 */
+	public int deleteSentence(String sentenceNo, String id){
+		HashMap<String, String> param = new HashMap<String, String>();
+		param.put("sentenceNo", sentenceNo);
+		param.put("id", id);
+		return sentenceMapper.deleteSentence(param);
 	}
 	
 	

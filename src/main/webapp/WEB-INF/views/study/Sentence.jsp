@@ -9,7 +9,7 @@ $(function(){
 	
 	//뒤로가기
 	$("#btnBack").on("click",function(){
-		location.href="/";
+		history.back();
 	});
 	
 	//todo: 웹버전일 때 버튼 지우기
@@ -22,6 +22,7 @@ $(function(){
 	});
 	
 	$("#btnCameraToText").on("click",function(){
+		$("#file").attr("capture","camera");
 		$("#file").click();
 	});
 	
@@ -144,7 +145,7 @@ $(function(){
 		            	
 		            	common.loding(false);
 		            	$("#btnFixText").show();
-		            	$("#btnFileToText, #btnCameraToText").hide();
+		            	$("#btnFileToText").hide();
 		            	$("#appendPoint").append(data.result);
 						
 		            	$("#appendPoint").fadeIn();
@@ -164,18 +165,14 @@ $(function(){
 	
 	});
 	
-	//버튼 초기화
-	if (common.isMobile()) {
-	   $("#btnSelf").hide()
-	}else{
-		$("#btnCameraToText").hide();
-	}
 	
 	//등록 수정 분기
 	var editMode = true; 
 	var sentenceNo = '${sentenceNo}';
 	var sentence = $("#hdnSentence").val();
 	var menuNo = "${menuNo}";
+	var type = "${type}";
+	
 	console.log("sentenceNo::"+sentenceNo);
 	
 	if(sentenceNo != "0"){
@@ -184,15 +181,15 @@ $(function(){
 		$("#appendPoint").removeClass("text-on");
 		$("#appendPoint").html(sentence);
 		$("#btnFixText").remove();
-		$("#btnSaveSentence").text("문장수정");
 		$("#btnSaveSentence").show();
 		editMode = false;
 		
 		//불러온 문서 이벤트 바인딩
 		
 		var wordHighlight = $(".word-box-on");
-		wordHighlight.each(function(index, item){
-			$(item).on("click",function(){
+		var tags = $(".glyphicon-tag");
+		tags.each(function(index, item){
+			$(item).prev().on("click",function(){
 				var word = $("#word"+$(this).attr("id")).find(".hidden").text();
 				common.loding(true);
 				$("#viewWord").show();
@@ -201,7 +198,7 @@ $(function(){
 			});
 		});
 	}
-
+	
 	
 
 	var wordBoxOn = $(".word-box-on");
@@ -313,7 +310,7 @@ $(function(){
 		$("#btnWordOk").off().click(function(){
 			var wordVal = $("#word").val();
 			if(wordVal.trim()==""){
-				alert("단어를 입력해주세요.");
+				common.toast("단어를 입력해주세요.");
 				return;
 			}
 			
@@ -404,8 +401,16 @@ $(function(){
 		if(!confirm("내용을 저장하면 다시 수정 하실 수 없습니다.\r\n저장 하시겠습니까?")){
 			return;
 		}
-		$("#contextMenu").hide();
+		
+	
 		var appendPoint = $("#appendPoint");
+		if(appendPoint.text().trim() == ""){
+			common.toast("저장할 내용을 입력해주세요.");
+			appendPoint.focus();
+			return;
+		}
+		
+		$("#contextMenu").hide();
 		$(this).remove();
 		$("#btnSaveSentence").show();
 		appendPoint.removeAttr("contentEditable");
@@ -417,7 +422,10 @@ $(function(){
 	var appendPoint = $("#appendPoint");
 	
 	$("#appendPoint").on('mousewheel', function(e){
-		toggleHaderAndBotNav(e.originalEvent.wheelDelta, 0);
+		if(!editMode){
+			toggleHaderAndBotNav(e.originalEvent.wheelDelta, 0);
+		}
+		
     });
 	
 	
@@ -427,24 +435,10 @@ $(function(){
 	
 	$("#appendPoint").on("touchend",function(e){
 		var crrent_x =appendPoint.scrollTop();
-		toggleHaderAndBotNav(scroll_x, crrent_x);
-	});
-	
-	$("#toggleWord").on("click",function(){
-		var toggleWord = $(this);
-		if(toggleWord.hasClass("glyphicon-unchecked")){
-			toggleWord.removeClass("glyphicon-unchecked");
-			toggleWord.addClass("glyphicon-check");
-			//todo
-			//단어보임
-		}else{
-			toggleWord.addClass("glyphicon-unchecked");
-			toggleWord.removeClass("glyphicon-check");
-			//todo
-			//단어안보임
+		if(!editMode){
+			toggleHaderAndBotNav(scroll_x, crrent_x);
 		}
 	});
-
 	
 	$("#moveToTop").on("click",function(){
 		var appendPoint = $("#appendPoint");
@@ -458,31 +452,23 @@ $(function(){
 	
 	
 	
-	
-	$("#btnSaveSentence").on("click", function(){
-		common.loding(true);
-		$("#inputTitle").show();
-	});
-	
-	
-	$("#btnTitleCancel").on("click", function(){
-		common.loding(false);
-		$("#inputTitle").hide();
-	});
+
 	
 	$("#btnTitleOk").on("click",function(){
+		console.log("저장될 폴더번호::",menuNo);
+		
 		var title = $("#title");
 		
 		var descript = $("#descript");
 		
 		if(title.val().trim() == ""){
-			alert("제목을 입력해주세요.");
+			common.toast("제목을 입력해주세요.");
 			title.focus();
 			return;
 		}
 		
 		if(descript.val().trim() == ""){
-			alert("설명을 입력해주세요.");
+			common.toast("설명을 입력해주세요.");
 			descript.focus();
 			return;
 		}
@@ -496,15 +482,9 @@ $(function(){
 		
 		var sentence = appendPoint.html();
 	
-		
-		if(appendPoint.html().trim() == ""){
-			alert("저장할 내용을 입력해주세요.");
-			appendPoint.focus();
-			return;
-		}
-		
+	
 		$.ajax({
-			url : "/study/sentence/saveSentence",     
+			url : "/study/sentence/save",     
 			data : {
 					"sentence": sentence
 					, "menuNo" : menuNo
@@ -518,37 +498,37 @@ $(function(){
 				common.loding(true);
 		    },
 			success : function(data){
-				console.log(data);
 				common.loding(false);
 				
 				if(data != null && data.result == "00"){
-					common.showModal('SNAP NOTE','문장을 저장했어요!');
-					common.loding(false);
+					common.toast('문장을 저장했어요!');
 					$("#inputTitle").hide();
+					$("#selectPositionPop").hide();
+					
 				}else{
-					common.showModal('SNAP NOTE 로그인','저장에 실패했어요...');
+					common.toast('저장에 실패했어요...');
 				}
 			},
 			error : function(jqXHR,status,error){
 				common.loding(false);
-				common.showModal('SNAP NOTE 로그인','저장에 실패했어요...<br>'+error);
+				common.toast('저장에 실패했어요...'+error);
 			}
 		});
-		
 	});
-
 	
 	$("#btnSelf").on("click",function(){
 		$("#btnFileToText, #btnCameraToText, #btnSelf" ).hide();
     	$("#appendPoint").fadeIn();
     	$("#btnFixText").fadeIn();
-    	
     	$("#appendPoint").focus();
-    	
 	});
 	
 	
+	
 	function toggleHaderAndBotNav(oldScroll, crrentScroll){
+		if(!common.hasScrollBar($("#appendPoint"))){
+			return ;
+		}
 		var header = $("#header");
 		var botNav = $("#botNav");
 		var btnFixText = $("#btnFixText");
@@ -583,10 +563,289 @@ $(function(){
 		}
 	}
 	
+	$("#textSizeUp").on("click",function(){
+		$("#appendPoint").css("fontSize","+=5");
+	});
 	
+	$("#textSizeDonw").on("click",function(){
+		$("#appendPoint").css("fontSize","-=5");
+	});
+	
+	
+	
+	
+	function explorerFolder(tabType, f_menuNo){
+		$.ajax({
+			url : "/study/folder/selectPosition",     
+			data : {"tabType" : tabType, "menuNo" : f_menuNo},    
+			method : "POST",        
+			dataType : "json",
+			success : function(data){
+				
+				menuNo = f_menuNo;
+				
+				getMenuPath(tabType, f_menuNo);
+				
+				$("[name='divAppendPointForFolder']").html("");
+				if(data.result=="00"){
+					var list = data.list;
+					
+					if(list.length == 0){
+						emptyFolder = true;
+					}else{
+						emptyFolder = false;
+					}
+					
+					$(list).each(function(index, item){
+						var html = "";
+						html	+= '<div class="move-cate-Row">'
+								+  '	<span class="glyphicon glyphicon-folder-open move-cate-icon"></span>'
+								+  ' 	<div  class="move-cate-tit"  id="'+item.MENU_NO+'" name="forder" data-children="'+item.CHILDREN+'">'
+								+ 			item.TITLE
+								+  '		<div class="move-cate-desc">'
+								+  				item.DESCRIPT
+								+  '		</div>'
+								+  '    </div>'
+								
+								+  '</div>';
+							
+
+						$("[name='divAppendPointForFolder']").append(html);
+						
+						
+						$("#"+item.MENU_NO).off().on("click",function(){
+							
+							var folderId = $(this).attr("id");
+							
+							var pathId = "path"+item.MENU_NO;
+							
+							var pathCount = $("[name='divPath'] span").length;
+							
+							$("[name='divPath'] span").on("click",function(){
+								var pathMenuNo= $(this).data("no");
+								
+								var pathIndex = $(this).data("count");
+								
+								var pathArr = $("[name='divPath'] span");
+								
+								if(pathArr.length > pathIndex+1){
+									$(pathArr[pathIndex+1]).remove();	
+								}
+								//폴더 출력 및 클릭이벤트 바인딩 재귀
+								explorerFolder(tabType, pathMenuNo);
+								
+							});
+						 	//폴더 출력 및 클릭이벤트 바인딩 재귀
+							explorerFolder(tabType, folderId);
+							
+							
+						});//클릭
+					
+						
+						
+					});//each
+					
+					//파일도 얻어오기
+					searchSentence(tabType, f_menuNo);
+					
+					
+					
+					
+				}else{
+					common.loding(false);
+					common.toast('요청에 실패하였습니다.');
+				}
+				
+			},
+			error : function(jqXHR,status,error){
+				common.loding(false);
+				common.toast('요청에 실패하였습니다.'+error);
+			}
+		});	
+		
+	}
+	
+	
+	function getMenuPath(tabType, f_menuNo){
+		$.ajax({
+			url : "/study/folder/getMenuPath",     
+			data : {"tabType" : tabType, "menuNo" : f_menuNo},    
+			method : "POST",        
+			dataType : "json",
+			success : function(data){
+				$("[name='divPath']").html('<span class="move-cate-path" id="path0" data-no="0">스냅노트</span>');
+				
+				$("#path0").on("click",function(){
+					explorerFolder("Sentence", "0");
+				});
+				
+				if(data.result=="00"){
+					var menuPath = data.path.MENU_PATH;
+					
+					var path = data.path.PATH;
+					
+					var arrMenuPath = menuPath.split(">");
+					var arrPath = path.split(">");
+					$(arrMenuPath).each(function(index, item){
+						var addPath ='<div class="path-split"><span class="glyphicon glyphicon-chevron-right"></span></div><span class="move-cate-path" id="path'+arrPath[index]+'" data-no="'+arrPath[index]+'" >'+item+'</span>';
+						
+						$("[name='divPath']").append(addPath);
+						
+						$("#path"+arrPath[index]).on("click",function(){
+							explorerFolder("Sentence", arrPath[index]);
+						});
+					});
+				}
+			}
+		});
+	}
+	
+	function searchSentence(tabType, f_menuNo){
+		console.log("tabType:::"+tabType);
+		console.log("menuNo:::"+f_menuNo);
+		
+		$.ajax({
+			url : "/study/sentence/searchSentence",     
+			data : {"tabType" : tabType, "menuNo" : f_menuNo},    
+			method : "POST",        
+			dataType : "json",
+			success : function(data){
+				$("[name='divAppendPointForSentence']").html("");
+				$("#hdnMenuNo").val(f_menuNo);
+				console.log("hdn menuNO::"+$("#hdnMenuNo").val())
+				if(data.result=="00"){
+					var list = data.list;
+					
+					if(list.length == 0){
+						emptyFile = true;
+					}else{
+						emptyFile = false;
+					}
+					
+					
+					$(list).each(function(index, item){
+						var html = "";
+						html	+= '<div class="move-cate-Row">'
+								+  '	<span class="glyphicon glyphicon-file move-cate-icon"></span>'
+								+  ' 	<div  class="move-cate-tit"  id="sentence'+item.SENTENCE_NO+'" name="sentence">'
+								+ 			item.TITLE
+								+  '		<div class="move-cate-desc">'
+								+  				item.DESCRIPT
+								+  '		</div>'
+								+  '    </div>'
+								+  '</div>';
+							
+
+						$("[name='divAppendPointForSentence']").append(html);
+						/* 
+						$("#sentence"+item.SENTENCE_NO).off().on("click",function(){
+							location.href="/study/sentence/"+item.MENU_NO+"?sentenceNo="+item.SENTENCE_NO;
+						});//클릭
+						 */
+					});//each
+					
+					console.log("emptyFile::"+emptyFile);
+					console.log("emptyFolder::"+emptyFolder);
+					
+					if(emptyFile && emptyFolder){
+						$("[name='divAppendPointForSentence']").append('<div class="empty-folder">비어 있음</div>');
+					}
+					
+				}else{
+					common.loding(false);
+					common.toast('요청에 실패하였습니다.');
+				}
+				
+			},
+			error : function(jqXHR,status,error){
+				common.loding(false);
+				common.toast('요청에 실패하였습니다.'+error);
+			}
+		});
+	}
+	
+	$("#btnSaveSentence").on("click", function(){
+		if(type == 'bot'){
+			explorerFolder("Sentence", "0");
+			$("#selectPositionPop").fadeIn();
+		}else{
+			common.loding(true);
+			$("#inputTitle").show();
+		}
+	});
+	
+	
+	$("#btnTitleCancel").on("click", function(){
+		common.loding(false);
+		$("#inputTitle").hide();
+	});
+	
+	
+
+	$("#btnSelectPositionPopClose").on("click", function(){
+		common.loding(false);
+		$("#selectPositionPop").hide();
+	});
+	
+	
+
+	$("#btnPositionSelect").on("click", function(){
+		common.loding(true);
+		$("#inputTitle").show();
+		
+	});
+	
+	$("#appendPoint").bind('paste',function(e){
+		var pastedData = e.originalEvent.clipboardData.getData('text');
+		$("#appendPoint").text($("#appendPoint").text()+pastedData);
+		return false;
+	});
 	
 });
 </script>
+
+<div  class="move-cate-for-create" id="selectPositionPop" style="display: none;" >
+	<input type="hidden" id="hdnMenuNo"  name ="menuNo"  style="display: none;" />
+	<div id="btnPositionSelect" class="sentence-btn-full">현재폴더에 문서생성</div>
+	<div>
+		<div class="move-cate-head-wrap">
+			<div class="back-head modify-pop-tit-txt">
+				<span onclick="$('#selectPositionPop').hide();" class="glyphicon glyphicon-menu-left btn-back modify-pop-tit-txt"></span>
+			</div>
+			<span class="top-back-txt modify-pop-tit-txt">폴더 및 파일 선택</span>
+		</div>
+		<!-- 선택한 폴더 타이틀로 보여주기  -->
+		<div class="move-cate-body">
+			<!-- 폴더  -->
+			<div class="pop-folder-area">
+				<div class="pop-folder">
+					<div class="path-explorer" name="divPath">
+						
+					</div>
+					<div class="container-fluid" name="divAppendPointForFolder">
+						<!-- append list-->
+						
+						<!-- append list -->
+					</div>
+					
+					<div class="container-fluid" name="divAppendPointForSentence">
+						<!-- append list-->
+						
+						<!-- append list -->
+					</div>
+				</div>		
+			</div>
+			<!-- 폴더  -->
+			
+		</div>
+	</div>
+</div>
+
+
+
+
+
+
 <input id="hdnSentence" value="${sentence}" style="display: none;">
 
 <div id="contextMenu" class="context-menu-wrap">
@@ -598,7 +857,9 @@ $(function(){
 <div id="toolBox" class="tool-box-wrap">
 	<span id="moveToTop"class="glyphicon glyphicon-chevron-up tool-box-item"></span>
 	<br>
-	<span id="toggleWord" class="glyphicon glyphicon-check tool-box-item"></span>
+	<span id="textSizeUp" class="glyphicon glyphicon-plus"></span>
+	<br>
+	<span id="textSizeDonw" class="glyphicon glyphicon-minus"></span>
 	<br>
 	<span id="moveToDown" class="glyphicon glyphicon-chevron-down tool-box-item"></span>
 </div>
@@ -629,9 +890,9 @@ $(function(){
 </div>
 
 <div id="btnFixText" class="sentence-btn-full" style="display: none;">문장 고정</div>
-<div id="btnSaveSentence" class="sentence-btn-full" style="display: none;">문장 기록</div>
+<div id="btnSaveSentence" class="sentence-btn-full" style="display: none;">저장</div>
 
-<input type="file" id="file" name="file" style="display: none;" capture="camera" accept="image/*">
+<input type="file" id="file" name="file" style="display: none;"  accept="image/*">
 
 
 <div name="sentence" id="sentenceList" class="sentenceList">
@@ -641,77 +902,26 @@ $(function(){
 			<span class="top-back-txt">문장 등록</span>
 		</div>
 	</div>
-	
 	<div class="sentence-wrap">
-		<!-- 
-		<div class="sentence-append-point" id="appendPoint" >
-			<span name="word" id="0">[Editorial]&nbsp;</span><span name="word" id="1">Negative&nbsp;</span><span name="word" id="2">reversal&nbsp;</span><span><br></span><span name="word" id="3">By&nbsp;</span><span name="word" id="4">Korea&nbsp;</span><span name="word" id="5">Herald&nbsp;</span><span><br></span><span name="word" id="6">Korea&nbsp;</span><span name="word" id="7">set&nbsp;</span><span name="word" id="8">to&nbsp;</span><span name="word" id="9">record&nbsp;</span><span name="word" id="10">first&nbsp;</span><span name="word" id="11">monthly&nbsp;</span><span name="word" id="12">current&nbsp;</span><span name="word" id="13">account&nbsp;</span><span name="word" id="14">deficit&nbsp;</span><span name="word" id="15">in&nbsp;</span><span name="word" id="16">7&nbsp;</span><span name="word" id="17">years&nbsp;</span><span><br></span><span name="word" id="18">Published&nbsp;</span><span name="word" id="19">:&nbsp;</span><span name="word" id="20">Jun&nbsp;</span><span name="word" id="21">3,&nbsp;</span><span name="word" id="22">2019&nbsp;</span><span name="word" id="23">-&nbsp;</span><span name="word" id="24">17:03&nbsp;</span><span><br></span><span name="word" id="25">Updated&nbsp;</span><span name="word" id="26">:&nbsp;</span><span name="word" id="27">Jun&nbsp;</span><span name="word" id="28">3,&nbsp;</span><span name="word" id="29">2019&nbsp;</span><span name="word" id="30">-17:03&nbsp;</span><span><br></span><span name="word" id="31">A&nbsp;</span><span name="word" id="32">Afy&nbsp;</span><span><br></span><span name="word" id="33">South&nbsp;</span><span name="word" id="34">Korea&nbsp;</span><span name="word" id="35">seems&nbsp;</span><span name="word" id="36">set&nbsp;</span><span name="word" id="37">to&nbsp;</span><span name="word" id="38">record&nbsp;</span><span name="word" id="39">a&nbsp;</span><span name="word" id="40">current&nbsp;</span><span name="word" id="41">account&nbsp;</span><span name="word" id="42">deficit&nbsp;</span><span name="word" id="43">in&nbsp;</span><span name="word" id="44">April&nbsp;</span><span name="word" id="45">for&nbsp;</span><span name="word" id="46">the&nbsp;</span><span name="word" id="47">first&nbsp;</span><span name="word" id="48">time&nbsp;</span><span name="word" id="49">since&nbsp;</span><span><br></span><span name="word" id="50">May&nbsp;</span><span name="word" id="51">2012&nbsp;</span><span name="word" id="52">in&nbsp;</span><span name="word" id="53">yet&nbsp;</span><span name="word" id="54">another&nbsp;</span><span name="word" id="55">warning&nbsp;</span><span name="word" id="56">sign&nbsp;</span><span name="word" id="57">about&nbsp;</span><span name="word" id="58">the&nbsp;</span><span name="word" id="59">sluggish&nbsp;</span><span name="word" id="60">performance&nbsp;</span><span name="word" id="61">of&nbsp;</span><span name="word" id="62">Asia's&nbsp;</span><span name="word" id="63">fourth-&nbsp;</span><span><br></span><span name="word" id="64">largest&nbsp;</span><span name="word" id="65">economy.&nbsp;</span><span><br></span><span name="word" id="66">With&nbsp;</span><span name="word" id="67">the&nbsp;</span><span name="word" id="68">Bank&nbsp;</span><span name="word" id="69">of&nbsp;</span><span name="word" id="70">Korea&nbsp;</span><span name="word" id="71">scheduled&nbsp;</span><span name="word" id="72">to&nbsp;</span><span name="word" id="73">announce&nbsp;</span><span name="word" id="74">official&nbsp;</span><span name="word" id="75">data&nbsp;</span><span name="word" id="76">this&nbsp;</span><span name="word" id="77">week,&nbsp;</span><span name="word" id="78">government&nbsp;</span><span><br></span><span name="word" id="79">officials&nbsp;</span><span name="word" id="80">have&nbsp;</span><span name="word" id="81">indicated&nbsp;</span><span name="word" id="82">that&nbsp;</span><span name="word" id="83">the&nbsp;</span><span name="word" id="84">country's&nbsp;</span><span name="word" id="85">current&nbsp;</span><span name="word" id="86">account&nbsp;</span><span name="word" id="87">balance&nbsp;</span><span name="word" id="88">will&nbsp;</span><span name="word" id="89">tip&nbsp;</span><span name="word" id="90">into&nbsp;</span><span name="word" id="91">negative&nbsp;</span><span><br></span><span name="word" id="92">territory&nbsp;</span><span name="word" id="93">after&nbsp;</span><span name="word" id="94">having&nbsp;</span><span name="word" id="95">been&nbsp;</span><span name="word" id="96">in&nbsp;</span><span name="word" id="97">the&nbsp;</span><span name="word" id="98">black&nbsp;</span><span name="word" id="99">for&nbsp;</span><span name="word" id="100">83&nbsp;</span><span name="word" id="101">straight&nbsp;</span><span name="word" id="102">months&nbsp;</span><span name="word" id="103">through&nbsp;</span><span name="word" id="104">March.&nbsp;</span><span><br></span><span name="word" id="105">A&nbsp;</span><span name="word" id="106">statement&nbsp;</span><span name="word" id="107">released&nbsp;</span><span name="word" id="108">Friday&nbsp;</span><span name="word" id="109">by&nbsp;</span><span name="word" id="110">the&nbsp;</span><span name="word" id="111">Ministry&nbsp;</span><span name="word" id="112">of&nbsp;</span><span name="word" id="113">Economy&nbsp;</span><span name="word" id="114">and&nbsp;</span><span name="word" id="115">Finance&nbsp;</span><span name="word" id="116">said&nbsp;</span><span name="word" id="117">there&nbsp;</span><span name="word" id="118">was&nbsp;</span><span name="word" id="119">a&nbsp;</span><span><br></span><span name="word" id="120">possibility&nbsp;</span><span name="word" id="121">that&nbsp;</span><span name="word" id="122">the&nbsp;</span><span name="word" id="123">country&nbsp;</span><span name="word" id="124">would&nbsp;</span><span name="word" id="125">suffer&nbsp;</span><span name="word" id="126">a&nbsp;</span><span name="word" id="127">"slight&nbsp;</span><span name="word" id="128">current&nbsp;</span><span name="word" id="129">account&nbsp;</span><span name="word" id="130">deficit&nbsp;</span><span name="word" id="131">temporarily"&nbsp;</span><span name="word" id="132">in&nbsp;</span><span><br></span><span name="word" id="133">April&nbsp;</span><span name="word" id="134">due&nbsp;</span><span name="word" id="135">to&nbsp;</span><span name="word" id="136">the&nbsp;</span><span name="word" id="137">payment&nbsp;</span><span name="word" id="138">of&nbsp;</span><span name="word" id="139">dividends&nbsp;</span><span name="word" id="140">to&nbsp;</span><span name="word" id="141">offshore&nbsp;</span><span name="word" id="142">investors.&nbsp;</span><span><br></span><span name="word" id="143">&nbsp;</span><span><br></span>
-		</div> 
-		-->
 		<div class="sentence-append-point text-on" id="appendPoint"  contentEditable="true"  style="display: none;">
-			<!-- 	
-			[Editorial] <span class="word-box-on" id="0">Negative</span><span class="glyphicon glyphicon-tag" id="word0" style="font-size: 0.5em;"></span> reversal
-			By Korea Herald
-			Korea set to <span class="word-box-on" id="2">record </span><span class="glyphicon glyphicon-tag" id="word2" style="font-size: 0.5em;"></span>first monthly current account deficit in 7 years
-			Published : Jun 3, 2019 - 17:03
-			Updated : <span class="word-box-on" id="1">Jun </span><span class="glyphicon glyphicon-tag" id="word1" style="font-size: 0.5em;"></span>3, 2019 -17:03
-			A Afy
-			South Korea seems set to record a current <span class="word-box-on" id="5">account </span><span class="glyphicon glyphicon-tag" id="word5" style="font-size: 0.5em;"></span>deficit in <span class="word-box-on" id="4">April </span><span class="glyphicon glyphicon-tag" id="word4" style="font-size: 0.5em;"></span>for the first time since
-			May 2012 in yet another warning sign about the sluggish <span class="word-box-on" id="3">performance </span><span class="glyphicon glyphicon-tag" id="word3" style="font-size: 0.5em;"></span>of Asia's fourth-
-			largest economy.
-			With the Bank of Korea scheduled to announce official data this week, government
-			officials have indicated that the country's current account balance will tip into negative
-			territory after having been in the black for 83 straight months through March.
-			A statement released Friday by the Ministry of Economy and Finance said there was a
-			possibility that the country would suffer a "slight current account deficit temporarily" in
-			April due to the payment of dividends to offshore investors. 
-			
-			
-[Editorial] Negative reversal
-By Korea Herald
-Korea set to record first monthly current account deficit in 7 years
-Published : Jun 3, 2019 - 17:03
-Updated : Jun 3, 2019 -17:03
-A Afy
-South Korea seems set to record a current account deficit in for the first time since
-May 2012 in yet another warning sign about the sluggish performance of Asia's fourth-
-largest economy.
-With the Bank of Korea scheduled to announce official data this week, government
-officials have indicated that the country's current account balance will tip into negative
-territory after having been in the black for 83 straight months through March.
-A statement released Friday by the Ministry of Economy and Finance said there was a
-possibility that the country would suffer a "slight current account deficit temporarily" in
-April due to the payment of dividends to offshore investors.
-			-->
+		<%-- appendPoint--%>
 		</div>
-		
-		<div class="sentence-btn-wrap"  >
-			<div id="btnFileToText" class="sentence-btn-float">사진으로 문장 등록</div>
-			<div id="btnCameraToText"  class="sentence-btn-float" >카메라로 문장 등록</div>
-			<div id="btnSelf"  class="sentence-btn-float">직접 문장 등록</div>
-			
-		</div>
-		
-		
-		<div class="sentence-box">
-			<input type="text" >
+		<div class="sentence-btn-wrap">
+			<div id="btnFileToText" class="sentence-btn-float">사진으로</div>
+			<div id="btnSelf"  class="sentence-btn-float">직접 입력</div>
 		</div>
 	</div>
 </div>
+
+
 <%--주요 문제점	
-	봇네비로 등록하러 들어올 때 폴더 지정할 수 있어야함.
-	->폴더 지정방식 정해야함.
-	
 	폴더 수정과 폴더 탐색 을 합칠 수 있을까?
 	-> 탐색도 하면서 문서도 생성하면서 폴더도 수정삭제 할 수 있게
+	-> 일이 커짐 컨텍스트메뉴로 이동 수정 제어하려면 폴더 / 파일 구분하면서 이동규칙도 맞춰줘야함
 	
 	임시저장기능
-	
-	텍스트 확대 축소 기능(막대바로 조절하는게 나을까 버튼이 나을까)
-	+ - 버튼 $("#appendPoint").css("fontSize","+=5");
-	
+
 	폴더 슬라이더에서 해당 폴더에 문장 들어있을 경우 갯수 뱃지 달아주기
-	
-	문장삭제 기능 
+
 	
 --%>
