@@ -38,6 +38,10 @@ height: 100%;
 .ml40{
 	margin-left: 100px;
 }
+.mt-minus-10per{
+	margin-top: -10px;
+}
+
 .top-minus-10per{
 	top: -10%;
 }
@@ -928,7 +932,7 @@ input[type=radio]{
 .input-word{
 	position: absolute;
 	width: 80%;
-	height: 300px;
+	height: auto;
 	top : 10%;
 	left: 10%;
 	z-index: 6;
@@ -998,7 +1002,6 @@ input[type=radio]{
     padding: 15px 25px;
     z-index: 100;
 }
-
 
 
 /* 

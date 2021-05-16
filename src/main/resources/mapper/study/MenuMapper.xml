@@ -13,6 +13,7 @@
 				, PATH
 				, USE_YN
 				, CHILDREN
+				, SENTENCE_COUNT
 		FROM(
 			WITH RECURSIVE HIERARCHY_MENU AS
 			(
@@ -43,18 +44,19 @@
 		                    , M.USE_YN
 				    FROM HIERARCHY_MENU HM JOIN MENU M ON HM.MENU_NO = M.PARENT_NO AND M.USE_YN = 'Y'
 				)
-				SELECT	MENU_NO
-						, TITLE
-				        , DESCRIPT
-			            , FORDER_YN
-			            , LVL
-			            , DEPTH
-			            , PATH
-			            , MENU_PATH
-		                , PARENT_NO
-		                , USE_YN
+				SELECT	HM.MENU_NO
+						, HM.TITLE
+				        , HM.DESCRIPT
+			            , HM.FORDER_YN
+			            , HM.LVL
+			            , HM.DEPTH
+			            , HM.PATH
+			            , HM.MENU_PATH
+		                , HM.PARENT_NO
+		                , HM.USE_YN
 		                , (SELECT 'CHILDREN_EXIST' FROM HIERARCHY_MENU group by PARENT_NO HAVING  PARENT_NO= MENU_NO  ) AS CHILDREN
-				FROM HIERARCHY_MENU 
+		                , (SELECT COUNT(1) FROM SENTENCE S WHERE ID = #{id} AND HM.MENU_NO = S.MENU_NO ) AS SENTENCE_COUNT
+				FROM HIERARCHY_MENU HM 
 				ORDER BY PATH
 			) MENU_PATH
 		WHERE USE_YN ='Y';

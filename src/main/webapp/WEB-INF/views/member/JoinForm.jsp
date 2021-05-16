@@ -88,6 +88,7 @@ $(function(){
 				common.loding(true);
 		    },
 			success : function(data){
+				console.log(data);
 				common.loding(false);
 				
 				if(data != null && data.result == "00"){

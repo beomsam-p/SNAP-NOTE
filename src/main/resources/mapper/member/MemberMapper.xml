@@ -12,20 +12,20 @@
  				, USE_YN
  				, INS_DATE
  				, UPT_DATE
-        FROM	MEMBER
+        FROM	MEMBERS
         WHERE	EMAIL = #{id}
     </select>
     
     <!-- 중복된 유저정보 갯수  -->
      <select id="chkIdDuplication" parameterType="String" resultType="int">
         SELECT	COUNT(1)
-        FROM	MEMBER
+        FROM	MEMBERS
         WHERE	EMAIL = #{id}
     </select>
     
     <!-- 유저 등록  -->
     <insert id="insertMember" parameterType="com.lo.swipenote.dto.MemberDto">
-    	INSERT INTO MEMBER	(ID
+    	INSERT INTO MEMBERS	(ID
     						, PWD
     						, NICKNAME
     						, EMAIL

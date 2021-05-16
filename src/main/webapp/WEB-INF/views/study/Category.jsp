@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %> 
 
 
 <script>
@@ -8,9 +9,6 @@ $(function(){
 	$(document).on("contextmenu",function(e){
         return false;
     });
-
-
-	
 	
 	var chkInclude = false;
 	//메뉴닫기
@@ -26,8 +24,8 @@ $(function(){
  	$("[name='btnPlus']").off().on("click",function(e){
 		e.stopPropagation();
 		var $this = $(this).parent().parent();
-		console.log($this);
 		var innerCateId = "#innerCateBox"+$this.attr('id');
+
 		if(	$(innerCateId).css("display") == "none"){
 			$this.children().children("span").attr("class","glyphicon glyphicon-minus cate-icon");
 			$(innerCateId).slideDown();
@@ -81,8 +79,13 @@ $(function(){
 				data-desc="ROOT">
 				
 				<div class="cate-tit">
-					<span  name="btnPlus" class="glyphicon glyphicon-minus cate-icon"></span>
-					스냅노트
+					<c:if test="${fn:length(list) eq 0 }" var="result">
+						<span  name="btnPlus" class="glyphicon glyphicon-unchecked move-cate-icon-empty"></span>
+					</c:if>
+					<c:if test="${!result}">
+						<span  name="btnPlus" class="glyphicon glyphicon-minus cate-icon"></span>
+					</c:if>
+					스냅노트 
 				</div>
 						
 				<div class="cate-desc">ROOT</div>
@@ -108,14 +111,15 @@ $(function(){
 						 >
 						 	
 							
-							<div class="cate-tit <c:if test="${menu.FORDER_YN eq 'N'}">cate-tit-noforder</c:if>">
+							<div class="cate-tit">
 								<c:if test="${menu.CHILDREN eq 'CHILDREN_EXIST'}" var="children">
 									<span  name="btnPlus" class="glyphicon glyphicon-plus cate-icon"></span>
 								</c:if>
 							 	<c:if test="${!children}" >
 									<span  name="btnPlus" class="glyphicon glyphicon-unchecked move-cate-icon-empty"></span>
 								</c:if>
-								${menu.TITLE}
+								${menu.TITLE} 
+								<span class="badge mt-minus-10per">${menu.SENTENCE_COUNT}</span>
 							</div>
 							
 							<div class="cate-desc">${menu.DESCRIPT}</div>

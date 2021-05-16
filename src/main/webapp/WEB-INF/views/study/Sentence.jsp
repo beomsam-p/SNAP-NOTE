@@ -247,7 +247,9 @@ $(function(){
 			
 			$("#menu1").text("현광펜 제거");
 			
-			if($selectedNode.children(".glyphicon-tag").length == 0){
+			console.log($selectedNode.next().hasClass("glyphicon-tag"));
+			
+			if(!$selectedNode.next().hasClass("glyphicon-tag")){
 				$("#menu2").show();
 	 		}else{
 	 			$("#menu2").hide();
@@ -264,9 +266,13 @@ $(function(){
 				
 				$("#word"+id).remove();
 			
-				var nodeText = $selectedNode.text();
+				var html = $selectedNode.html();
+				
+				var newNode = document.createElement("span");
+				newNode.innerHTML = html;
+				
 				$selectedNode.remove();
-				range.insertNode(document.createTextNode(nodeText));
+				range.insertNode(newNode);
 				
 				$("#contextMenu").hide();
 				
@@ -284,12 +290,16 @@ $(function(){
 			$("#menu3").hide();
 			
 			$("#menu1").off().click(function(){
-				var extractText = range.extractContents().textContent;
+				var extractText = range.extractContents();
+				//console.log(range.extractContents().childNodes);
 				var newNode = document.createElement('span');
-				newNode.innerHTML = extractText;
+				//newNode.innerHTML = extractText;
 				newNode.className = "word-box-on";
 				newNode.id = highlightIdx;
 				range.insertNode(newNode);
+				
+				$("#"+highlightIdx).append(extractText);
+				
 				highlightIdx++;
 				$("#contextMenu").hide();
 			});
@@ -328,7 +338,6 @@ $(function(){
 			wordNode.className = 'glyphicon glyphicon-tag';
 			wordNode.id = "word"+id;
 
-			console.log(range);
 			
 			//range.setStart(selectedNode,1);
 			//range.insertNode(wordNode);
@@ -801,6 +810,12 @@ $(function(){
 		return false;
 	});
 	
+	document.addEventListener('keydown', function(e){
+	  if (e.key === 'Enter') {
+	    document.execCommand('insertLineBreak')
+	    e.preventDefault();
+	  }
+	})
 });
 </script>
 
@@ -923,5 +938,5 @@ $(function(){
 
 	폴더 슬라이더에서 해당 폴더에 문장 들어있을 경우 갯수 뱃지 달아주기
 
-	
+	여러행 현광펜 시 단락이 사라짐
 --%>
