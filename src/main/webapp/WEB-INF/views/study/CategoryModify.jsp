@@ -423,7 +423,7 @@ $(function(){
 </script>
 <div id="divBotBtnWrap" class="insert-head-wrap">
 	<div id="btnModify"  class="pop-btn-float">선택 폴더 수정</div>
-	<div id="btnAddFolder"  class="pop-btn-float">선택 지점에 폴더 추가</div>
+	<div id="btnAddFolder"  class="pop-btn-float-end">선택 지점에 폴더 추가</div>
 </div>
 <div class="select-position-pop" id="selectPositionPop" >
 	<div class="pop-head-wrap">

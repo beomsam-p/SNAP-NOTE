@@ -471,6 +471,22 @@ height: 100%;
 	float: left;
 }
 
+.pop-btn-float-end{
+	width: 50%;
+	height: 40px;
+	background-color:#5c196b;
+	color: white;
+	font-weight: bold; 
+	text-align: center;
+	padding-top: 10px;	
+	margin-top: 10px;
+	margin-bottom: 10px;
+	border-left-color : white;
+	border-left-style : solid;
+	border-left-width : 1px;
+	float: left;
+}
+
 .right-border{
 	border-right: 1px;
 	border-right-style: solid;

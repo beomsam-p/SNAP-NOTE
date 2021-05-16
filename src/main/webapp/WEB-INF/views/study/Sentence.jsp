@@ -909,7 +909,6 @@ $(function(){
 
 <input type="file" id="file" name="file" style="display: none;"  accept="image/*">
 
-
 <div name="sentence" id="sentenceList" class="sentenceList">
 	<div id="header" class="back-head-wrap">
 		<div class="back-head">
@@ -930,13 +929,5 @@ $(function(){
 
 
 <%--주요 문제점	
-	폴더 수정과 폴더 탐색 을 합칠 수 있을까?
-	-> 탐색도 하면서 문서도 생성하면서 폴더도 수정삭제 할 수 있게
-	-> 일이 커짐 컨텍스트메뉴로 이동 수정 제어하려면 폴더 / 파일 구분하면서 이동규칙도 맞춰줘야함
-	
-	임시저장기능
-
-	폴더 슬라이더에서 해당 폴더에 문장 들어있을 경우 갯수 뱃지 달아주기
-
-	여러행 현광펜 시 단락이 사라짐
+	임시저장기능 - 로컬스토리지 활용?단어 뜻 이벤트 바인딩까지 생각 필요
 --%>
