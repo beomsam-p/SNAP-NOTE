@@ -997,9 +997,6 @@ input[type=radio]{
 	display: none;
 }
 
-
-
-
 ::selection { 
 	background: #96bb7c;
 	color: white;
@@ -1019,7 +1016,46 @@ input[type=radio]{
     z-index: 100;
 }
 
+.word-container{
+	display: grid;
+	width:100%;
+	grid-template-columns: 10% 30% 30% 15% 15%;
+}
 
+.item{
+	text-align: center;
+	margin-bottom: 5px;
+	font-weight: bold;
+	border-bottom: 1px solid #E0E3DA;
+	padding: 10px;
+	display : table; 
+	width : 100%; 
+	height : 100%;
+}
+
+
+.item-head{
+	background-color: #5c196b;
+	color: white;
+}
+
+.inner-item{
+	display : table-cell; 
+	vertical-align : middle;
+}
+
+.word-wrap{
+	background-color : white;
+	width: 100%;
+	position:absolute;
+	top:55px;
+	overflow-y: auto;
+	padding-bottom: 55px;
+}
+
+.display-none{
+	display: none;
+}
 /* 
 .words{
 	color: #ff7473;

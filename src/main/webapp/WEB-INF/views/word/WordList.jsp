@@ -7,10 +7,126 @@ $(function(){
 	$("#btnBack").on("click",function(){
 		history.back();
 	});
+	
+	var objWords= new Object();
+	
+	
+	$("[name='word']").on("change",function(){
+		var wordNo = $(this).attr("id");
+		var orgWord = $(this).data("orgWord");
+		var convWord = $(this).data("convWord");
+		var wrongCount = $(this).data("wrongCount");
+		var hitYn = $(this).data("hitYn");
+		
+		if($(this).is(":checked")){
+			var objWord = new Object();
+			objWord.wordNo = wordNo;
+			objWord.orgWord = orgWord;
+			objWord.convWord = convWord;
+			objWord.wrongCount = wrongCount;
+			objWord.hitYn = hitYn;
+			objWords[wordNo]  = objWord;
+		}else{
+			delete objWords[wordNo];
+		}
+		
+		if($("[name='word']:checked").length != 0){
+			$("#divBotBtnWrap").show();
+			$(".word-wrap").css("padding-bottom","90px")
+			
+		}else{
+			$("#divBotBtnWrap").hide();
+			$(".word-wrap").css("padding-bottom","55px")
+		}
+		
+		if($("[name='word']:checked").length == $("[name='word']").length){
+			$("#allChk").prop("checked",true);
+		}else{
+			$("#allChk").prop("checked",false);
+		}
+	});
+	
+	
+	$("#allChk").on("change",function(){
+		if($(this).is(":checked")){
+			$("#divBotBtnWrap").show();
+			$("[name='word']").prop("checked",true);
+			$(".word-wrap").css("padding-bottom","90px")
+			$("[name='word']").each(function(index, item){
+				var wordNo = $(item).attr("id");
+				var orgWord = $(item).data("orgWord");
+				var convWord = $(item).data("convWord");
+				var wrongCount = $(item).data("wrongCount");
+				var hitYn = $(item).data("hitYn");
+				var objWord = new Object();
+				objWord.wordNo = wordNo;
+				objWord.orgWord = orgWord;
+				objWord.convWord = convWord;
+				objWord.wrongCount = wrongCount;
+				objWord.hitYn = hitYn;
+				objWords[wordNo]  = objWord;
+			});
+		}else{
+			$("#divBotBtnWrap").hide();
+			$("[name='word']").prop("checked",false);
+			$(".word-wrap").css("padding-bottom","55px")
+			objWords=new Object;
+			
+		}
+	});
+	
+	
+	$("[name='chkConvHide']").on("change",function(){
+		if($(this).is(":checked")){
+			$(".conv-word").removeClass("display-none");
+		}else{
+			$(".conv-word").addClass("display-none");
+		}
+	});
+	
+	var currScrollTop = 0;
+	$(document).on("scroll",function(e){
+		var scrollTop = $(window).scrollTop();
+		if(scrollTop > 49){
+			$("#tableHeader").css("position","fixed");
+			$("#tableHeader").css("top","0");
+		}else{
+			$("#tableHeader").css("position","relative");
+		}
+		
+		if(currScrollTop > scrollTop){
+			$("#toolBox").css("top",scrollTop+window.innerHeight/2-50);
+			$("#toolBox").fadeOut();
+		}else{
+			$("#toolBox").css("top",scrollTop+window.innerHeight/2-50);
+			$("#toolBox").fadeIn();
+		}
+		currScrollTop = scrollTop;
+	});
+	
+	$("#moveToTop").on("click",function(){
+		$('html, body').stop().animate({scrollTop:'0'},1000);
+	});
+	
+	$("#moveToDown").on("click",function(){
+		var target = $('html, body');
+		target.animate({scrollTop : target.prop("scrollHeight")},1000);
+	});
+	
+	$("#wordReg").on("click",function(){
+		alert("등록!")
+	});
+	
 });
 </script>
 
-
+<div id="toolBox" class="tool-box-wrap">
+	<span id="moveToTop"class="glyphicon glyphicon-chevron-up tool-box-item"></span>
+	<br>
+	<span id="wordReg" class="glyphicon glyphicon-plus"></span>
+	<br>
+	<span id="moveToDown" class="glyphicon glyphicon-chevron-down tool-box-item"></span>
+</div>
 <div id="wordList" class="sentenceList">
 	<div id="header" class="back-head-wrap">
 		<div class="back-head">
@@ -18,12 +134,40 @@ $(function(){
 			<span class="top-back-txt">단어 목록</span>
 		</div>
 	</div>
-	<div class="sentence-wrap">
-		
+	<div class="word-wrap">
+		<div class="word-container" id="tableHeader">
+			<div class="item item-head">
+				<span class="inner-item"><input type="checkbox" id="allChk"></span>
+			</div>
+			<div class="item item-head"><span class="inner-item">단어</span></div>
+			<div class="item item-head"><span class="inner-item">뜻&nbsp;&nbsp;&nbsp;<input type="checkbox" id="chkConvHide" name="chkConvHide" checked="checked"></span></div>
+			<div class="item item-head"><span class="inner-item">오답 횟수</span></div>
+			<div class="item item-head"><span class="inner-item">정답 여부</span></div>
+		</div>
+		<div class="word-container">
+			<c:forEach items="${wordList}" var="word">
+				<div class="item">
+					<span class="inner-item">
+						<input	type="checkbox" 
+							id="${word.WORD_NO}" 
+							name="word" 
+							value="${word.WORD_NO}"
+							data-org-word="${word.ORG_WORD}"
+							data-conv-word="${word.CONV_WORD}"
+							data-wrong-count="${word.WRONG_COUNT}"
+							data-hit-yn="${word.HIT_YN}">
+					</span>
+				</div>
+				<div class="item"><span class="inner-item">${word.ORG_WORD} </span></div>
+				<div class="item"><span class="inner-item conv-word">${word.CONV_WORD}</span></div>
+				<div class="item"><span class="inner-item">${word.WRONG_COUNT}</span></div>
+				<div class="item"><span class="inner-item">${word.HIT_YN}</span></div>
+			</c:forEach>
+		</div>
 	</div>
 	<div id="divBotBtnWrap" class="insert-head-wrap" >
-		<div id="btnModify" class="pop-btn-float">삭제</div>
-		<div id="btnAddFolder" class="pop-btn-float-end">암기 테스트</div>
+		<div id="btnDelete" class="pop-btn-float">삭제</div>
+		<div id="btnTest" class="pop-btn-float-end">암기 테스트</div>
 	</div>
 </div>
 <%--

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lo.swipenote.mapper.WordMapper">
+
+	<select id="searchWordList" parameterType="map" resultType="map">
+		SELECT	WORD_NO
+				, SENTENCE_NO
+				, ORG_WORD
+				, CONV_WORD
+				, WRONG_COUNT
+				, HIT_YN
+				, USE_YN
+				, INS_DATE
+				, UPT_DATE
+		FROM	WORD
+		WHERE	ID = #{id}	
+	</select>
+</mapper>
