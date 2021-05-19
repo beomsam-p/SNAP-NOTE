@@ -15,4 +15,51 @@
 		FROM	WORD
 		WHERE	ID = #{id}	
 	</select>
+	
+	<select id="getWord" parameterType="map" resultType="map">
+		SELECT	WORD_NO
+				, SENTENCE_NO
+				, ORG_WORD
+				, CONV_WORD
+				, WRONG_COUNT
+				, HIT_YN
+				, USE_YN
+				, INS_DATE
+				, UPT_DATE
+		FROM	WORD
+		WHERE	ID = #{id}
+			AND	WORD_NO = #{wordNo}	
+	</select>
+	
+	<insert id="insertWord" parameterType="map">
+		INSERT INTO WORD
+				(
+					ORG_WORD
+					, CONV_WORD
+					, ID
+				)
+				VALUES
+				(
+					#{orgWord}
+					, #{convWord}
+					, #{id}
+				)
+		<selectKey keyProperty="id" resultType="Integer" order="AFTER">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+	</insert>
+	
+	<update id="updateWrongCount"  parameterType="map" >
+		UPDATE	WORD 
+		SET		WRONG_COUNT = WRONG_COUNT+1
+		WHERE 	ID = #{id}
+			AND	WORD_NO = #{wordNo}	
+	</update>
+	
+	<update id="updateHitYn"  parameterType="map" >
+		UPDATE	WORD 
+		SET		HIT_YN = #{hitYn}
+		WHERE 	ID = #{id}
+			AND	WORD_NO = #{wordNo}	
+	</update>
 </mapper>

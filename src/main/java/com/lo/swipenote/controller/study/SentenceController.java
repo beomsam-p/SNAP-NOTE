@@ -154,7 +154,11 @@ public class SentenceController extends MasterController {
 		return model;
 	}
 	
-	
+	/**문장삭제
+	 * @param session		유저 정보를 담은 세션
+	 * @param sentenceNo	문장번호
+	 * @return
+	 */
 	@LoginCheck
 	@ResponseBody
 	@RequestMapping(value = "/delete", method = RequestMethod.POST)

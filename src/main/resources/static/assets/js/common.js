@@ -25,11 +25,10 @@ common.toast = function (text){
 	toast.css("marginLeft" , -parseInt(width)/2);
 	
 	
-	toast.fadeIn();
+	toast.stop().fadeIn();
   
 	setTimeout(function () {
-	
-	toast.fadeOut();	
+		toast.stop().fadeOut();	
     }, 1700);
 
 } 

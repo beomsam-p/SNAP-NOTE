@@ -19,4 +19,28 @@ public interface WordMapper {
 	 * */
 	public List<HashMap<String, Object>>  searchWordList(HashMap<String, Object> param);
 	
+	/** 단어 단건 얻기
+	 * @param 	param	아이디와 단어정보를 담고있음
+	 * @return
+	 * */
+	public HashMap<String, Object> getWord(HashMap<String, Object> param);
+	
+	/** 단어 입력
+	 * @param 	param	아이디와 단어정보를 담고있음
+	 * @return
+	 * */
+	public void insertWord(HashMap<String, Object> param);
+	
+	/** 실패횟수 업데이트
+	 * @param 	param	단어번호를 담고있음
+	 * @return
+	 * */
+	public void updateWrongCount(HashMap<String, Object> param);
+	
+	
+	/** 단어 적중 여부 수정
+	 * @param param		아이디, 단어번호, 적중여부가 있음
+	 */
+	public void updateHitYn(HashMap<String, Object> param);
+	
 }

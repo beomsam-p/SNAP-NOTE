@@ -1047,14 +1047,111 @@ input[type=radio]{
 .word-wrap{
 	background-color : white;
 	width: 100%;
+	height : auto;
 	position:absolute;
 	top:55px;
 	overflow-y: auto;
-	padding-bottom: 55px;
+	padding-bottom: 90px;
 }
 
 .display-none{
 	display: none;
+}
+
+.pop-btn-reg{
+	width: 100%;
+	height: 40px;
+	background-color:#5c196b;
+	color: white;
+	font-weight: bold; 
+	text-align: center;
+	padding-top: 10px;	
+	margin-top: 10px;
+	margin-bottom: 10px;
+	float: left;
+}
+
+.btn-empty{
+	position : relative;
+	top : 40%;
+	left : 50%;
+	width: 250px;
+	height: auto;
+	background-color:#666666;
+	color: white;
+	font-weight: bold; 
+	text-align: center;
+	padding: 5px;
+	margin-left : -125px;
+	line-height: 200%;
+}
+
+.wordCard{
+	background-color: #666666;
+	color: white;
+	width: 100px;
+	height: 100px;
+	text-align: center;
+	line-height: 100px;
+}
+
+.cardWrap{
+	display: grid;
+	width:100%;
+	grid-template-columns: 50% 50%;
+	text-align: center;
+}
+
+.card{
+	display:table;
+	background-color: #548687;
+	height: 100px;
+	margin: 10px;
+	border-radius: 10px;
+	box-shadow: 1px 1px 6px #8b8687;
+}
+
+.innerCard{
+	display: table-cell;
+	vertical-align: middle;
+	color:white;
+	font-weight: bold;
+	font-size: 1.5em; 
+	word-break:break-all;
+	word-wrap:break-word;
+}
+
+.question{
+	width: 100%;
+	text-align: center;
+	font-size: 2.0em;
+	height: 200px;
+	line-height: 200px;
+	font-weight: bold;
+}
+
+.btn-backToWordList{
+	width: 100%;
+	height: 40px;
+	background-color: #5c196b;
+	color: white;
+	font-weight: bold; 
+	text-align: center;
+	padding-top: 10px;	
+	margin-right:10px;
+	margin-left:10px;
+	float: left;
+	border-radius: 5px;
+	box-shadow: 1px 3px 6px #8b8687;
+}
+
+.word-game-wrap{
+	width: 100%;
+	height : auto;
+	position:absolute;
+	top:55px;
+	overflow-y: auto;
+	padding-bottom: 95px;
 }
 /* 
 .words{
