@@ -46,6 +46,9 @@
 						, #{descript}
 						, #{sentence}
 					)
+		<selectKey keyProperty="id" resultType="String" order="AFTER">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
 	</insert>
 	
 	<update id="modifySentence">

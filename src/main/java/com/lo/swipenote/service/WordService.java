@@ -45,10 +45,11 @@ public class WordService {
 	 * @param id		유저 아이디
 	 * @return
 	 */
-	public String insertWord(String orgWord, String convWord, String id) {
+	public String insertWord(String orgWord, String convWord, String sentenceNo, String id) {
 		HashMap<String, Object> param = new HashMap<String, Object>();
 		param.put("orgWord", orgWord);
 		param.put("convWord", convWord);
+		param.put("sentenceNo", sentenceNo);
 		param.put("id", id);
 		wordMapper.insertWord(param);
 		return param.get("id").toString();

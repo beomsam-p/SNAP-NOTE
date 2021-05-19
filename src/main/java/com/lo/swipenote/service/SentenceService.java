@@ -36,14 +36,15 @@ public class SentenceService {
 	 * @param id		유저 아이디
 	 * @return
 	 */
-	public int saveSentence(String sentence, String menuNo, String title, String descript, String id){
+	public String saveSentence(String sentence, String menuNo, String title, String descript, String id){
 		HashMap<String, String> param = new HashMap<String, String>();
 		param.put("sentence", sentence);
 		param.put("menuNo", menuNo);
 		param.put("title", title);
 		param.put("descript", descript);
 		param.put("id", id);
-		return sentenceMapper.saveSentence(param);
+		sentenceMapper.saveSentence(param);
+		return param.get("id");
 	}
 
 	/**문장수정

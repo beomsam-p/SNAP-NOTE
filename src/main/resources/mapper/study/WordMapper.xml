@@ -36,12 +36,14 @@
 				(
 					ORG_WORD
 					, CONV_WORD
+					, SENTENCE_NO
 					, ID
 				)
 				VALUES
 				(
 					#{orgWord}
 					, #{convWord}
+					, #{sentenceNo}
 					, #{id}
 				)
 		<selectKey keyProperty="id" resultType="Integer" order="AFTER">

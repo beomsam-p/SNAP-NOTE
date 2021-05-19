@@ -260,10 +260,6 @@ $(function(){
 			$("#menu1").off().click(function(){
 				var id  = $selectedNode.attr("id");
 				
-				//delete words[id];
-				
-				//console.log(words);
-				
 				$("#word"+id).remove();
 			
 				var html = $selectedNode.html();
@@ -291,9 +287,7 @@ $(function(){
 			
 			$("#menu1").off().click(function(){
 				var extractText = range.extractContents();
-				//console.log(range.extractContents().childNodes);
 				var newNode = document.createElement('span');
-				//newNode.innerHTML = extractText;
 				newNode.className = "word-box-on";
 				newNode.id = highlightIdx;
 				range.insertNode(newNode);
@@ -329,19 +323,9 @@ $(function(){
 			
 			var wordNode = document.createElement('span');
 			var id  = $selectedNode.attr("id");
-			//wordNode.innerHTML = wordVal;
-			//wordNode.innerHTML = "&nbsp;";
-			//wordNode.style.position = 'absolute';
-			//wordNode.style.fontSize = '10px';
 			wordNode.style.fontSize = '0.5em';
-			//wordNode.style.width = "100px";
 			wordNode.className = 'glyphicon glyphicon-tag';
 			wordNode.id = "word"+id;
-
-			
-			//range.setStart(selectedNode,1);
-			//range.insertNode(wordNode);
-			
 			
 			$("#"+id).after(wordNode);
 			
@@ -350,23 +334,11 @@ $(function(){
 			hiddenWord.innerHTML =  wordVal;
 			$("#word"+id).append(hiddenWord);
 			
-			//header.append(wordNode);
 			common.loding(false);
 			
 			$("#inputWord").hide();
 			
 			$("#word").val("");
-			
-			
-			/* 	
-			var wordObj = new Object();
-			wordObj.wordOrg = $selectedNode.text();
-			wordObj.wordMean = wordVal;
-			console.log(wordObj);
-			
-			words[id] = wordObj;
-			console.log(words); 
-			*/
 			
 			
 			$("#"+id).on("click",function(){
@@ -379,8 +351,32 @@ $(function(){
 		
 		
 		$("#menu3").off().click(function(){
-			//todo
-			//단어장에 저장
+			
+			var orgWord = $selectedNode.text();
+			
+			var convWord = $selectedNode.next().children().text();
+			
+			$.ajax({
+				url : "/study/word/save",     
+				data : {
+						"orgWord": orgWord
+						, "convWord" : convWord
+						, "sentenceNo" : sentenceNo
+						},    
+				method : "POST",        
+				dataType : "json",
+				beforeSend : function() {
+					common.loding(true);
+			    },
+				success : function(data){
+					common.loding(false);
+					common.toast('단어를 저장했어요.');
+					$("#contextMenu").hide();
+					
+				}
+			    
+		    });
+			
 		});
 		
 		return false;
@@ -510,6 +506,7 @@ $(function(){
 				common.loding(false);
 				
 				if(data != null && data.result == "00"){
+					sentenceNo = data.sentenceNo;
 					common.toast('문장을 저장했어요!');
 					$("#inputTitle").hide();
 					$("#selectPositionPop").hide();

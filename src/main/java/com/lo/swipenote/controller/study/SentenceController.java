@@ -136,7 +136,7 @@ public class SentenceController extends MasterController {
 				id = memberInfo.getId();
 				model.put("result","00");
 				if("0".equals(sentenceNo)) {
-					sentenceService.saveSentence(sentence, menuNo, title, descript, id);	
+					model.put("sentenceNo", sentenceService.saveSentence(sentence, menuNo, title, descript, id));
 				}else {
 					sentenceService.modifySentence(sentence, menuNo,  title, descript, sentenceNo, id);
 				}

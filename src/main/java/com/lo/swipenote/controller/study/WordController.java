@@ -75,7 +75,7 @@ public class WordController extends MasterController{
 	@LoginCheck
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
 	@ResponseBody	
-	public HashMap<String, Object> save(HttpSession session, String orgWord, String convWord){
+	public HashMap<String, Object> save(HttpSession session, String orgWord, String convWord, String sentenceNo){
 		// 리턴 파라미터 선언
 		HashMap<String, Object> model = new HashMap<String, Object>();
 
@@ -88,7 +88,7 @@ public class WordController extends MasterController{
 			// 유저 정보가 있을 경우 아이디 얻기
 			if (memberInfo != null) {
 				id = memberInfo.getId();
-				String lastWordNo = wordService.insertWord(orgWord, convWord, id);
+				String lastWordNo = wordService.insertWord(orgWord, convWord, sentenceNo, id);
 				model.put("word", wordService.getWord(lastWordNo, id));
 				model.put("result", "00");
 			} else {
