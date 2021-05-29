@@ -170,7 +170,7 @@ $(function(){
 			
 			$(".innerCard").text("😅");
 			
-			$("#question").html("Voctory!!");
+			$("#question").html("Victory!!");
 			
 			$(".card").off();
 			
@@ -184,14 +184,6 @@ $(function(){
 	$("#btnGoToWordNote").on("click",function(){
 		location.href = "/study/word/list"
 	});
-
-
-
-	
-	
-	//delete words[ranWordNo];
-	//console.log(words);
-	
 });
 </script>
 	<div id="header" class="back-head-wrap">

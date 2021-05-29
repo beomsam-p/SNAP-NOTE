@@ -8,6 +8,7 @@ $(function(){
 	$("#btnBack").on("click",function(){
 		history.back();
 	});
+	
 	$("#divWordRegWrap").show();
 	
 	var objWords= new Object();
@@ -31,7 +32,7 @@ $(function(){
 		}else{
 			delete objWords[wordNo];
 		}
-		console.log(objWords);
+		
 		if($("[name='word']:checked").length != 0){
 			$("#divBotBtnWrap").show();
 			
@@ -160,7 +161,6 @@ $(function(){
 				common.loding(true);
 		    },
 			success : function(data){
-				console.log(data);
 				common.loding(false);
 				
 				if(data != null && data.result == "00"){
@@ -242,10 +242,44 @@ $(function(){
 	
 	$("#btnDelete").on("click", function(){
 		if(confirm("정말 삭제할까요?")){
+			
 			$("[name='word']:checked").each(function(index, item){
 				$(item).parent().parent().hide().next().hide().next().hide().next().hide().next().hide();
 			});
+			
+			var wordNo = JSON.stringify(Object.keys(objWords));
+			
+			$.ajax({
+				url : "/study/word/delete",     
+				data : {
+						"wordNo": wordNo
+						},    
+				method : "POST",        
+				dataType : "json",
+				beforeSend : function() {
+					common.loding(true);
+			    },
+				success : function(data){
+					console.log(data);
+					common.loding(false);
+					
+					if(data.result == '00'){
+						common.toast('단어를 삭제 했어요!');
+					}else{
+						common.toast('앗 삭제가 안돼요! 관리자에게 문의하세요!');
+					}
+					
+					if($("[name='word']:visible").length == 0){
+						$("#wordReg2").show();
+						$("#allChk").prop("checked",false);						
+					}
+				},
+				error : function(){
+	
+				}
+			});
 		}
+		
 	});
 	
 	$("#btnTest").on("click", function(){
@@ -321,9 +355,9 @@ $(function(){
 		</div>
 		
 	</div>
-	<c:if test="${fn:length(wordList) eq 0 }" var="result">
-		<div id="wordReg2" class="btn-empty">단어가 없어요. 지금 등록해보세요.<br> CLICK!</div>
-	</c:if>
+	
+		<div id="wordReg2" class="btn-empty" style='<c:if test="${fn:length(wordList) eq 0 }" var="result">display: block;</c:if>'>단어가 없어요. 지금 등록해보세요.<br> CLICK!</div>
+	
 	<div id="divWordRegWrap" class="insert-head-wrap" >
 		<div id="wordReg" class="pop-btn-reg">등록</div>
 	</div>
@@ -333,12 +367,14 @@ $(function(){
 	</div>
 </div>
 <%--
-단어  삭제
-	-> 다 삭제되면 단어없어요 등록해주세요 뿌려주기
-	-> 삭제 ajax 작업
-	
 단어게임 
 	-> 선택한단어로 단어게임 시작 / 전체 단어로 시작 / 노히트 단어로만 시작
 	-> 틀림횟수가 많이 증가할수록 빨간색이 됨
 	-> 게임이 끝나면 통계를 보여줌(결과 통계 기록 테이블 만들지 고민필요 / 마이페이지에서 로그성으로 볼려면 만들어야함.)
+	
+이후에 추가할 기능들
+	-> API 통신으로 리스트 얻기
+	-> 정렬 기능 넣기(단어로/히트여부/틀린횟수)
+	-> 외운 단어는 빼놓기 기능
+	-> 
 --%>

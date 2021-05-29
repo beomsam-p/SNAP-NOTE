@@ -6,6 +6,10 @@ import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.lo.swipenote.aop.LoginCheck;
 import com.lo.swipenote.controller.MasterController;
 import com.lo.swipenote.dto.MemberDto;
@@ -189,4 +195,44 @@ public class WordController extends MasterController{
 		return model;
 	}
 	
+	
+	/**	단어 삭제 proc
+	 * @param session	유저정보를 담은 세션
+	 * @param wordNo	오답한 단어 번호
+	 * @return
+	 * @throws ParseException 
+	 */
+	@LoginCheck
+	@RequestMapping(value = "/delete", method = RequestMethod.POST)
+	@ResponseBody	
+	public HashMap<String, Object> wordDelete(HttpSession session, String wordNo){
+		// 리턴 파라미터 선언
+		HashMap<String, Object> model = new HashMap<String, Object>();
+
+		// 세션에서 유저정보 얻기
+		MemberDto memberInfo = (MemberDto) session.getAttribute("userSession");
+
+		wordNo = (String) wordNo.subSequence(1, wordNo.length()-1);
+		
+		String id = "";
+		
+		wordNo = wordNo.replaceAll("\"", "'");
+		
+		try {
+			// 유저 정보가 있을 경우 아이디 얻기
+			if (memberInfo != null) {
+				id = memberInfo.getId();
+				wordService.deletWord(wordNo, id);
+				model.put("result", "00");
+			} else {
+				model.put("result", "99");
+				model.put("msg", "noUserInfo");
+			}
+		} catch (Exception e) {
+			model.put("result", "99");
+			model.put("msg", e.getMessage());
+		}
+		
+		return model;
+	}
 }

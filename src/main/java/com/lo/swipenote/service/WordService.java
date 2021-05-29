@@ -80,5 +80,15 @@ public class WordService {
 		wordMapper.updateHitYn(param);
 	}
 	
-	
+	/** 단어 삭제
+	 * @param wordNo	대상 단어번호
+	 * @param hitYn		적중여부
+	 * @param id		유저 아이디
+	 */
+	public void deletWord(String wordNo, String id) {
+		HashMap<String, Object> param = new HashMap<String, Object>();
+		param.put("wordNo", wordNo);
+		param.put("id", id);
+		wordMapper.deletWord(param);
+	}
 }

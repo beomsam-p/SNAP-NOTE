@@ -14,6 +14,7 @@
 				, UPT_DATE
 		FROM	WORD
 		WHERE	ID = #{id}	
+			AND	USE_YN = 'Y'
 	</select>
 	
 	<select id="getWord" parameterType="map" resultType="map">
@@ -64,4 +65,12 @@
 		WHERE 	ID = #{id}
 			AND	WORD_NO = #{wordNo}	
 	</update>
+	
+	<update id="deletWord"  parameterType="map" >
+		UPDATE	WORD 
+		SET		USE_YN = 'N'
+		WHERE 	ID = #{id}
+			AND	WORD_NO IN (${wordNo})	
+	</update>
+	
 </mapper>

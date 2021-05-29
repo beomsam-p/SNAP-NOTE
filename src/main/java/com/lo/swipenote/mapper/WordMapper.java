@@ -43,4 +43,10 @@ public interface WordMapper {
 	 */
 	public void updateHitYn(HashMap<String, Object> param);
 	
+
+	/** 단어 삭제
+	 * @param param		아이디, 단어번호가 있음
+	 */
+	public void deletWord(HashMap<String, Object> param);
+	
 }
