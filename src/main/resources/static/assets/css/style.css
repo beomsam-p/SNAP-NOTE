@@ -336,22 +336,7 @@ height: 100%;
 	color: #5c196b;
 }
 
-.profile-box{
-	text-align: center;
-}
 
-.profile-img{
-	background: #f3f3f3;
-	width: 75px;
-	height: 75px;
-	border-radius: 35px;
-	display: inline-block;
-	margin-top: 20px;
-	background-image: url("/static/assets/img/temp/dog.PNG");
-	background-repeat: no-repeat;
-	background-size: 100% 100%;
-	box-shadow: 1px 1px 3px #cacaca;
-}
 
 .nick-box{
 	text-align: center;
@@ -1084,6 +1069,8 @@ input[type=radio]{
 	padding: 5px;
 	margin-left : -125px;
 	line-height: 200%;
+	display: none;
+	border-radius:  10px;
 }
 
 .wordCard{
@@ -1153,46 +1140,116 @@ input[type=radio]{
 	overflow-y: auto;
 	padding-bottom: 95px;
 }
-/* 
-.words{
-	color: #ff7473;
-	height: 30px;
-	margin-top: -25px;
-	word-break : normal;
-	white-space: nowrap;
+
+
+/*=========================마이페이지====================================*/
+
+.my-home-list{
+	background-color : white ;
+	height:inherit;
+	width: 100%;
 	overflow: hidden;
-	text-overflow: ellipsis;
+}
+
+.my-home-box{
+	height: 100%;
+	padding-bottom: 55px;
 }
 
 
-
-.sentence-btn-delete{
-	width: 50%;
-	height: 40px;
-	background-color:#cb7575;
-	color: white;
-	font-weight: bold; 
+/*===============프로필==============*/
+.my-home-profile{
+	height: 60%;
+	display: table;
+	width : 100%;
 	text-align: center;
-	padding-top: 10px;	
-	margin-bottom: 10px;
-	float: left;
-	border: 1px solid white;
+	border-bottom: 1px solid gray;
 }
 
-.sentence-btn-save{
-	width: 50%;
-	height: 40px;
-	background-color:#5c196b;
-	color: white;
-	font-weight: bold; 
+.profile-area{
+	display: table-cell;
+	vertical-align : middle;
 	text-align: center;
-	padding-top: 10px;	
-	margin-bottom: 10px;
-	float: left;
-	border: 1px solid white;
-} */
+}
+
+.profile-img{
+	background-color: gray;
+	width: 100px;
+	height: 100px;
+	border-radius:  35px ;
+	object-fit: cover;
+}
+
+.profile-bg-img{
+	background-color: gray;
+	width: 100px;
+	height: 100px;
+	border-radius:  35px ;
+	object-fit: cover;
+}
+
+.profile-nick{
+	width: auth;
+	
+}
+
+/*===============프로필==============*/
+
+
+/*===============통계==============*/
+.my-home-statistics{
+	height: 14%;
+	margin: 0;
+	padding: 0;
+	display: table;
+	width: 100%;
+}
+
+.my-home-statistics > div{
+	width: 25%;
+	display: inline-block;
+	text-align: center;
+	margin: 0;
+	padding: 0;
+	display: table-cell;
+	vertical-align : middle;
+	border-bottom: 1px solid gray;
+}
+
+/*===============통계==============*/
 
 
 
+/*===============개인정보==============*/
+.my-home-privacy{
+	height: 8%;
+	display: table;
+	width: 100%;
+}
+.my-home-privacy > div{
+	height: 8%;
+	display: table-cell;
+	vertical-align : middle;
+	text-align: center;
+	border-bottom: 1px solid gray;
+}
+/*===============개인정보==============*/
 
-/*===============================/문장페이지===============================*/
+
+
+/*===============로그아웃==============*/
+.my-home-logout{
+	height: 8%;
+	display: table;
+	width: 100%;
+}
+
+.my-home-logout > div{
+	height: 8%;
+	display: table-cell;
+	vertical-align : middle;
+	text-align: center;
+	border-bottom: 1px solid gray;
+}
+/*===============로그아웃==============*/
+/*=========================마이페이지====================================*/
