@@ -12,7 +12,6 @@ $(function(){
 		history.back();
 	});
 	
-	//todo: 웹버전일 때 버튼 지우기
 	if(false){
 		$("#btnCameraToText").hide();	
 	}
