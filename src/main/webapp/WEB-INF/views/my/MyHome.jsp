@@ -19,16 +19,20 @@ $(function(){
 			<span class="top-back-txt">마이 홈</span>
 		</div>
 	</div>
-	<div class="my-home-box">
-		<%--프로필 영역--%>
-		<div class="my-home-profile">
-			<div class="profile-area">
-				<img class="profile-img" alt="" src="/static/assets/img/temp/dog.PNG">
-				<div class="profile-modify">수정버튼</div>
-				<div>닉네임</div>
+	<div class="my-home-bg" 
+		 style="background-image: url('/static/assets/img/temp/dog.PNG'); ">
+	</div>
+	<%--프로필 영역--%>
+	<div class="profile-wrap">
+		<div class="profile-area">
+			<div class="profile-img" style="background-image: url('/static/assets/img/temp/dog.PNG');">
 			</div>
 		</div>
-		
+		<div class="profile-nick">닉네임</div>
+		<%--개인정보 수정 영역--%>
+		<div class="my-home-logout">
+			<span>프로필 수정</span><span> 로그아웃</span> 
+		</div>
 		<%--통계영역--%>
 		<div class="my-home-statistics">
 			<div>저장 단어 <br> 12,300</div>
@@ -38,14 +42,15 @@ $(function(){
 		</div>
 		
 		
-		<%--개인정보 수정 영역--%>
-		<div class="my-home-privacy">
-			<div>개인정보 수정</div>
-		</div>
 		
-		<%--로그아웃 영역--%>
-		<div class="my-home-logout">
-			<div>로그아웃</div>
-		</div>
 	</div>
 </div>
+
+<%--
+1. 디자인 정리
+2. 백그라운드 이미지도 변경버튼 달아주기
+3. 백그라운드 이미지 클릭스  사진 팝업(카톡참고)
+4. 프로필 사진 클릭시 사진팝업(카톡참고)
+5. rest api 방식 데이터 얻기
+6. 로그아웃 기능, 프로필 수정페이지 이동 기능
+--%>
