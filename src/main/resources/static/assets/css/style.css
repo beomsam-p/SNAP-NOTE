@@ -75,14 +75,14 @@ height: 100%;
 	position : relative;
 } 
 
-   .login-form form {
+.login-form form {
 	color: #7a7a7a;
 	border-radius: 2px;
-       font-size: 13px;
-       background: #ececec;
-       box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
-       padding : 5px 30px 10px 30px;	
-   } 
+    font-size: 13px;
+    background: #ececec;
+    box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+    padding : 5px 30px 10px 30px;	
+} 
    
 .login-form h2 {
 	font-size: 22px;
@@ -222,7 +222,8 @@ height: 100%;
 }
 
 .menuBtn{
-	color: white;
+	color: black;
+	opacity : .4;
 	position:relative;
 	display: flex;
 	justify-content: center;
@@ -233,7 +234,7 @@ height: 100%;
 
 .bot-nav{
 	height: 55px;
-	background-color: #5c196b;
+	background-color: white;
 	position: fixed;
 	bottom: 0;
 	width: 100%;
@@ -245,7 +246,8 @@ height: 100%;
 .nav-txt{
 	font-weight: bold;
 	font-size: .8em;
-	color:  white;
+	color: black;
+	opacity : .4;
 	display: block;
 	text-align: center;
 	
@@ -256,14 +258,15 @@ height: 100%;
 }
 
 .menuList{
-	background-color : white ;
+	background-color : #f3f3f3 ;
 	height:inherit;
 	width: 100%;
+	
 	overflow: auto;
 }
 
 .menuList-modify{
-	background-color : white ;
+	background-color :  #f3f3f3 ;
 	height:inherit;
 	width: 100%;
 	overflow: auto;
@@ -358,7 +361,7 @@ height: 100%;
 	padding : 0;
 	padding: 0 0 5px 10px;
 	font-weight: bold;	
-	background: white;
+	background: #f3f3f3;
 	margin-top: 10px;
 	
 }
@@ -367,7 +370,7 @@ height: 100%;
 	padding: 0 0 5px 10px;
 	font-weight: bold;
 	color:#EC7357;
-	background: white;
+	background: #f3f3f3;
 }
 
 
@@ -678,6 +681,7 @@ input[type=radio]{
 }
 
 .move-cate-body{
+	background-color : #f3f3f3 ;
 	height: 100%;
 	width: 100%;
 	padding: 20px 20px 50px 20px ;
@@ -725,8 +729,8 @@ input[type=radio]{
 .move-cate-icon-empty{
 	font-size :1.2em;
 	position:relative;
-	color:  #5c196b;
 	margin-right: 10px;
+	opacity :0;
 	color: white;
 }
 .move-cate-tit{
@@ -755,9 +759,10 @@ input[type=radio]{
 }
 
 .move-cate-Row{
-	background-color: #f3f3f3;
+	background-color: white;
 	height: 70px;
 	margin-top: 10px;
+	border-radius: 10px;
 }
 
 .move-cate-path{
@@ -779,14 +784,14 @@ input[type=radio]{
 }
 /*===============================문장페이지================================*/
 .sentenceList{
-	background-color : white ;
+	background-color : #f3f3f3 ;
 	height:inherit;
 	width: 100%;
 	overflow: hidden;
 }
 
 .sentence-wrap{
-	background-color : white;
+	background-color : #f3f3f3 ;
 	width: 100%;
 	height : 100%;
 }
@@ -819,7 +824,7 @@ input[type=radio]{
 
 .sentence-btn-full{
 	position: fixed;
-	bottom: 56px;
+	bottom: 55px;
 	width: 100%;
 	margin: 0;
 	padding: 0;
@@ -1011,7 +1016,7 @@ input[type=radio]{
 	text-align: center;
 	margin-bottom: 5px;
 	font-weight: bold;
-	border-bottom: 1px solid #E0E3DA;
+	border-bottom: 1px solid #5c196b;
 	padding: 10px;
 	display : table; 
 	width : 100%; 
@@ -1030,7 +1035,7 @@ input[type=radio]{
 }
 
 .word-wrap{
-	background-color : white;
+	background-color : #f3f3f3 ;
 	width: 100%;
 	height : auto;
 	position:absolute;
@@ -1151,46 +1156,60 @@ input[type=radio]{
 	overflow: hidden;
 }
 
-.my-home-box{
-	height: 100%;
-	padding-bottom: 55px;
-}
-
 
 /*===============프로필==============*/
-.my-home-profile{
-	height: 60%;
-	display: table;
+
+
+.my-home-bg{
+	height: 100%;
+	padding-bottom: 55px;
+	height: 100%;
 	width : 100%;
 	text-align: center;
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: cover;
 	border-bottom: 1px solid gray;
+	filter:brightness(70%);
+	z-index:1;
+}
+
+.profile-wrap{
+	z-index:2;
+	position: absolute;
+	left: 0;
+	bottom : 0;
+	margin-bottom :55px;
+	width: 100%;
 }
 
 .profile-area{
-	display: table-cell;
-	vertical-align : middle;
+	position :relative;
+	left : 50%;
+	margin-left : -50px;
 	text-align: center;
+	padding-bottom: 20px;
+	z-index:2;
 }
 
 .profile-img{
-	background-color: gray;
 	width: 100px;
 	height: 100px;
 	border-radius:  35px ;
-	object-fit: cover;
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: cover;
 }
 
-.profile-bg-img{
-	background-color: gray;
-	width: 100px;
-	height: 100px;
-	border-radius:  35px ;
-	object-fit: cover;
-}
 
 .profile-nick{
-	width: auth;
-	
+	text-align : center;
+	font-weight: bold;
+	color: white;
+	width: 100%;
+	height : 20px;
+	margin-top: -10px;
+	margin-bottom: 10px;
 }
 
 /*===============프로필==============*/
@@ -1198,22 +1217,21 @@ input[type=radio]{
 
 /*===============통계==============*/
 .my-home-statistics{
-	height: 14%;
-	margin: 0;
-	padding: 0;
+	position :relative;
 	display: table;
 	width: 100%;
+	height: 80px;
+	color: white;
+	font-weight: bold;
 }
 
 .my-home-statistics > div{
 	width: 25%;
 	display: inline-block;
 	text-align: center;
-	margin: 0;
-	padding: 0;
 	display: table-cell;
 	vertical-align : middle;
-	border-bottom: 1px solid gray;
+	border-top:  1px solid rgba(255, 255, 255, 0.8);
 }
 
 /*===============통계==============*/
@@ -1222,16 +1240,21 @@ input[type=radio]{
 
 /*===============개인정보==============*/
 .my-home-privacy{
-	height: 8%;
+	position :relative;
+	height: 50px;
+	margin: 0;
+	padding: 0;
 	display: table;
 	width: 100%;
+	color: white;
+	font-weight: bold;
 }
 .my-home-privacy > div{
-	height: 8%;
 	display: table-cell;
+	width: 25%;
 	vertical-align : middle;
 	text-align: center;
-	border-bottom: 1px solid gray;
+	border-top:  1px solid rgba(255, 255, 255, 0.8);
 }
 /*===============개인정보==============*/
 
@@ -1239,17 +1262,19 @@ input[type=radio]{
 
 /*===============로그아웃==============*/
 .my-home-logout{
-	height: 8%;
+	position :relative;
+	height: 40px;
 	display: table;
 	width: 100%;
+	color: white;
+	font-weight: bold;
+	border-top:  1px solid rgba(255, 255, 255, 0.8);
+	text-align: center;
+	line-height: 40px;
+}
+.my-home-logout > span{
+	padding: 20px;
 }
 
-.my-home-logout > div{
-	height: 8%;
-	display: table-cell;
-	vertical-align : middle;
-	text-align: center;
-	border-bottom: 1px solid gray;
-}
 /*===============로그아웃==============*/
 /*=========================마이페이지====================================*/

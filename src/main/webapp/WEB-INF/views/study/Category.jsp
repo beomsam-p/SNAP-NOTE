@@ -80,7 +80,7 @@ $(function(){
 				
 				<div class="cate-tit">
 					<c:if test="${fn:length(list) eq 0 }" var="result">
-						<span  name="btnPlus" class="glyphicon glyphicon-unchecked move-cate-icon-empty"></span>
+						<span  class="glyphicon glyphicon-unchecked move-cate-icon-empty"></span>
 					</c:if>
 					<c:if test="${!result}">
 						<span  name="btnPlus" class="glyphicon glyphicon-minus cate-icon"></span>
@@ -116,7 +116,7 @@ $(function(){
 									<span  name="btnPlus" class="glyphicon glyphicon-plus cate-icon"></span>
 								</c:if>
 							 	<c:if test="${!children}" >
-									<span  name="btnPlus" class="glyphicon glyphicon-unchecked move-cate-icon-empty"></span>
+									<span  class="glyphicon glyphicon-unchecked move-cate-icon-empty"></span>
 								</c:if>
 								${menu.TITLE} 
 								<span class="badge mt-minus-10per">${menu.SENTENCE_COUNT}</span>
