@@ -141,7 +141,6 @@ $(function(){
 		            contentType: false,
 		            cache: false,
 		            success: function (data) {
-		            	
 		            	common.loding(false);
 		            	$("#btnFixText").show();
 		            	$("#btnFileToText").hide();

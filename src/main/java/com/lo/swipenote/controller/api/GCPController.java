@@ -34,7 +34,7 @@ public class GCPController {
 			
 			String textFromImage = cloudVisionTemplate.extractTextFromImage(resourceLoader.getResource(imageUrl));
 			
-			model.put("result", textFromImage);
+			model.put("result", textFromImage.replace("\n", "<br>"));
         }catch(IOException e){
         	model.put("error", e.getMessage());
         }
