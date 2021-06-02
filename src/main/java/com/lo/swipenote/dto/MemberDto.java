@@ -26,6 +26,9 @@ public class MemberDto
 	//프로필 이미지 경로
 	private String profileUrl;
 	
+	//배경 이미지 경로
+	private String bgUrl;
+	
 	//사용여부
 	private String useYn;
 	
@@ -91,6 +94,12 @@ public class MemberDto
 		this.uptDate = uptDate;
 	}
 	
+	public String getBgUrl() {
+		return bgUrl;
+	}
+	public void setBgUrl(String bgUrl) {
+		this.bgUrl = bgUrl;
+	}
 	/** 디버깅용 toString
 	 * */
 	@Override

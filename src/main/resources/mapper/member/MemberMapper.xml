@@ -9,6 +9,7 @@
  				, NICKNAME
  				, EMAIL
  				, PROFILE_URL
+ 				, BG_URL
  				, USE_YN
  				, INS_DATE
  				, UPT_DATE
@@ -22,7 +23,7 @@
         FROM	MEMBERS
         WHERE	EMAIL = #{id}
     </select>
-    
+        
     <!-- 유저 등록  -->
     <insert id="insertMember" parameterType="com.lo.swipenote.dto.MemberDto">
     	INSERT INTO MEMBERS	(ID

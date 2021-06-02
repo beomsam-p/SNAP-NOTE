@@ -1,5 +1,6 @@
 package com.lo.swipenote.mapper;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
@@ -31,6 +32,7 @@ public interface MemberMapper {
 	
 	//맴버 중복 조회
 	public int chkIdDuplication(String id);
+	
 }
 
 

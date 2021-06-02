@@ -1170,7 +1170,7 @@ input[type=radio]{
 	background-position: center;
 	background-size: cover;
 	border-bottom: 1px solid gray;
-	filter:brightness(70%);
+	filter:brightness(60%);
 	z-index:1;
 }
 
@@ -1201,6 +1201,13 @@ input[type=radio]{
 	background-size: cover;
 }
 
+.btn-profile-modify{
+	color: white;
+	font-size: 1.5em;
+	position : absolute;
+	left: 80px;
+	bottom : 10px;
+}
 
 .profile-nick{
 	text-align : center;

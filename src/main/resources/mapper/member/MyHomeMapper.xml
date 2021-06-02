@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lo.swipenote.mapper.MyHomeMapper">
+	<!-- 아이디로 유저정보 얻기 -->
+    <select id="getMyHomeInfo" parameterType="String" resultType="map">
+       SELECT	(
+			SELECT	COUNT(1)
+            FROM	SENTENCE
+            WHERE	USE_YN = 'Y'
+				AND	ID= #{id}
+		) AS saveSentence
+        , (
+			SELECT	COUNT(1)
+            FROM	WORD
+            WHERE	USE_YN='Y'
+				AND	ID= #{id}
+				AND	HIT_YN = 'Y'
+        ) AS hitWord
+		, (
+			SELECT	COUNT(1)
+            FROM	WORD
+            WHERE	USE_YN='Y'
+				AND	ID= #{id}
+				AND	HIT_YN = 'N'
+        )AS noHitWord
+		, (
+			SELECT	COUNT(1)
+            FROM	WORD
+            WHERE	USE_YN='Y'
+				AND	ID= #{id}
+        )AS saveWord
+
+    </select>
+    
+    <update id="modifyProfileImg" parameterType="map">
+    	UPDATE	MEMBERS
+    	SET		PROFILE_URL = #{profileUrl}
+    	WHERE	ID = #{id}
+    </update>
+    
+</mapper>

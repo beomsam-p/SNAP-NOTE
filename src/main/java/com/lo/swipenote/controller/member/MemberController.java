@@ -34,18 +34,25 @@ public class MemberController extends MasterController{
 	 * @return	로그인 페이지 뷰경로
 	 * */
 	@RequestMapping(value = "/loginForm")
-	public ModelAndView loginForm() {
+	public ModelAndView loginForm(HttpSession session) {
 		//리턴 파라미터 설정
 		HashMap<String, Object> param = new HashMap<String, Object>();
-		//좌메뉴 감추기
-		param.put("LEFTMENU", "hide");
 		
-		//뷰경로 설정
-		param.put("content", "member/LoginForm.jsp");
+		// 세션에서 유저정보 얻기
+		MemberDto memberInfo = (MemberDto) session.getAttribute("userSession");
 		
+		if (memberInfo != null) {
+			//뷰경로 설정
+			return this.direct("/my/myHome");
+		}else {
+			//뷰경로 설정
+			param.put("content", "member/LoginForm.jsp");
+			//좌메뉴 감추기
+			param.put("LEFTMENU", "hide");
+			//뷰경로를 담고 템플릿으로 이동
+			return this.redirect("template/Template", param);
+		}
 		
-		//뷰경로를 담고 템플릿으로 이동
-		return this.redirect("template/Template", param);
 	}
 	
 	/** 로그인  프로세스
@@ -154,6 +161,19 @@ public class MemberController extends MasterController{
 		}
 		
 		return model;
+		
+	}
+	
+	/** 로그아웃 -> 로그인 폼이동 이동
+	 * @return	로그인 페이지 뷰경로
+	 * */
+	@RequestMapping(value = "/logout")
+	public ModelAndView logout(HttpSession session) {
+		
+		//세션제거
+		session.removeAttribute("userSession");
+	
+		return this.direct("/member/loginForm");
 		
 	}
 }
