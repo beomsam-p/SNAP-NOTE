@@ -1,5 +1,6 @@
 package com.lo.swipenote.controller.api;
 
+import com.lo.swipenote.controller.MasterController;
 import com.lo.swipenote.util.GoogleStorageClientAdapter;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +15,7 @@ import java.util.HashMap;
 
 
 @RestController
-public class GCPController {
+public class GCPController extends MasterController{
     @Autowired
     private GoogleStorageClientAdapter googleStorageClientAdapter;
 
@@ -35,6 +36,21 @@ public class GCPController {
 			String textFromImage = cloudVisionTemplate.extractTextFromImage(resourceLoader.getResource(imageUrl));
 			
 			model.put("result", textFromImage.replace("\n", "<br>"));
+        }catch(IOException e){
+        	model.put("error", e.getMessage());
+        }
+        return model;
+    }
+    
+    
+    @PostMapping(path = "/profileImgUpload", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+    public HashMap<String, Object> myProfile(@RequestPart(value = "file", required = true) MultipartFile files)  {
+    	HashMap<String, Object> model = new HashMap<String, Object>();
+		try{
+			
+			String imageUrl = googleStorageClientAdapter.upload(files);
+			
+			model.put("imageUrl", imageUrl);
         }catch(IOException e){
         	model.put("error", e.getMessage());
         }
